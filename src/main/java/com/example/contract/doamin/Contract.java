@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
- * todo : 담보 와 상품 매핑은 아직 하지 않은 상태
+ * todo : 담보은 아직 하지 않은 상태
  */
 @Getter
 @Entity
@@ -22,8 +22,11 @@ public class Contract {
     @Comment("계약 번호")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
     @Comment("상품 번호")
-    private Long productId;
+    private Product product;
+
 
     @Comment("가입 담보")
     private Long guaranteeId;
@@ -50,8 +53,8 @@ public class Contract {
     }
 
     @Builder(builderMethodName = "createBuilder")
-    private Contract(Long productId, Long guaranteeId, String term, String startAt, String endAt, BigDecimal premium, ContractState state) {
-        this.productId = productId;
+    private Contract(Product product, Long guaranteeId, String term, String startAt, String endAt, BigDecimal premium, ContractState state) {
+        this.product = product;
         this.guaranteeId = guaranteeId;
         this.term = term;
         this.startAt = startAt;

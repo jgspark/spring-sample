@@ -20,17 +20,13 @@ class ContractRepositoryTest {
     @Autowired
     private ContractRepository contractRepository;
 
-
     @Test
     @DisplayName("계약 생성 성공 케이스")
     public void save_ok() {
 
-        Contract mock = Contract.createBuilder()
-                .build();
+        Contract mock = Contract.createBuilder().build();
 
         Contract entity = contractRepository.save(mock);
-
-        System.out.println(new Date());
 
         assertNotNull(entity.getId());
         assertEquals(entity.getState(), mock.getState());

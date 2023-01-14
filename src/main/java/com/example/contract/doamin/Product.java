@@ -36,10 +36,10 @@ public class Product {
     private void prePersist() {
 
         if (isEmptyTerm()) {
+            // todo : exception
             throw new RuntimeException("term is bigger zero and is not null");
         }
     }
-
 
     @Transient
     private boolean isEmptyTerm() {
