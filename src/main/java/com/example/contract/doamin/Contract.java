@@ -1,6 +1,7 @@
 package com.example.contract.doamin;
 
 import com.example.contract.enums.ContractState;
+import com.example.contract.utils.CalculateUtil;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 
@@ -35,24 +36,30 @@ public class Contract {
     private Set<Warrant> warrants = new HashSet<>();
 
     @Comment("계약 기간 (M)")
+    @Column(nullable = false)
     private Integer term;
 
     @Comment("보험 시작일")
+    @Column(nullable = false)
     private Date startDate;
 
     @Comment("보험 종료일")
+    @Column(nullable = false)
     private Date endDate;
 
     @Comment("총 보험료")
+    @Column(nullable = false)
     private BigDecimal premium;
 
     @Enumerated(EnumType.STRING)
     @Comment("계약 상태")
+    @Column(nullable = false)
     private ContractState state;
 
     @PrePersist
     void prePersist() {
         this.state = ContractState.NORMAL;
+        CalculateUtil.checkedEmpty(this.term);
     }
 
     @Builder(builderMethodName = "createBuilder")

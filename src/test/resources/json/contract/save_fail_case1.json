@@ -1,0 +1,25 @@
+{
+  "product": {
+    "title": "여행자 보험",
+    "term": {
+      "startMonth": 1,
+      "endMonth": 3
+    },
+    "warrants": {
+      "id": 1,
+      "title": "상해치료비",
+      "subscriptionAmount": 1000000,
+      "standardAmount": 100
+    }
+  },
+  "term": 0,
+  "startDate": "2022-09-01",
+  "endDate": "2022-12-01",
+  "premium": 20000,
+  "warrants": {
+    "id": 1,
+    "title": "상해치료비",
+    "subscriptionAmount": 1000000,
+    "standardAmount": 100
+  }
+}

@@ -36,22 +36,7 @@ public class Product {
     private ProductTerm term;
 
     @OneToMany
-    @JsonIgnore
     private Set<Warrant> warrants = new HashSet<>();
-
-    @PrePersist
-    private void prePersist() {
-//
-//        if (isEmptyTerm()) {
-//            // todo : exception
-//            throw new RuntimeException("term is bigger zero and is not null");
-//        }
-    }
-
-//    @Transient
-//    private boolean isEmptyTerm() {
-//        return ObjectUtils.isEmpty(term) || 0 == term;
-//    }
 
     @Transient
     public BigDecimal calculatePremium() {
