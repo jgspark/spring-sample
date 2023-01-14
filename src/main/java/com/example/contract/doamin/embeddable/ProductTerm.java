@@ -1,4 +1,4 @@
-package com.example.contract.doamin.t;
+package com.example.contract.doamin.embeddable;
 
 import lombok.AccessLevel;
 import lombok.Getter;

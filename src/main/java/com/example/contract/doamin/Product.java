@@ -1,6 +1,6 @@
 package com.example.contract.doamin;
 
-import com.example.contract.doamin.t.ProductTerm;
+import com.example.contract.doamin.embeddable.ProductTerm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
