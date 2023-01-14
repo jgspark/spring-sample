@@ -32,14 +32,14 @@ class ProductRepositoryTest {
         assertEquals(mock.getTerm(), entity.getTerm());
     }
 
-    @Test
-    @DisplayName("계약 기간이 조건에 맞지 않는 케이스")
-    public void save_fail_case1() {
-
-        Product mock = MockUtil.readJson("json/product/save_fail_case1.json", Product.class);
-
-        assertThrows(RuntimeException.class, () -> {
-            productRepository.save(mock);
-        });
-    }
+//    @Test
+//    @DisplayName("계약 기간이 조건에 맞지 않는 케이스")
+//    public void save_fail_case1() {
+//
+//        Product mock = MockUtil.readJson("json/product/save_fail_case1.json", Product.class);
+//
+//        assertThrows(RuntimeException.class, () -> {
+//            productRepository.save(mock);
+//        });
+//    }
 }

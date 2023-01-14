@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
 @Service
 @RequiredArgsConstructor
 public class ContractService {
@@ -21,10 +23,11 @@ public class ContractService {
     public Contract created(ContractSaveRequest dto) {
 
         // todo : exception
-        Product product = productRepository.findByIdAndWarrants_IdIn(dto.getProductId() , dto.getWarrantIds())
-                .orElseThrow(() -> new RuntimeException("not found"));
+        Product product = productRepository.findByIdAndWarrants_IdIn(dto.getProductId(), dto.getWarrantIds()).orElseThrow(() -> new RuntimeException("not found"));
 
-        Contract entity = dto.toEntity(product);
+        BigDecimal premium = product.calculatePremium();
+
+        Contract entity = dto.toEntity(product, product.getWarrants(), premium);
 
         return contractRepository.save(entity);
     }

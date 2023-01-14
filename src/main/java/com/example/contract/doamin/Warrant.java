@@ -25,11 +25,18 @@ public class Warrant {
     private Long id;
 
     @Comment("담보명")
+    @Column(nullable = false)
     private String title;
 
     @Comment("가입 금액")
+    @Column(nullable = false)
     private BigDecimal subscriptionAmount;
 
     @Comment("기준 금액")
+    @Column(nullable = false)
     private BigDecimal standardAmount;
+
+    public BigDecimal getPremium() {
+        return subscriptionAmount.divide(standardAmount);
+    }
 }

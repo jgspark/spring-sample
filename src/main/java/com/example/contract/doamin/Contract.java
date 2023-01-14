@@ -6,6 +6,7 @@ import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,14 +34,14 @@ public class Contract {
     @Comment("가입 담보")
     private Set<Warrant> warrants = new HashSet<>();
 
-    @Comment("계약 기간")
-    private String term;
+    @Comment("계약 기간 (M)")
+    private Integer term;
 
     @Comment("보험 시작일")
-    private String startAt;
+    private Date startDate;
 
     @Comment("보험 종료일")
-    private String endAt;
+    private Date endDate;
 
     @Comment("총 보험료")
     private BigDecimal premium;
@@ -55,13 +56,12 @@ public class Contract {
     }
 
     @Builder(builderMethodName = "createBuilder")
-    private Contract(Product product, Set<Warrant> warrants, String term, String startAt, String endAt, BigDecimal premium, ContractState state) {
+    private Contract(Product product, Set<Warrant> warrants, Integer term, Date startDate, Date endDate, BigDecimal premium) {
         this.product = product;
         this.warrants = warrants;
         this.term = term;
-        this.startAt = startAt;
-        this.endAt = endAt;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.premium = premium;
-        this.state = state;
     }
 }
