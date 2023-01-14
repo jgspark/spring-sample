@@ -1,5 +1,6 @@
 package com.example.contract.doamin;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import org.hibernate.annotations.Comment;
 import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 상품 테이블
@@ -31,6 +34,10 @@ public class Product {
     @Comment("계약 기간 (M)")
     @Column(nullable = false)
     private Integer term;
+
+    @OneToMany
+    @JsonIgnore
+    private Set<Warrant> warrants = new HashSet<>();
 
     @PrePersist
     private void prePersist() {

@@ -6,9 +6,11 @@ import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * todo : 담보은 아직 하지 않은 상태
+ * 계약 테이블
  */
 @Getter
 @Entity
@@ -27,9 +29,9 @@ public class Contract {
     @Comment("상품 번호")
     private Product product;
 
-
+    @OneToMany
     @Comment("가입 담보")
-    private Long guaranteeId;
+    private Set<Warrant> warrants = new HashSet<>();
 
     @Comment("계약 기간")
     private String term;
@@ -53,9 +55,9 @@ public class Contract {
     }
 
     @Builder(builderMethodName = "createBuilder")
-    private Contract(Product product, Long guaranteeId, String term, String startAt, String endAt, BigDecimal premium, ContractState state) {
+    private Contract(Product product, Set<Warrant> warrants, String term, String startAt, String endAt, BigDecimal premium, ContractState state) {
         this.product = product;
-        this.guaranteeId = guaranteeId;
+        this.warrants = warrants;
         this.term = term;
         this.startAt = startAt;
         this.endAt = endAt;
