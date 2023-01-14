@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 
 /**
  * todo : startMonth and endMonth 비교 로직 추가
@@ -21,6 +22,7 @@ public class ProductTerm {
     @Column(nullable = false)
     private Integer endMonth;
 
+    @Transient
     public Integer getRange() {
         return Math.subtractExact(endMonth, startMonth);
     }
