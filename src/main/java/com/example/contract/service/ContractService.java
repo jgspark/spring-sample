@@ -35,6 +35,7 @@ public class ContractService {
         return new ContractResponse(contractRepository.save(entity));
     }
 
+    @Transactional(readOnly = true)
     public Optional<ContractDetail> getOne(Long id) {
         return contractRepository.findById(id, ContractDetail.class);
     }

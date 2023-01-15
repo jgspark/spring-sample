@@ -13,4 +13,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @EntityGraph(attributePaths = {"warrants"})
     Optional<Product> findByIdAndWarrants_IdIn(Long id, Collection<Long> warrants_id);
+
+    @EntityGraph(attributePaths = {"warrants"})
+    <T> Optional<T> findById(Long id, Class<T> type);
 }
