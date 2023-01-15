@@ -27,12 +27,12 @@ public class Contract {
     @Comment("계약 번호")
     private Long id;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     @Comment("상품 번호")
     private Product product;
 
-    @OneToMany
+    @ManyToMany
     @Comment("가입 담보")
     private Set<Warrant> warrants = new HashSet<>();
 

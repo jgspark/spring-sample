@@ -10,5 +10,9 @@ import java.util.Optional;
 @Repository
 public interface ContractRepository extends JpaRepository<Contract, Long> {
 
+    @EntityGraph(attributePaths = {
+            "product",
+            "warrants"
+    })
     <T> Optional<T> findById(Long id, Class<T> type);
 }
