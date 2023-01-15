@@ -30,9 +30,7 @@ class ProductTest {
 
         Product mock = Product.createBuilder().title("여행자 보험").warrants(getWarrants()).build();
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            BigDecimal n = mock.calculatePremium();
-        });
+        assertThrows(IllegalArgumentException.class, mock::calculatePremium);
 
     }
 
@@ -42,9 +40,7 @@ class ProductTest {
 
         Product mock = Product.createBuilder().title("여행자 보험").term(new ProductTerm(1, 3)).build();
 
-        assertThrows(RuntimeException.class, () -> {
-            mock.calculatePremium();
-        });
+        assertThrows(RuntimeException.class, mock::calculatePremium);
     }
 
 
