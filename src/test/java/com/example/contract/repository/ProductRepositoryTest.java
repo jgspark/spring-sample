@@ -30,7 +30,7 @@ class ProductRepositoryTest {
     public void init() {
         Map<String, Object> map = MockUtil.readJson("json/product/repository/init.json", Map.class);
 
-        Warrant mock = MockUtil.convert((Map) map.get("warrant"));
+        Warrant mock = MockUtil.convertWarrant((Map) map.get("warrant"));
 
         this.mockWarrant = warrantRepository.saveAndFlush(mock);
     }

@@ -1,7 +1,9 @@
 package com.example.contract.mock;
 
+import com.example.contract.doamin.Contract;
 import com.example.contract.doamin.Product;
 import com.example.contract.doamin.Warrant;
+import com.example.contract.doamin.embeddable.ProductTerm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,7 +47,7 @@ public class MockUtil {
         }
     }
 
-    public static Warrant convert(Map map) {
+    public static Warrant convertWarrant(Map map) {
         return Warrant.createBuilder()
                 .title((String) map.get("title"))
                 .subscriptionAmount(new BigDecimal((Integer) map.get("subscriptionAmount")))
@@ -53,11 +55,34 @@ public class MockUtil {
                 .build();
     }
 
-    public static Product convert(Product mock , Warrant warrant){
+    public static Product convert(Product mock, Warrant warrant) {
         return Product.createBuilder()
                 .title(mock.getTitle())
                 .term(mock.getTerm())
                 .warrants(Collections.singleton(warrant))
+                .build();
+    }
+
+    public static Contract convert(Contract contract, Product product, Warrant warrant) {
+        return Contract.createBuilder()
+                .product(product)
+                .warrants(Collections.singleton(warrant))
+                .term(contract.getTerm())
+                .startDate(contract.getStartDate())
+                .endDate(contract.getEndDate())
+                .premium(contract.getPremium())
+                .build();
+    }
+
+    public static Product convertProduct(Map map) {
+        Map term = (Map) map.get("term");
+        return Product.createBuilder()
+                .title((String) map.get("title"))
+                .term(new ProductTerm(
+                                (Integer) term.get("startMonth"),
+                                (Integer) term.get("endMonth")
+                        )
+                )
                 .build();
     }
 }
