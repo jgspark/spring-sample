@@ -24,7 +24,7 @@ public class ContractController {
     }
 
     @GetMapping("contracts/{id}")
-    public ResponseEntity<ContractDetail> test(@PathVariable Long id) {
+    public ResponseEntity<ContractDetail> selectOne(@PathVariable Long id) {
         Optional<ContractDetail> data = contractService.getOne(id);
         return data.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
