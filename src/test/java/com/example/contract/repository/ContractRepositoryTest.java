@@ -4,6 +4,7 @@ import com.example.contract.doamin.Contract;
 import com.example.contract.doamin.Product;
 import com.example.contract.doamin.Warrant;
 import com.example.contract.enums.ContractState;
+import com.example.contract.web.dto.ContractDetail;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +45,7 @@ class ContractRepositoryTest {
     @DisplayName("계약 생성 성공 케이스")
     public void save_ok() {
 
-        Contract mock =
-                convert(
-                        readJson("json/contract/repository/save_ok.json", Contract.class),
-                        mockProduct,
-                        mockWarrant
-                );
+        Contract mock = convert(readJson("json/contract/repository/save_ok.json", Contract.class), mockProduct, mockWarrant);
 
         Contract entity = contractRepository.save(mock);
 
@@ -80,5 +76,50 @@ class ContractRepositoryTest {
     @Nested
     @DisplayName("조회 테스트 케이스")
     public class Select {
+
+        private Contract mock;
+
+        @BeforeEach
+        public void init() {
+            mock = contractRepository.save(convert(readJson("json/contract/repository/save_ok.json", Contract.class), mockProduct, mockWarrant));
+        }
+
+        @Test
+        public void findById_ok() {
+
+            ContractDetail entity = contractRepository.findById(mock.getId(), ContractDetail.class).orElseThrow(RuntimeException::new);
+
+            assertEquals(entity.getId(), mock.getId());
+            assertEquals(entity.getTerm(), mock.getTerm());
+            assertEquals(convert(entity.getStartDate()), convert(mock.getStartDate()));
+            assertEquals(convert(entity.getEndDate()), convert(mock.getEndDate()));
+            assertEquals(convert(entity.getPremium()), convert(mock.getPremium()));
+            assertEquals(entity.getState(), mock.getState());
+            assertEquals(entity.getProduct().getId(), mock.getProduct().getId());
+            assertEquals(entity.getProduct().getTitle(), mock.getProduct().getTitle());
+            assertEquals(entity.getProduct().getRange(), mock.getProduct().getTerm().getRange());
+
+            entity.getWarrants().forEach(w -> {
+
+                Warrant findWarrant = mock.getWarrants().stream().filter(m -> m.getId().equals(w.getId()))
+                        .findFirst()
+                        .orElseThrow(RuntimeException::new);
+
+                assertEquals(w.getTitle(), findWarrant.getTitle());
+                assertEquals(w.getSubscriptionAmount(), findWarrant.getSubscriptionAmount());
+                assertEquals(w.getStandardAmount(), findWarrant.getStandardAmount());
+            });
+
+        }
+
+        @Test
+        public void findById_fail1() {
+
+            Long mockId = 100000L;
+
+            assertThrows(RuntimeException.class, () -> {
+                contractRepository.findById(mockId, ContractDetail.class).orElseThrow(RuntimeException::new);
+            });
+        }
     }
 }

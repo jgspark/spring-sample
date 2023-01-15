@@ -26,7 +26,7 @@ public class Contract {
     @Comment("계약 번호")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     @Comment("상품 번호")
     private Product product;
