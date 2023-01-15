@@ -12,8 +12,11 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @EntityGraph(attributePaths = {"warrants"})
-    Optional<Product> findByIdAndWarrants_IdIn(Long id, Collection<Long> warrants_id);
+    Optional<Product> findByIdAndWarrants_IdIn(Long id, Collection<Long> warrantIds);
 
     @EntityGraph(attributePaths = {"warrants"})
     <T> Optional<T> findById(Long id, Class<T> type);
+
+    @EntityGraph(attributePaths = {"warrants"})
+    <T> Optional<T> findByIdAndWarrants_IdIn(Long id, Collection<Long> warrantIds, Class<T> type);
 }

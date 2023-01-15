@@ -5,6 +5,7 @@ import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static org.springframework.util.Assert.notNull;
 
@@ -39,7 +40,7 @@ public class Warrant {
     public BigDecimal getPremium() {
         notNull(subscriptionAmount);
         notNull(standardAmount);
-        return subscriptionAmount.divide(standardAmount);
+        return subscriptionAmount.divide(standardAmount, 5, RoundingMode.CEILING);
     }
 
     @Builder(builderMethodName = "createBuilder")

@@ -6,6 +6,7 @@ import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -52,9 +53,11 @@ public class Product {
             throw new RuntimeException("not mapping 담보");
         }
 
-        Integer range = this.term.getRange();
+        BigDecimal range = new BigDecimal(this.term.getRange());
 
-        return new BigDecimal(range).multiply(warrants.stream().map(Warrant::getPremium).reduce(BigDecimal.ZERO, BigDecimal::add));
+        return range
+                .multiply(warrants.stream().map(Warrant::getPremium).reduce(BigDecimal.ZERO, BigDecimal::add))
+                .setScale(2, RoundingMode.FLOOR);
     }
 
     @Builder(builderMethodName = "createBuilder")
