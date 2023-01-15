@@ -23,7 +23,7 @@ class ProductTest {
 
         BigDecimal m = BigDecimal.valueOf(20000);
 
-        assertTrue(m.compareTo(n) == 0);
+        assertEquals(0, m.compareTo(n));
     }
 
     @Test

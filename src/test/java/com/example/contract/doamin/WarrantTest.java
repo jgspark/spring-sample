@@ -24,7 +24,7 @@ class WarrantTest {
 
         BigDecimal m = new BigDecimal(10000);
 
-        assertTrue(m.compareTo(n) == 0);
+        assertEquals(0, m.compareTo(n));
     }
 
     @Test
