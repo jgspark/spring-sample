@@ -16,7 +16,7 @@ public class PremiumController {
 
     private final PremiumService premiumService;
 
-    @GetMapping("product/{id}/premium")
+    @GetMapping("products/{id}/premium")
     public ResponseEntity<EstimatedPremium> getEstimatedPremium(@PathVariable Long id) {
         Optional<EstimatedPremium> data = premiumService.getEstimatedPremium(id);
         return data.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
