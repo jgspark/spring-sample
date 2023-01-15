@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.util.Assert;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -29,6 +28,10 @@ public class ProductTerm {
 
     @Transient
     public Integer getRange() {
+
+        notNull(startMonth);
+        notNull(endMonth);
+
         return Math.subtractExact(endMonth, startMonth);
     }
 
@@ -44,7 +47,6 @@ public class ProductTerm {
         }
     }
 
-    @Transient
     private boolean isOverStartMonth() {
         if (startMonth > endMonth) {
             return true;

@@ -1,16 +1,16 @@
 package com.example.contract.doamin;
 
 import com.example.contract.doamin.embeddable.ProductTerm;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+
+import static org.springframework.util.Assert.notNull;
 
 /**
  * 상품 테이블
@@ -45,8 +45,19 @@ public class Product {
     @Transient
     public BigDecimal calculatePremium() {
 
+        notNull(term);
+
         Integer range = this.term.getRange();
 
-        return new BigDecimal(range).multiply(warrants.stream().map(Warrant::getPremium).reduce(BigDecimal.ZERO, BigDecimal::add));
+        return new BigDecimal(range)
+                .multiply(warrants.stream().map(Warrant::getPremium)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add));
+    }
+
+    @Builder(builderMethodName = "createBuilder")
+    private Product(String title, ProductTerm term, Set<Warrant> warrants) {
+        this.title = title;
+        this.term = term;
+        this.warrants = Optional.ofNullable(warrants).orElse(new HashSet<>());
     }
 }
