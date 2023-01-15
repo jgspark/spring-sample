@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PremiumService {
+public class ProductService {
 
     private final ProductRepository productRepository;
 
