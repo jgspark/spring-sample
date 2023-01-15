@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,7 +22,9 @@ class WarrantTest {
 
         BigDecimal n = warrant.getPremium();
 
-        assertEquals(new BigDecimal(10000), n);
+        BigDecimal m = new BigDecimal(10000);
+
+        assertTrue(m.compareTo(n) == 0);
     }
 
     @Test

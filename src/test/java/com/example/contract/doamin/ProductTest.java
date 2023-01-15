@@ -5,11 +5,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ProductTest {
 
@@ -21,7 +21,9 @@ class ProductTest {
 
         BigDecimal n = mock.calculatePremium();
 
-        assertEquals(new BigDecimal(20000), n);
+        BigDecimal m = BigDecimal.valueOf(20000);
+
+        assertTrue(m.compareTo(n) == 0);
     }
 
     @Test

@@ -3,6 +3,7 @@ package com.example.contract.repository;
 import com.example.contract.doamin.Product;
 import com.example.contract.doamin.Warrant;
 import com.example.contract.mock.MockUtil;
+import com.example.contract.web.dto.EstimatedPremium;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -108,6 +110,31 @@ class ProductRepositoryTest {
 
         }
 
+        @Test
+        @Order(3)
+        @DisplayName("아이디 조회 성공 케이스")
+        public void findById_ok() {
+
+            EstimatedPremium entity = productRepository.findById(mock.getId(), EstimatedPremium.class)
+                    .orElseThrow(RuntimeException::new);
+
+            assertEquals(entity.getProductTitle(), mock.getTitle());
+            assertEquals(entity.getTerm(), mock.getTerm().getRange());
+            assertEquals(entity.getPremium(), mock.calculatePremium());
+        }
+
+        @Test
+        @Order(4)
+        @DisplayName("아이디 조회 및 담보 아이디 조회 성공 케이스")
+        public void findByIdAndWarrants_IdIn_ok_projections() {
+
+            EstimatedPremium entity = productRepository.findByIdAndWarrants_IdIn(mock.getId(), mock.getWarrants().stream().map(Warrant::getId).collect(Collectors.toSet()), EstimatedPremium.class)
+                    .orElseThrow(RuntimeException::new);
+
+            assertEquals(entity.getProductTitle(), mock.getTitle());
+            assertEquals(entity.getTerm(), mock.getTerm().getRange());
+            assertEquals(entity.getPremium(), mock.calculatePremium());
+        }
 
     }
 }
