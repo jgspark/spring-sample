@@ -1,13 +1,12 @@
 package com.example.contract.doamin;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+
+import static org.springframework.util.Assert.notNull;
 
 /**
  * 담보 테이블
@@ -36,7 +35,17 @@ public class Warrant {
     @Column(nullable = false)
     private BigDecimal standardAmount;
 
+    @Transient
     public BigDecimal getPremium() {
+        notNull(subscriptionAmount);
+        notNull(standardAmount);
         return subscriptionAmount.divide(standardAmount);
+    }
+
+    @Builder(builderMethodName = "createBuilder")
+    private Warrant(String title, BigDecimal subscriptionAmount, BigDecimal standardAmount) {
+        this.title = title;
+        this.subscriptionAmount = subscriptionAmount;
+        this.standardAmount = standardAmount;
     }
 }
