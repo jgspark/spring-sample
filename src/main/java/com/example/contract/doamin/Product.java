@@ -34,7 +34,7 @@ public class Product {
     @Comment("계약 기간 (M)")
     private ProductTerm term;
 
-    @OneToMany(cascade = {})
+    @OneToMany
     private Set<Warrant> warrants = new HashSet<>();
 
     @PrePersist
