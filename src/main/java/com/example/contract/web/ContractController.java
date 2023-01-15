@@ -1,5 +1,6 @@
 package com.example.contract.web;
 
+import com.example.contract.doamin.Contract;
 import com.example.contract.service.ContractService;
 import com.example.contract.web.dto.ContractDetail;
 import com.example.contract.web.dto.ContractResponse;
@@ -20,7 +21,7 @@ public class ContractController {
     @PostMapping("contract")
     @ResponseStatus(HttpStatus.CREATED)
     public ContractResponse write(@RequestBody ContractSaveRequest dto) {
-        return contractService.created(dto);
+        return new ContractResponse(contractService.created(dto));
     }
 
     @GetMapping("contracts/{id}")

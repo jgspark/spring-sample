@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -23,16 +24,18 @@ public class ContractService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public ContractResponse created(ContractSaveRequest dto) {
+    public Contract created(ContractSaveRequest dto) {
 
         // todo : exception
         Product product = productRepository.findByIdAndWarrants_IdIn(dto.getProductId(), dto.getWarrantIds()).orElseThrow(() -> new RuntimeException("not found"));
 
         BigDecimal premium = product.calculatePremium();
 
-        Contract entity = dto.toEntity(product, product.getWarrants(), premium);
+        Contract entity = contractRepository.save(dto.toEntity(product, premium));
 
-        return new ContractResponse(contractRepository.save(entity));
+        entity.getWarrants().addAll(product.getWarrants());
+
+        return entity;
     }
 
     @Transactional(readOnly = true)

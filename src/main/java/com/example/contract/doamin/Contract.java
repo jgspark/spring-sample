@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -26,7 +27,7 @@ public class Contract {
     @Comment("계약 번호")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_id")
     @Comment("상품 번호")
     private Product product;
@@ -65,7 +66,7 @@ public class Contract {
     @Builder(builderMethodName = "createBuilder")
     private Contract(Product product, Set<Warrant> warrants, Integer term, Date startDate, Date endDate, BigDecimal premium) {
         this.product = product;
-        this.warrants = warrants;
+        this.warrants = Optional.ofNullable(warrants).orElseGet(HashSet::new);
         this.term = term;
         this.startDate = startDate;
         this.endDate = endDate;

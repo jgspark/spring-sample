@@ -10,6 +10,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * todo : null 체크 추가
+ */
 @Getter
 public class ContractSaveRequest {
 
@@ -23,10 +26,9 @@ public class ContractSaveRequest {
 
     private Date endDate;
 
-    public Contract toEntity(@NotNull Product product, @NotNull Set<Warrant> warrants, BigDecimal premium) {
+    public Contract toEntity(@NotNull Product product, BigDecimal premium) {
         return Contract.createBuilder()
                 .product(product)
-                .warrants(warrants)
                 .premium(premium)
                 .term(this.term)
                 .startDate(this.startDate)
