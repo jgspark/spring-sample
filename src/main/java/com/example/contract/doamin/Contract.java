@@ -57,7 +57,7 @@ public class Contract {
     private ContractState state;
 
     @PrePersist
-    void prePersist() {
+    private void prePersist() {
         this.state = ContractState.NORMAL;
         CalculateUtil.checkedEmpty(this.term);
     }
