@@ -11,9 +11,6 @@ import javax.persistence.Transient;
 
 import static org.springframework.util.Assert.notNull;
 
-/**
- * todo : startMonth and endMonth 비교 로직 추가
- */
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
