@@ -16,7 +16,7 @@ public class ContractController {
 
     private final ContractService contractService;
 
-    @PostMapping
+    @PostMapping("contract")
     @ResponseStatus(HttpStatus.CREATED)
     public ContractResponse write(@RequestBody ContractSaveRequest dto) {
         return contractService.created(dto);
