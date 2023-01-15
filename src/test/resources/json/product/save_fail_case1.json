@@ -1,4 +1,7 @@
 {
   "title": "여행자 보험",
-  "term": 0
+  "term": {
+    "startMonth": 3,
+    "endMonth": 1
+  }
 }

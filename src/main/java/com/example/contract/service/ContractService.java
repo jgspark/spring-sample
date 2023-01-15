@@ -23,7 +23,8 @@ public class ContractService {
     public Contract created(ContractSaveRequest dto) {
 
         // todo : exception
-        Product product = productRepository.findByIdAndWarrants_IdIn(dto.getProductId(), dto.getWarrantIds()).orElseThrow(() -> new RuntimeException("not found"));
+        Product product = productRepository.findByIdAndWarrants_IdIn(dto.getProductId(), dto.getWarrantIds())
+                .orElseThrow(() -> new RuntimeException("not found"));
 
         BigDecimal premium = product.calculatePremium();
 

@@ -26,4 +26,20 @@ public class ProductTerm {
     public Integer getRange() {
         return Math.subtractExact(endMonth, startMonth);
     }
+
+    @Transient
+    public void checkTerm() {
+        //todo : custom exception 처리
+        if (isOverStartMonth()) {
+            throw new RuntimeException("startdate is small endMonth");
+        }
+    }
+
+    @Transient
+    private boolean isOverStartMonth() {
+        if (startMonth > endMonth) {
+            return true;
+        }
+        return false;
+    }
 }
