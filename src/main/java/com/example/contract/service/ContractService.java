@@ -4,6 +4,7 @@ import com.example.contract.doamin.Contract;
 import com.example.contract.doamin.Product;
 import com.example.contract.repository.ContractRepository;
 import com.example.contract.repository.ProductRepository;
+import com.example.contract.web.dto.ContractResponse;
 import com.example.contract.web.dto.ContractSaveRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class ContractService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public Contract created(ContractSaveRequest dto) {
+    public ContractResponse created(ContractSaveRequest dto) {
 
         // todo : exception
         Product product = productRepository.findByIdAndWarrants_IdIn(dto.getProductId(), dto.getWarrantIds())
@@ -30,6 +31,6 @@ public class ContractService {
 
         Contract entity = dto.toEntity(product, product.getWarrants(), premium);
 
-        return contractRepository.save(entity);
+        return new ContractResponse(contractRepository.save(entity));
     }
 }

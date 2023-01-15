@@ -47,11 +47,14 @@ public class Product {
 
         notNull(term);
 
+        // todo : 예외 처리
+        if (warrants.isEmpty()) {
+            throw new RuntimeException("not mapping 담보");
+        }
+
         Integer range = this.term.getRange();
 
-        return new BigDecimal(range)
-                .multiply(warrants.stream().map(Warrant::getPremium)
-                        .reduce(BigDecimal.ZERO, BigDecimal::add));
+        return new BigDecimal(range).multiply(warrants.stream().map(Warrant::getPremium).reduce(BigDecimal.ZERO, BigDecimal::add));
     }
 
     @Builder(builderMethodName = "createBuilder")
