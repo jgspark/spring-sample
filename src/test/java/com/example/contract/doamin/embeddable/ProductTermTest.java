@@ -33,9 +33,7 @@ class ProductTermTest {
 
         ProductTerm productTerm = new ProductTerm(null, 1);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            productTerm.checkTerm();
-        });
+        assertThrows(IllegalArgumentException.class, productTerm::checkTerm);
     }
 
     @Test
@@ -44,9 +42,7 @@ class ProductTermTest {
 
         ProductTerm productTerm = new ProductTerm(null, 1);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            productTerm.checkTerm();
-        });
+        assertThrows(IllegalArgumentException.class, productTerm::checkTerm);
     }
 
 }
