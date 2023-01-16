@@ -1,5 +1,6 @@
 package com.example.contract.service;
 
+import com.example.contract.config.exception.AppException;
 import com.example.contract.config.exception.DataNotFoundException;
 import com.example.contract.doamin.Contract;
 import com.example.contract.doamin.Product;
@@ -7,6 +8,7 @@ import com.example.contract.repository.ContractRepository;
 import com.example.contract.repository.ProductRepository;
 import com.example.contract.web.dto.ContractDetail;
 import com.example.contract.web.dto.ContractSaveRequest;
+import com.example.contract.web.dto.ContractUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,5 +41,24 @@ public class ContractService {
     @Transactional(readOnly = true)
     public Optional<ContractDetail> getOne(Long id) {
         return contractRepository.findById(id, ContractDetail.class);
+    }
+
+    @Transactional
+    public Contract update(Long id, ContractUpdateRequest dto) {
+
+        Contract contract = contractRepository.findById(id).orElseThrow(() -> new DataNotFoundException("Contract Id is " + id));
+
+        if (contract.isExpiration()) {
+            throw new AppException("contract is state (Expiration) and id is " + id);
+        }
+
+
+        Long productId = contract.getProduct().getId();
+
+        Product product = productRepository.findByIdAndWarrants_IdIn(productId, dto.getWarrantIds()).orElseThrow(() -> new DataNotFoundException("Product Id is " + productId));
+
+        contract.update(product.getWarrants(), dto.getTerm(), dto.getState());
+
+        return contract;
     }
 }

@@ -4,6 +4,7 @@ import com.example.contract.enums.ContractState;
 import com.example.contract.utils.CalculateUtil;
 import lombok.*;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Getter
 @Entity
 @Table
+@DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Contract {
@@ -71,5 +73,16 @@ public class Contract {
         this.startDate = startDate;
         this.endDate = endDate;
         this.premium = premium;
+    }
+
+    @Transient
+    public boolean isExpiration() {
+        return ContractState.EXPIRATION == state;
+    }
+
+    public void update(Set<Warrant> warrants, Integer term, ContractState state) {
+        this.warrants.addAll(warrants);
+        this.term = term;
+        this.state = state;
     }
 }

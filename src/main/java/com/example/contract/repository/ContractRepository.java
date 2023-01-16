@@ -15,4 +15,11 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
             "warrants"
     })
     <T> Optional<T> findById(Long id, Class<T> type);
+
+    @Override
+    @EntityGraph(attributePaths = {
+            "product",
+            "warrants"
+    })
+    Optional<Contract> findById(Long aLong);
 }
