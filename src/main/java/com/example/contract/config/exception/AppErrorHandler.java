@@ -17,6 +17,14 @@ public class AppErrorHandler {
         return new ErrorMessage(errorCode.getCode(), errorCode.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(AppException.class)
+    public ErrorMessage handler(AppException e) {
+        ErrorCode errorCode = ErrorCode.SERVER_ERROR;
+        e.printStackTrace();
+        return new ErrorMessage(errorCode.getCode(), errorCode.getMessage());
+    }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(DataNotFoundException.class)
     public ErrorMessage handler(DataNotFoundException e) {
