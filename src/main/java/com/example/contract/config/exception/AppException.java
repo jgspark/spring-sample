@@ -1,8 +1,5 @@
 package com.example.contract.config.exception;
 
-/**
- * todo : add
- */
 public class AppException extends RuntimeException {
 
     public AppException() {

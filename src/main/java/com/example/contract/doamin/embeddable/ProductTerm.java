@@ -1,5 +1,6 @@
 package com.example.contract.doamin.embeddable;
 
+import com.example.contract.config.exception.AppException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,9 +39,8 @@ public class ProductTerm {
         notNull(startMonth);
         notNull(endMonth);
 
-        //todo : custom exception 처리
         if (isOverStartMonth()) {
-            throw new RuntimeException("startdate is small endMonth");
+            throw new AppException("StartDate is Over EndDate");
         }
     }
 

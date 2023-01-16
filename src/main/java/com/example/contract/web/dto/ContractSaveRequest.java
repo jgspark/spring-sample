@@ -2,7 +2,6 @@ package com.example.contract.web.dto;
 
 import com.example.contract.doamin.Contract;
 import com.example.contract.doamin.Product;
-import com.example.contract.doamin.Warrant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,6 @@ import java.util.Set;
 
 /**
  * todo : null 체크 추가
- * todo : change
  */
 @Getter
 @NoArgsConstructor

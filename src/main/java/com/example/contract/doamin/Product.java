@@ -1,5 +1,6 @@
 package com.example.contract.doamin;
 
+import com.example.contract.config.exception.DataNotFoundException;
 import com.example.contract.doamin.embeddable.ProductTerm;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -48,9 +49,8 @@ public class Product {
 
         notNull(term);
 
-        // todo : 예외 처리
         if (warrants.isEmpty()) {
-            throw new RuntimeException("not mapping 담보");
+            throw new DataNotFoundException("Product Id is " + this.id);
         }
 
         BigDecimal range = new BigDecimal(this.term.getRange());

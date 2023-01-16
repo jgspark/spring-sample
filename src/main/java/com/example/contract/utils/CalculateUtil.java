@@ -1,5 +1,6 @@
 package com.example.contract.utils;
 
+import com.example.contract.config.exception.DataNotFoundException;
 import org.springframework.util.ObjectUtils;
 
 final public class CalculateUtil {
@@ -13,8 +14,7 @@ final public class CalculateUtil {
 
     public static void checkedEmpty(Integer num) {
         if (isEmpty(num)) {
-            // todo : 예외 처리
-            throw new NullPointerException();
+            throw new DataNotFoundException("empty data");
         }
     }
 }
