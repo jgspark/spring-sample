@@ -3,7 +3,9 @@ package com.example.contract.web.dto;
 import com.example.contract.doamin.Contract;
 import com.example.contract.doamin.Product;
 import com.example.contract.doamin.Warrant;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
@@ -12,8 +14,11 @@ import java.util.Set;
 
 /**
  * todo : null 체크 추가
+ * todo : change
  */
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ContractSaveRequest {
 
     private Long productId;
@@ -28,11 +33,11 @@ public class ContractSaveRequest {
 
     public Contract toEntity(@NotNull Product product, BigDecimal premium) {
         return Contract.createBuilder()
-                .product(product)
-                .premium(premium)
-                .term(this.term)
-                .startDate(this.startDate)
-                .endDate(this.endDate)
-                .build();
+            .product(product)
+            .premium(premium)
+            .term(this.term)
+            .startDate(this.startDate)
+            .endDate(this.endDate)
+            .build();
     }
 }

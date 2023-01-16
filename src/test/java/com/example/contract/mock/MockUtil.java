@@ -18,6 +18,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 
+/*
+todo : change
+ */
 public class MockUtil {
 
     public static <T> T readJson(String path, Class<T> type) {
@@ -50,7 +53,9 @@ public class MockUtil {
     }
 
     public static Warrant convertWarrant(Map map) {
-        return Warrant.createBuilder().title((String) map.get("title")).subscriptionAmount(new BigDecimal((Integer) map.get("subscriptionAmount"))).standardAmount(new BigDecimal((Integer) map.get("standardAmount"))).build();
+        return Warrant.createBuilder().title((String) map.get("title")).subscriptionAmount(
+            new BigDecimal((Integer) map.get("subscriptionAmount"))).standardAmount(
+            new BigDecimal((Integer) map.get("standardAmount"))).build();
     }
 
     public static Product convert(Product mock, Warrant warrant) {
@@ -58,12 +63,14 @@ public class MockUtil {
     }
 
     public static Contract convert(Contract contract, Product product, Warrant warrant) {
-        return Contract.createBuilder().product(product).warrants(Collections.singleton(warrant)).term(contract.getTerm()).startDate(contract.getStartDate()).endDate(contract.getEndDate()).premium(contract.getPremium()).build();
+        return Contract.createBuilder().product(product).warrants(Collections.singleton(warrant)).term(contract.getTerm()).startDate(
+            contract.getStartDate()).endDate(contract.getEndDate()).premium(contract.getPremium()).build();
     }
 
     public static Product convertProduct(Map map) {
         Map term = (Map) map.get("term");
-        return Product.createBuilder().title((String) map.get("title")).term(new ProductTerm((Integer) term.get("startMonth"), (Integer) term.get("endMonth"))).build();
+        return Product.createBuilder().title((String) map.get("title")).term(
+            new ProductTerm((Integer) term.get("startMonth"), (Integer) term.get("endMonth"))).build();
     }
 
     public static String convert(Date date) {
@@ -72,5 +79,22 @@ public class MockUtil {
 
     public static BigDecimal convert(BigDecimal num) {
         return num.stripTrailingZeros();
+    }
+
+    public static Contract convertContract(Map map) {
+        return Contract.createBuilder()
+            .term((Integer) map.get("term"))
+            .endDate(convert((String) map.get("endDate")))
+            .startDate(convert((String) map.get("startDate")))
+            .build();
+    }
+
+    public static Date convert(String dateStr) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+            return formatter.parse(dateStr);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
