@@ -1,6 +1,5 @@
 package com.example.contract.web;
 
-import com.example.contract.doamin.Contract;
 import com.example.contract.service.ContractService;
 import com.example.contract.web.dto.ContractDetail;
 import com.example.contract.web.dto.ContractResponse;
