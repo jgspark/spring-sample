@@ -1,5 +1,6 @@
 package com.example.contract.repository;
 
+import com.example.contract.config.exception.DataNotFoundException;
 import com.example.contract.doamin.Contract;
 import com.example.contract.doamin.Product;
 import com.example.contract.doamin.Warrant;
@@ -68,7 +69,7 @@ class ContractRepositoryTest {
 
         Contract mock = readJson("json/contract/repository/save_fail_case1.json", Contract.class);
 
-        assertThrows(NullPointerException.class, () -> {
+        assertThrows(DataNotFoundException.class, () -> {
             contractRepository.save(mock);
         });
     }

@@ -1,10 +1,11 @@
 package com.example.contract.doamin;
 
+import com.example.contract.config.exception.DataNotFoundException;
 import com.example.contract.enums.ContractState;
-import com.example.contract.utils.CalculateUtil;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.util.Set;
 
 /**
  * 계약 테이블
+ * todo : 테스트 케이스 작성
  */
 @Getter
 @Entity
@@ -62,7 +64,7 @@ public class Contract {
     @PrePersist
     private void prePersist() {
         this.state = ContractState.NORMAL;
-        CalculateUtil.checkedEmpty(this.term);
+        checkEntity();
     }
 
     @Builder(builderMethodName = "createBuilder")
@@ -80,9 +82,23 @@ public class Contract {
         return ContractState.EXPIRATION == state;
     }
 
+    @Transient
     public void update(Set<Warrant> warrants, Integer term, ContractState state) {
         this.warrants.addAll(warrants);
         this.term = term;
         this.state = state;
+    }
+
+
+    @Transient
+    private boolean isEmptyTerm() {
+        return ObjectUtils.isEmpty(this.term) || this.term == 0;
+    }
+
+    @Transient
+    private void checkEntity() {
+        if (isEmptyTerm()) {
+            throw new DataNotFoundException("empty data");
+        }
     }
 }
