@@ -8,19 +8,17 @@ import com.example.contract.repository.ContractRepository;
 import com.example.contract.repository.ProductRepository;
 import com.example.contract.web.dto.ContractDetail;
 import com.example.contract.web.dto.ContractSaveRequest;
-import java.util.Map;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import static com.example.contract.mock.MockUtil.convert;
-import static com.example.contract.mock.MockUtil.convertContract;
-import static com.example.contract.mock.MockUtil.convertProduct;
-import static com.example.contract.mock.MockUtil.convertWarrant;
-import static com.example.contract.mock.MockUtil.readJson;
+
+import java.util.Map;
+import java.util.Optional;
+
+import static com.example.contract.mock.MockUtil.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -80,10 +78,6 @@ class ContractServiceTest {
     @DisplayName("계약 저장 상품 혹은 담보가 없을 경우 실패 케이스")
     public void created_fail1() {
 
-        Map<String, Object> mockMap = readJson("json/contract/service/created_ok.json", Map.class);
-
-        Warrant mockWarrant = convertWarrant((Map) mockMap.get("warrant"));
-
         ContractSaveRequest dto = readJson("json/contract/service/contract_save_request.json", ContractSaveRequest.class);
 
         given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(Optional.empty());
@@ -94,12 +88,13 @@ class ContractServiceTest {
     }
 
     @Test
+    @DisplayName("계약 상세 조회 테스트 케이스")
     public void getOne_ok() {
 
         long mockId = 1L;
 
         Optional<ContractDetail> mockOptional = Optional.of(
-            new ContractDetailTest(readJson("json/contract/service/getOne_ok.json", Contract.class)));
+                new ContractDetailTest(readJson("json/contract/service/getOne_ok.json", Contract.class)));
 
         given(contractRepository.findById(any(), eq(ContractDetail.class))).willReturn(mockOptional);
 
@@ -116,8 +111,13 @@ class ContractServiceTest {
         assertEquals(entity.getProduct().getTitle(), mock.getProduct().getTitle());
         assertEquals(entity.getProduct().getRange(), mock.getProduct().getRange());
 
-        entity.getWarrants()
+        entity.getWarrants().forEach(w -> {
 
-        assertEquals(entity.getWarrants(), mock.getWarrants());
+            ContractDetail.WarrantInfo findMock = mock.getWarrants().stream().filter(m -> m.getId().equals(w.getId())).findFirst().orElseThrow(RuntimeException::new);
+
+            assertEquals(w.getTitle(), findMock.getTitle());
+            assertEquals(w.getSubscriptionAmount(), findMock.getSubscriptionAmount());
+            assertEquals(w.getStandardAmount(), findMock.getStandardAmount());
+        });
     }
 }
