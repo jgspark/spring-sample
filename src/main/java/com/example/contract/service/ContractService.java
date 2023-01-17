@@ -52,7 +52,6 @@ public class ContractService {
             throw new AppException("contract is state (Expiration) and id is " + id);
         }
 
-
         Long productId = contract.getProduct().getId();
 
         Product product = productRepository.findByIdAndWarrants_IdIn(productId, dto.getWarrantIds()).orElseThrow(() -> new DataNotFoundException("Product Id is " + productId));

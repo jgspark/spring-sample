@@ -21,5 +21,5 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
             "product",
             "warrants"
     })
-    Optional<Contract> findById(Long aLong);
+    Optional<Contract> findById(Long id);
 }
