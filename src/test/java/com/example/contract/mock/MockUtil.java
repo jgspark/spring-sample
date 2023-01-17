@@ -4,6 +4,7 @@ import com.example.contract.doamin.Contract;
 import com.example.contract.doamin.Product;
 import com.example.contract.doamin.Warrant;
 import com.example.contract.doamin.embeddable.ProductTerm;
+import com.example.contract.enums.ContractState;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +17,7 @@ import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
 
 public class MockUtil {
@@ -65,9 +67,12 @@ public class MockUtil {
     }
 
     public static Product convertProduct(Map map) {
+
         Map term = (Map) map.get("term");
-        return Product.createBuilder().title((String) map.get("title")).term(
-                new ProductTerm((Integer) term.get("startMonth"), (Integer) term.get("endMonth"))).build();
+
+        return Product.createBuilder()
+                .title((String) map.get("title")).term(
+                        new ProductTerm((Integer) term.get("startMonth"), (Integer) term.get("endMonth"))).build();
     }
 
     public static String convert(Date date) {
@@ -83,7 +88,19 @@ public class MockUtil {
                 .term((Integer) map.get("term"))
                 .endDate(convert((String) map.get("endDate")))
                 .startDate(convert((String) map.get("startDate")))
+                .product(convertProduct((Map) map.get("product")))
                 .build();
+    }
+
+    public static Contract convertContractByUpdate(Map map) {
+        Contract entity = Contract.createBuilder()
+                .term((Integer) map.get("term"))
+                .endDate(convert((String) map.get("endDate")))
+                .startDate(convert((String) map.get("startDate")))
+                .product(convertProduct((Map) map.get("product")))
+                .build();
+        entity.update(entity.getWarrants(), entity.getTerm(), ContractState.EXPIRATION, entity.getPremium());
+        return entity;
     }
 
     public static Date convert(String dateStr) {

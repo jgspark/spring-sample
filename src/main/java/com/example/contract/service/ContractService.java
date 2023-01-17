@@ -56,7 +56,9 @@ public class ContractService {
 
         Product product = productRepository.findByIdAndWarrants_IdIn(productId, dto.getWarrantIds()).orElseThrow(() -> new DataNotFoundException("Product Id is " + productId));
 
-        contract.update(product.getWarrants(), dto.getTerm(), dto.getState());
+        BigDecimal premium = product.calculatePremium();
+
+        contract.update(product.getWarrants(), dto.getTerm(), dto.getState(), premium);
 
         return contract;
     }

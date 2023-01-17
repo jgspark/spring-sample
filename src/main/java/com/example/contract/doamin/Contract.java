@@ -83,10 +83,11 @@ public class Contract {
     }
 
     @Transient
-    public void update(Set<Warrant> warrants, Integer term, ContractState state) {
+    public void update(Set<Warrant> warrants, Integer term, ContractState state, BigDecimal premium) {
         this.warrants.addAll(warrants);
         this.term = term;
         this.state = state;
+        this.premium = premium;
     }
 
 
