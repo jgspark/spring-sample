@@ -7,15 +7,14 @@ import com.example.contract.enums.ContractState;
 import com.example.contract.web.dto.ContractDetail;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ContractDetailTest implements ContractDetail {
+public class ContractDetailImpl implements ContractDetail {
 
     private final Contract contract;
 
-    public ContractDetailTest(Contract contract) {
+    public ContractDetailImpl(Contract contract) {
         this.contract = contract;
     }
 

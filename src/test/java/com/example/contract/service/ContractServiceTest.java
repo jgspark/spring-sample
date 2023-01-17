@@ -4,7 +4,7 @@ import com.example.contract.config.exception.AppException;
 import com.example.contract.doamin.Contract;
 import com.example.contract.doamin.Product;
 import com.example.contract.doamin.Warrant;
-import com.example.contract.mock.ContractDetailTest;
+import com.example.contract.mock.ContractDetailImpl;
 import com.example.contract.repository.ContractRepository;
 import com.example.contract.repository.ProductRepository;
 import com.example.contract.web.dto.ContractDetail;
@@ -96,7 +96,7 @@ class ContractServiceTest {
 
         long mockId = 1L;
 
-        Optional<ContractDetail> mockOptional = Optional.of(new ContractDetailTest(readJson("json/contract/service/getOne_ok.json", Contract.class)));
+        Optional<ContractDetail> mockOptional = Optional.of(new ContractDetailImpl(readJson("json/contract/service/getOne_ok.json", Contract.class)));
 
         given(contractRepository.findById(any(), eq(ContractDetail.class))).willReturn(mockOptional);
 
