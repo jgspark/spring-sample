@@ -3,8 +3,10 @@ package com.example.contract.service;
 import com.example.contract.config.exception.AppException;
 import com.example.contract.doamin.Product;
 import com.example.contract.doamin.Warrant;
+import com.example.contract.mock.EstimatedPremiumImpl;
 import com.example.contract.repository.ProductRepository;
 import com.example.contract.repository.WarrantRepository;
+import com.example.contract.web.dto.EstimatedPremium;
 import com.example.contract.web.dto.ProductSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,14 +15,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.example.contract.mock.MockUtil.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -78,6 +79,59 @@ class ProductServiceTest {
         assertThrows(AppException.class, () -> {
             productService.created(dto);
         });
+    }
 
+    @Test
+    @DisplayName("총 보험료 예상 금액 로직 성공 테스트 케이스 담보가 있을 때 케이스")
+    public void getEstimatedPremium_ok1() {
+
+        Optional<EstimatedPremium> mockOptional = Optional.of(new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok1.json", Product.class)));
+
+        given(productRepository.findByIdAndWarrants_IdIn(anyLong(), any(), eq(EstimatedPremium.class))).willReturn(mockOptional);
+
+        Map<String, Object> dto = readJson("json/product/service/getEstimatedPremium_ok1_dto.json", Map.class);
+
+        List<Long> warrantIds = ((ArrayList<Integer>) dto.get("warrantIds")).stream().map(Integer::longValue).collect(Collectors.toList());
+
+        Integer productId = (Integer) dto.get("productId");
+
+        Optional<EstimatedPremium> entityOptional = productService.getEstimatedPremium(productId.longValue(), warrantIds);
+
+        then(productRepository).should().findByIdAndWarrants_IdIn(anyLong(), any(), eq(EstimatedPremium.class));
+
+        EstimatedPremium entity = entityOptional.get();
+
+        EstimatedPremium mock = mockOptional.get();
+
+        assertEquals(entity.getProductTitle(), mock.getProductTitle());
+        assertEquals(entity.getTerm(), mock.getTerm());
+        assertEquals(entity.getPremium(), mock.getPremium());
+    }
+
+    @Test
+    @DisplayName("총 보험료 예상 금액 로직 성공 테스트 케이스 전체 담보 케이스")
+    public void getEstimatedPremium_ok2() {
+
+        Optional<EstimatedPremium> mockOptional = Optional.of(new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok2.json", Product.class)));
+
+        given(productRepository.findById(anyLong(), eq(EstimatedPremium.class))).willReturn(mockOptional);
+
+        Map<String, Object> dto = readJson("json/product/service/getEstimatedPremium_ok2_dto.json", Map.class);
+
+        List<Long> warrantIds = ((ArrayList<Integer>) dto.get("warrantIds")).stream().map(Integer::longValue).collect(Collectors.toList());
+
+        Integer productId = (Integer) dto.get("productId");
+
+        Optional<EstimatedPremium> entityOptional = productService.getEstimatedPremium(productId.longValue(), warrantIds);
+
+        then(productRepository).should().findById(anyLong(), eq(EstimatedPremium.class));
+
+        EstimatedPremium entity = entityOptional.get();
+
+        EstimatedPremium mock = mockOptional.get();
+
+        assertEquals(entity.getProductTitle(), mock.getProductTitle());
+        assertEquals(entity.getTerm(), mock.getTerm());
+        assertEquals(entity.getPremium(), mock.getPremium());
     }
 }
