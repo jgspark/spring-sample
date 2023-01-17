@@ -22,9 +22,7 @@ class ProductTermTest {
 
         ProductTerm productTerm = new ProductTerm(10, 1);
 
-        assertThrows(RuntimeException.class, () -> {
-            productTerm.checkTerm();
-        });
+        assertThrows(RuntimeException.class, productTerm::checkTerm);
     }
 
     @Test
