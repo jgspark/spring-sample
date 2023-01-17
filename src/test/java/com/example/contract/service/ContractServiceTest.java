@@ -28,6 +28,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
+@DisplayName("거래 서비스 레이어 테스트 케이스")
 @ExtendWith(MockitoExtension.class)
 class ContractServiceTest {
 
