@@ -1,5 +1,6 @@
 package com.example.contract.service;
 
+import com.example.contract.config.exception.DataNotFoundException;
 import com.example.contract.doamin.Product;
 import com.example.contract.doamin.Warrant;
 import com.example.contract.repository.ProductRepository;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -24,7 +26,13 @@ public class ProductService {
 
     @Transactional
     public Product created(ProductSaveRequest dto) {
+
         Set<Warrant> warrants = warrantRepository.findByIdIn(dto.getWarrantIds());
+
+        if (warrants.isEmpty()) {
+            throw new DataNotFoundException("Warrant Ids is " + Arrays.toString(dto.getWarrantIds().toArray()));
+        }
+
         return productRepository.save(dto.toEntity(warrants));
     }
 

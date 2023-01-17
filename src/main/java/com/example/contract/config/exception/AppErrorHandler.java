@@ -25,7 +25,7 @@ public class AppErrorHandler {
         return new ErrorMessage(errorCode.getCode(), errorCode.getMessage());
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ExceptionHandler(DataNotFoundException.class)
     public ErrorMessage handler(DataNotFoundException e) {
         ErrorCode errorCode = e.getErrorCode();

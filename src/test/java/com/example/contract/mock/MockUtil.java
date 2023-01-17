@@ -15,10 +15,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MockUtil {
 
@@ -59,6 +57,10 @@ public class MockUtil {
 
     public static Product convert(Product mock, Warrant warrant) {
         return Product.createBuilder().title(mock.getTitle()).term(mock.getTerm()).warrants(Collections.singleton(warrant)).build();
+    }
+
+    public static Product convert(Product mock, Set<Warrant> warrants) {
+        return Product.createBuilder().title(mock.getTitle()).term(mock.getTerm()).warrants(warrants).build();
     }
 
     public static Contract convert(Contract contract, Product product, Warrant warrant) {
@@ -110,5 +112,9 @@ public class MockUtil {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Set<Warrant> convert(Object map) {
+        return ((ArrayList<Map>) map).stream().map(MockUtil::convertWarrant).collect(Collectors.toSet());
     }
 }
