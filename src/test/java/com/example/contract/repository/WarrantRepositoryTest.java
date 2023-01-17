@@ -13,6 +13,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("담보 레파지토리 테스트 케이스")
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
 class WarrantRepositoryTest {

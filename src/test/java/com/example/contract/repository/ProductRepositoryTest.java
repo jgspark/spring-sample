@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("상품 레파지토리 테스트 케이스")
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
 class ProductRepositoryTest {
