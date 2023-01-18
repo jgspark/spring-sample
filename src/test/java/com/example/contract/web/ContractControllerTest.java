@@ -1,5 +1,6 @@
 package com.example.contract.web;
 
+import com.example.contract.config.exception.AppErrorHandler;
 import com.example.contract.doamin.Contract;
 import com.example.contract.enums.ContractState;
 import com.example.contract.mock.ContractDetailImpl;
@@ -47,7 +48,10 @@ class ContractControllerTest {
 
     @BeforeEach
     public void init() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new ContractController(contractService)).addFilter(new CharacterEncodingFilter("UTF-8", true)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new ContractController(contractService))
+                .setControllerAdvice(new AppErrorHandler())
+                .addFilter(new CharacterEncodingFilter("UTF-8", true))
+                .build();
     }
 
     @Test
@@ -127,4 +131,16 @@ class ContractControllerTest {
 
         action.andExpect(status().isNoContent());
     }
+
+//    @Test
+//    @DisplayName("계약 수정 API 테스트 케이스")
+//    public void update_ok() throws Exception {
+//
+//        long mockId = 1L;
+//
+//        String uri = "/contracts/" + mockId;
+//
+//        ResultActions action = mockMvc.perform(patch(uri).contentType(MediaType.APPLICATION_JSON))
+//                .andDo(print());
+//    }
 }
