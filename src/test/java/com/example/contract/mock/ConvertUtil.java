@@ -5,6 +5,7 @@ import com.example.contract.doamin.Product;
 import com.example.contract.doamin.Warrant;
 import com.example.contract.doamin.embeddable.ProductTerm;
 import com.example.contract.enums.ContractState;
+import com.example.contract.enums.ErrorCode;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -97,5 +98,9 @@ public class ConvertUtil {
         contract.update(Collections.singleton(warrant), contract.getTerm(), contractState, contract.getPremium());
 
         return contract;
+    }
+
+    public static String convertErrorMessage(ErrorCode code, String message) {
+        return String.format("%s : %s", code.getMessage(), message);
     }
 }

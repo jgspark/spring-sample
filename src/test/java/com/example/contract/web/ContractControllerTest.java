@@ -1,8 +1,10 @@
 package com.example.contract.web;
 
 import com.example.contract.config.exception.AppErrorHandler;
+import com.example.contract.config.exception.DataNotFoundException;
 import com.example.contract.doamin.Contract;
 import com.example.contract.enums.ContractState;
+import com.example.contract.enums.ErrorCode;
 import com.example.contract.mock.ContractDetailImpl;
 import com.example.contract.service.ContractService;
 import com.example.contract.web.dto.ContractDetail;
@@ -25,8 +27,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.example.contract.mock.ConvertUtil.convertContract;
+import static com.example.contract.mock.ConvertUtil.convertErrorMessage;
 import static com.example.contract.mock.MockUtil.asJsonString;
 import static com.example.contract.mock.MockUtil.readJson;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -81,6 +85,29 @@ class ContractControllerTest {
                 .andExpect(jsonPath("$.endDate").value(mock.getEndDate()))
                 .andExpect(jsonPath("$.premium").value(mock.getPremium()))
                 .andExpect(jsonPath("$.state").value(mock.getState().name()));
+    }
+
+    @Test
+    @DisplayName("계약 생성 API 테스트 케이스 상품/담보가 없을 때")
+    public void write_fail_1() throws Exception {
+
+        String mock = "Product Id is 1";
+
+        given(contractService.created(any())).willThrow(new DataNotFoundException(mock));
+
+        String uri = "/contract";
+
+        ContractSaveRequest dto = readJson("json/contract/web/contract_save_request.json", ContractSaveRequest.class);
+
+        ResultActions action = mockMvc.perform(post(uri).content(asJsonString(dto)).contentType(MediaType.APPLICATION_JSON)).andDo(print());
+
+        then(contractService).should().created(any());
+
+        ErrorCode errorCode = ErrorCode.NOT_FOUND_DATA;
+
+        action.andExpect(status().isNoContent())
+                .andExpect(jsonPath("$.code").value(errorCode.getCode()))
+                .andExpect(jsonPath("$.message").value(convertErrorMessage(errorCode, mock)));
     }
 
     @Test
