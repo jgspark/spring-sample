@@ -143,7 +143,7 @@ class ContractControllerTest {
     }
 
     @Test
-    @DisplayName("계약 상세 조회 API 테스트 케이스 [컨텐츠가 없을 때 케이스]")
+    @DisplayName("계약 상세 조회 API 테스트 케이스 [데이터가 없을 때 케이스]")
     public void getOne_no_content_case() throws Exception {
 
         given(contractService.getOne(any())).willReturn(Optional.empty());
