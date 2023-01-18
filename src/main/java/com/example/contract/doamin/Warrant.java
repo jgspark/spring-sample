@@ -1,6 +1,9 @@
 package com.example.contract.doamin;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
@@ -16,7 +19,6 @@ import static org.springframework.util.Assert.notNull;
 @Entity
 @Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Warrant {
 
     @Id
@@ -44,7 +46,8 @@ public class Warrant {
     }
 
     @Builder(builderMethodName = "createBuilder")
-    private Warrant(String title, BigDecimal subscriptionAmount, BigDecimal standardAmount) {
+    private Warrant(Long id, String title, BigDecimal subscriptionAmount, BigDecimal standardAmount) {
+        this.id = id;
         this.title = title;
         this.subscriptionAmount = subscriptionAmount;
         this.standardAmount = standardAmount;

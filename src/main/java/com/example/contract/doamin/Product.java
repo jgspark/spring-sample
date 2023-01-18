@@ -21,7 +21,6 @@ import static org.springframework.util.Assert.notNull;
 @Entity
 @Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Product {
 
     @Id
@@ -61,7 +60,8 @@ public class Product {
     }
 
     @Builder(builderMethodName = "createBuilder")
-    private Product(String title, ProductTerm term, Set<Warrant> warrants) {
+    private Product(Long id, String title, ProductTerm term, Set<Warrant> warrants) {
+        this.id = id;
         this.title = title;
         this.term = term;
         this.warrants = Optional.ofNullable(warrants).orElse(new HashSet<>());

@@ -68,7 +68,8 @@ public class Contract {
     }
 
     @Builder(builderMethodName = "createBuilder")
-    private Contract(Product product, Set<Warrant> warrants, Integer term, Date startDate, Date endDate, BigDecimal premium) {
+    private Contract(Long id, Product product, Set<Warrant> warrants, Integer term, Date startDate, Date endDate, BigDecimal premium) {
+        this.id = id;
         this.product = product;
         this.warrants = Optional.ofNullable(warrants).orElseGet(HashSet::new);
         this.term = term;
