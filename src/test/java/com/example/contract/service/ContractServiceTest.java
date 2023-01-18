@@ -20,7 +20,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.example.contract.mock.MockUtil.*;
+import static com.example.contract.mock.ConvertUtil.*;
+import static com.example.contract.mock.MockUtil.readJson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;

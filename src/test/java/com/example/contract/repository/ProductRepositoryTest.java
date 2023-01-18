@@ -2,7 +2,6 @@ package com.example.contract.repository;
 
 import com.example.contract.doamin.Product;
 import com.example.contract.doamin.Warrant;
-import com.example.contract.mock.MockUtil;
 import com.example.contract.web.dto.EstimatedPremium;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +13,9 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.example.contract.mock.ConvertUtil.convert;
+import static com.example.contract.mock.ConvertUtil.convertWarrant;
+import static com.example.contract.mock.MockUtil.readJson;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("상품 레파지토리 테스트 케이스")
@@ -31,9 +33,9 @@ class ProductRepositoryTest {
 
     @BeforeEach
     public void init() {
-        Map<String, Object> map = MockUtil.readJson("json/product/repository/init.json", Map.class);
+        Map<String, Object> map = readJson("json/product/repository/init.json", Map.class);
 
-        Warrant mock = MockUtil.convertWarrant((Map) map.get("warrant"));
+        Warrant mock = convertWarrant((Map) map.get("warrant"));
 
         this.mockWarrant = warrantRepository.saveAndFlush(mock);
     }
@@ -45,7 +47,7 @@ class ProductRepositoryTest {
 
         Warrant findWarrant = warrantRepository.findById(mockWarrant.getId()).orElseThrow(RuntimeException::new);
 
-        Product mock = MockUtil.convert(MockUtil.readJson("json/product/repository/save_ok.json", Product.class), findWarrant);
+        Product mock = convert(readJson("json/product/repository/save_ok.json", Product.class), findWarrant);
 
         Product entity = productRepository.save(mock);
 
@@ -62,7 +64,7 @@ class ProductRepositoryTest {
     @DisplayName("계약 기간이 조건에 맞지 않는 케이스")
     public void save_fail_case1() {
 
-        Product mock = MockUtil.readJson("json/product/repository/save_fail_case1.json", Product.class);
+        Product mock = readJson("json/product/repository/save_fail_case1.json", Product.class);
 
         assertThrows(RuntimeException.class, () -> {
             productRepository.save(mock);
@@ -80,7 +82,7 @@ class ProductRepositoryTest {
 
             Warrant findWarrant = warrantRepository.findById(mockWarrant.getId()).orElseThrow(RuntimeException::new);
 
-            mock = productRepository.save(MockUtil.convert(MockUtil.readJson("json/product/repository/findByIdAndWarrants_IdIn_ok.json", Product.class), findWarrant));
+            mock = productRepository.save(convert(readJson("json/product/repository/findByIdAndWarrants_IdIn_ok.json", Product.class), findWarrant));
 
             productRepository.flush();
         }

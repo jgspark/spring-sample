@@ -18,7 +18,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.example.contract.mock.MockUtil.*;
+import static com.example.contract.mock.ConvertUtil.convert;
+import static com.example.contract.mock.ConvertUtil.convertProduct;
+import static com.example.contract.mock.MockUtil.readJson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
