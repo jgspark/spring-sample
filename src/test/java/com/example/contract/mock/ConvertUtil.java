@@ -98,8 +98,4 @@ public class ConvertUtil {
 
         return contract;
     }
-
-    public static String convertArray(Collection array) {
-        return Arrays.toString(array.toArray()).replace("[", "").replace("]", "");
-    }
 }

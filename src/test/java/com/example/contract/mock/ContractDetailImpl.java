@@ -5,6 +5,7 @@ import com.example.contract.doamin.Product;
 import com.example.contract.doamin.Warrant;
 import com.example.contract.enums.ContractState;
 import com.example.contract.web.dto.ContractDetail;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
@@ -16,6 +17,11 @@ public class ContractDetailImpl implements ContractDetail {
 
     public ContractDetailImpl(Contract contract) {
         this.contract = contract;
+    }
+
+    public ContractDetailImpl(Contract contract, ContractState state) {
+        this.contract = contract;
+        this.contract.update(contract.getWarrants(), contract.getTerm(), state, contract.getPremium());
     }
 
     @Override
