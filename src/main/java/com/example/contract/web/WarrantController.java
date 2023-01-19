@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class WarrantController {
@@ -18,7 +20,7 @@ public class WarrantController {
 
     @PostMapping("warrant")
     @ResponseStatus(HttpStatus.CREATED)
-    public WarrantResponse write(@RequestBody WarrantSaveRequest dto) {
+    public WarrantResponse write(@RequestBody @Valid WarrantSaveRequest dto) {
         return new WarrantResponse(warrantService.created(dto));
     }
 }

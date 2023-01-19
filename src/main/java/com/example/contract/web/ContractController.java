@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -20,7 +21,7 @@ public class ContractController {
 
     @PostMapping("contract")
     @ResponseStatus(HttpStatus.CREATED)
-    public ContractResponse write(@RequestBody ContractSaveRequest dto) {
+    public ContractResponse write(@RequestBody @Valid ContractSaveRequest dto) {
         return new ContractResponse(contractService.created(dto));
     }
 
@@ -31,7 +32,7 @@ public class ContractController {
     }
 
     @PatchMapping("contracts/{id}")
-    public ContractResponse update(@PathVariable Long id, @RequestBody ContractUpdateRequest dto) {
+    public ContractResponse update(@PathVariable Long id, @RequestBody @Valid ContractUpdateRequest dto) {
         return new ContractResponse(contractService.update(id, dto));
     }
 }

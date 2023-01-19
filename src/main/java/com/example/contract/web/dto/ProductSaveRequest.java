@@ -5,16 +5,19 @@ import com.example.contract.doamin.Warrant;
 import com.example.contract.doamin.embeddable.ProductTerm;
 import lombok.Getter;
 
-import java.util.Collection;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Getter
 public class ProductSaveRequest {
 
+    @NotNull
     private String title;
 
+    @NotNull
     private ProductTerm term;
 
+    @NotNull
     private Set<Long> warrantIds;
 
     public Product toEntity(Set<Warrant> warrants) {

@@ -2,6 +2,7 @@ package com.example.contract.config.exception;
 
 import com.example.contract.enums.ErrorCode;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -17,12 +18,20 @@ public class AppErrorHandler {
         return new ErrorMessage(errorCode.getCode(), errorCode.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorMessage handler(MethodArgumentNotValidException e) {
+        ErrorCode errorCode = ErrorCode.BAD_REQUEST;
+        e.printStackTrace();
+        return new ErrorMessage(errorCode.getCode(), e.getMessage());
+    }
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(AppException.class)
     public ErrorMessage handler(AppException e) {
         ErrorCode errorCode = ErrorCode.SERVER_ERROR;
         e.printStackTrace();
-        return new ErrorMessage(errorCode.getCode(), convertMessage(errorCode , e.getMessage()));
+        return new ErrorMessage(errorCode.getCode(), convertMessage(errorCode, e.getMessage()));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

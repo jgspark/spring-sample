@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum ErrorCode {
 
     SERVER_ERROR("E001", "SERVER_ERROR")
-    , NOT_FOUND_DATA("E002", "Not found Data");
+    , NOT_FOUND_DATA("E002", "Not found Data")
+    , BAD_REQUEST("E003" , "Bad Request");
 
     private final String code;
 
