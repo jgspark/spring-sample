@@ -48,7 +48,7 @@ public class Warrant {
      * 해당 5자리를 설정한 경우 정확한 계산값을 구하기 위해서 5자리로 설정을 하였습니다.
      *
      * @return 가입 급액 / 기준 금액
-     * @throws IllegalArgumentException 가입 금액 & 기준 금액이 null 이면 예외
+     * @throws IllegalArgumentException 가입 금액 과 기준 금액이 null 이면 예외
      */
     @Transient
     public BigDecimal getPremium() {

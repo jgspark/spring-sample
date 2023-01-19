@@ -70,7 +70,7 @@ public class ContractService {
      * @param dto 결제 변경 데이터를 담고 있습니다. {@link ContractUpdateRequest}
      * @return 수정된 결제 데이터
      * @throws AppException          기간 만료 상태라면 업데이터 할 수 없기에 예외
-     * @throws DataNotFoundException 결제 데이터 & 상품데이터  없으면 예외
+     * @throws DataNotFoundException 결제 데이터 과 상품데이터  없으면 예외
      */
     @NotNull
     @Transactional

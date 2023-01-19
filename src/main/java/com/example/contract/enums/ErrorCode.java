@@ -12,16 +12,15 @@ public enum ErrorCode {
     /**
      * 통합적인 서버에러 발생시
      */
-    SERVER_ERROR("E001", "SERVER_ERROR")
+    SERVER_ERROR("E001", "SERVER_ERROR"),
     /**
      * 데이터를 찾지 못하는 케이스
      */
-    , NOT_FOUND_DATA("E002", "Not found Data")
-
+    NOT_FOUND_DATA("E002", "Not found Data"),
     /**
      * 요청된 값이 조건에 부합하지 않는 케이스
      */
-    , BAD_REQUEST("E003", "Bad Request");
+    BAD_REQUEST("E003", "Bad Request");
 
     private final String code;
 
