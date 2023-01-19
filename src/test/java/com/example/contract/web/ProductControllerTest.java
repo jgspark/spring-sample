@@ -124,6 +124,7 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.term.range").value(mock.getTerm().getRange()))
                 .andExpect(jsonPath("$.warrantIds.size()").value(mock.getWarrants().size()));
     }
+
     @Test
     @DisplayName("상품 생성 API 테스트 [담보 데이터가 없을 때] 케이스")
     public void write_fail1() throws Exception {

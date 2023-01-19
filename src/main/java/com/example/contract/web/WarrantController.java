@@ -18,7 +18,7 @@ public class WarrantController {
 
     @PostMapping("warrant")
     @ResponseStatus(HttpStatus.CREATED)
-    public WarrantResponse create(@RequestBody WarrantSaveRequest dto) {
+    public WarrantResponse write(@RequestBody WarrantSaveRequest dto) {
         return new WarrantResponse(warrantService.created(dto));
     }
 }
