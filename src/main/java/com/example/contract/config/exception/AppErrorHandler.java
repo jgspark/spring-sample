@@ -22,7 +22,7 @@ public class AppErrorHandler {
     public ErrorMessage handler(AppException e) {
         ErrorCode errorCode = ErrorCode.SERVER_ERROR;
         e.printStackTrace();
-        return new ErrorMessage(errorCode.getCode(), errorCode.getMessage());
+        return new ErrorMessage(errorCode.getCode(), convertMessage(errorCode , e.getMessage()));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

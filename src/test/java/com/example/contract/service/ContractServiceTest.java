@@ -147,6 +147,7 @@ class ContractServiceTest {
         ContractUpdateRequest dto = readJson("json/contract/service/contract_update_request.json", ContractUpdateRequest.class);
 
         Contract entity = contractService.update(id, dto);
+
         Contract mock = mockOptional.get();
 
         assertEquals(entity.getId(), mock.getId());
