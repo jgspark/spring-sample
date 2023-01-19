@@ -11,13 +11,13 @@ import java.util.stream.Collectors;
 @Getter
 public class ProductResponse {
 
-    private Long id;
+    private final Long id;
 
-    private String title;
+    private final String title;
 
-    private ProductTerm term;
+    private final ProductTerm term;
 
-    private Set<Long> warrantIds;
+    private final Set<Long> warrantIds;
 
     public ProductResponse(Product product) {
         this.id = product.getId();

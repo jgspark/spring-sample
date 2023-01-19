@@ -13,21 +13,21 @@ import java.util.stream.Collectors;
 @Getter
 public class ContractResponse {
 
-    private Long id;
+    private final Long id;
 
-    private Long productId;
+    private final Long productId;
 
-    private Set<Long> warrantIds;
+    private final Set<Long> warrantIds;
 
-    private Integer term;
+    private final Integer term;
 
-    private Date startDate;
+    private final Date startDate;
 
-    private Date endDate;
+    private final Date endDate;
 
-    private BigDecimal premium;
+    private final BigDecimal premium;
 
-    private ContractState state;
+    private final ContractState state;
 
     public ContractResponse(Contract contract) {
         this.id = contract.getId();

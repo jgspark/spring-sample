@@ -8,11 +8,11 @@ import java.math.BigDecimal;
 @Getter
 public class WarrantResponse {
 
-    private Long id;
+    private final Long id;
 
-    private BigDecimal subscriptionAmount;
+    private final BigDecimal subscriptionAmount;
 
-    private BigDecimal standardAmount;
+    private final BigDecimal standardAmount;
 
     public WarrantResponse(Warrant warrant) {
         this.id = warrant.getId();
