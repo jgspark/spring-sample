@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.example.contract.mock.ConvertUtil.convertContract;
-import static com.example.contract.mock.ConvertUtil.convertErrorMessage;
 import static com.example.contract.mock.MockUtil.asJsonString;
 import static com.example.contract.mock.MockUtil.readJson;
 import static org.mockito.ArgumentMatchers.any;
@@ -74,9 +73,9 @@ class ContractControllerTest {
         ContractSaveRequest dto = readJson("json/contract/web/contract_save_request.json", ContractSaveRequest.class);
 
         ResultActions action = mockMvc.perform(
-                post(uri)
-                        .content(asJsonString(dto))
-                        .contentType(MediaType.APPLICATION_JSON)
+                        post(uri)
+                                .content(asJsonString(dto))
+                                .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print());
 
@@ -113,7 +112,7 @@ class ContractControllerTest {
 
         action.andExpect(status().isNoContent())
                 .andExpect(jsonPath("$.code").value(errorCode.getCode()))
-                .andExpect(jsonPath("$.message").value(convertErrorMessage(errorCode, mock)));
+                .andExpect(jsonPath("$.message").value(errorCode.convertMessage(mock)));
     }
 
     @Test
@@ -129,9 +128,9 @@ class ContractControllerTest {
         String uri = "/contracts/" + mockId;
 
         ResultActions action = mockMvc.perform(
-                get(uri)
-                        .contentType(MediaType.APPLICATION_JSON)
-        )
+                        get(uri)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andDo(print());
 
         then(contractService).should().getOne(any());
@@ -163,9 +162,9 @@ class ContractControllerTest {
         String uri = "/contracts/" + mockId;
 
         ResultActions action = mockMvc.perform(
-                get(uri)
-                        .contentType(MediaType.APPLICATION_JSON)
-        )
+                        get(uri)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andDo(print());
 
         then(contractService).should().getOne(any());
@@ -181,7 +180,7 @@ class ContractControllerTest {
 
         Contract mock = convertContract((Map) mockMap.get("contract"), (Map) mockMap.get("warrant"), ContractState.NORMAL);
 
-        given(contractService.update(any() , any())).willReturn(mock);
+        given(contractService.update(any(), any())).willReturn(mock);
 
         long mockId = 1L;
 
@@ -190,13 +189,13 @@ class ContractControllerTest {
         ContractUpdateRequest dto = readJson("json/contract/web/contract_update_request.json", ContractUpdateRequest.class);
 
         ResultActions action = mockMvc.perform(
-                    patch(uri)
-                        .content(asJsonString(dto))
-                        .contentType(MediaType.APPLICATION_JSON)
+                        patch(uri)
+                                .content(asJsonString(dto))
+                                .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print());
 
-        then(contractService).should().update(any() , any());
+        then(contractService).should().update(any(), any());
 
         action.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mock.getId()))
@@ -217,27 +216,28 @@ class ContractControllerTest {
 
         String mock = "contract is state (Expiration) and id is " + mockId;
 
-        given(contractService.update(any() , any())).willThrow(new AppException(mock));
+        given(contractService.update(any(), any())).willThrow(new AppException(mock));
 
         String uri = "/contracts/" + mockId;
 
         ContractUpdateRequest dto = readJson("json/contract/web/contract_update_request.json", ContractUpdateRequest.class);
 
         ResultActions action = mockMvc.perform(
-                    patch(uri)
-                        .content(asJsonString(dto))
-                        .contentType(MediaType.APPLICATION_JSON)
+                        patch(uri)
+                                .content(asJsonString(dto))
+                                .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print());
 
-        then(contractService).should().update(any() , any());
+        then(contractService).should().update(any(), any());
 
         ErrorCode errorCode = ErrorCode.SERVER_ERROR;
 
         action.andExpect(status().is5xxServerError())
                 .andExpect(jsonPath("$.code").value(errorCode.getCode()))
-                .andExpect(jsonPath("$.message").value(convertErrorMessage(errorCode, mock)));
+                .andExpect(jsonPath("$.message").value(errorCode.convertMessage(mock)));
     }
+
     @Test
     @DisplayName("계약 수정 API 테스트 [담보 데이터가 없는] 케이스")
     public void update_fail2() throws Exception {
@@ -246,25 +246,25 @@ class ContractControllerTest {
 
         String mock = "Product Id is " + mockId;
 
-        given(contractService.update(any() , any())).willThrow(new DataNotFoundException(mock));
+        given(contractService.update(any(), any())).willThrow(new DataNotFoundException(mock));
 
         String uri = "/contracts/" + mockId;
 
         ContractUpdateRequest dto = readJson("json/contract/web/contract_update_request.json", ContractUpdateRequest.class);
 
         ResultActions action = mockMvc.perform(
-                    patch(uri)
-                        .content(asJsonString(dto))
-                        .contentType(MediaType.APPLICATION_JSON)
+                        patch(uri)
+                                .content(asJsonString(dto))
+                                .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print());
 
-        then(contractService).should().update(any() , any());
+        then(contractService).should().update(any(), any());
 
         ErrorCode errorCode = ErrorCode.NOT_FOUND_DATA;
 
         action.andExpect(status().isNoContent())
                 .andExpect(jsonPath("$.code").value(errorCode.getCode()))
-                .andExpect(jsonPath("$.message").value(convertErrorMessage(errorCode, mock)));
+                .andExpect(jsonPath("$.message").value(errorCode.convertMessage(mock)));
     }
 }

@@ -99,8 +99,4 @@ public class ConvertUtil {
 
         return contract;
     }
-
-    public static String convertErrorMessage(ErrorCode code, String message) {
-        return String.format("%s : %s", code.getMessage(), message);
-    }
 }

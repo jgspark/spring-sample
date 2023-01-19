@@ -32,7 +32,7 @@ public class AppErrorHandler {
     public ErrorMessage handler(AppException e) {
         ErrorCode errorCode = ErrorCode.SERVER_ERROR;
         e.printStackTrace();
-        return new ErrorMessage(errorCode.getCode(), convertMessage(errorCode, e.getMessage()));
+        return new ErrorMessage(errorCode.getCode(), errorCode.convertMessage(e.getMessage()));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -40,10 +40,7 @@ public class AppErrorHandler {
     public ErrorMessage handler(DataNotFoundException e) {
         ErrorCode errorCode = e.getErrorCode();
         e.printStackTrace();
-        return new ErrorMessage(errorCode.getCode(), convertMessage(errorCode, e.getMessage()));
+        return new ErrorMessage(errorCode.getCode(), errorCode.convertMessage(e.getMessage()));
     }
 
-    private String convertMessage(ErrorCode code, String message) {
-        return String.format("%s : %s", code.getMessage(), message);
-    }
 }

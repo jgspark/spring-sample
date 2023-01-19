@@ -28,7 +28,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.example.contract.mock.ConvertUtil.*;
+import static com.example.contract.mock.ConvertUtil.convert;
+import static com.example.contract.mock.ConvertUtil.convertProduct;
 import static com.example.contract.mock.MockUtil.asJsonString;
 import static com.example.contract.mock.MockUtil.readJson;
 import static org.mockito.ArgumentMatchers.any;
@@ -61,33 +62,33 @@ class ProductControllerTest {
 
     @Test
     @DisplayName("예상 총 보험 계약 API 테스트 케이스")
-    public void selectEstimatedPremium_ok () throws Exception {
+    public void selectEstimatedPremium_ok() throws Exception {
 
         Optional<EstimatedPremium> mockOptional =
                 Optional.of(new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok1.json", Product.class)));
 
-        given(productService.getEstimatedPremium(any() , any())).willReturn(mockOptional);
+        given(productService.getEstimatedPremium(any(), any())).willReturn(mockOptional);
 
         Map<String, Object> dto = readJson("json/product/web/getEstimatedPremium_ok_dto.json", Map.class);
 
         Integer productId = (Integer) dto.get("productId");
 
-        String uri = "/products/"+productId+"/premium";
+        String uri = "/products/" + productId + "/premium";
 
         ResultActions action = mockMvc.perform(
                         get(uri)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .param("warrantIds" , (String) dto.get("warrantIds"))
+                                .param("warrantIds", (String) dto.get("warrantIds"))
                 )
                 .andDo(print());
 
         EstimatedPremium mock = mockOptional.get();
 
-        then(productService).should().getEstimatedPremium(any() , any());
+        then(productService).should().getEstimatedPremium(any(), any());
 
         action.andExpect(status().isOk())
                 .andExpect(jsonPath("$.term").value(mock.getTerm()))
-                .andExpect(jsonPath("$.premium").value(mock.getPremium().setScale(1 , RoundingMode.FLOOR)))
+                .andExpect(jsonPath("$.premium").value(mock.getPremium().setScale(1, RoundingMode.FLOOR)))
                 .andExpect(jsonPath("$.productTitle").value(mock.getProductTitle()));
     }
 
@@ -150,6 +151,6 @@ class ProductControllerTest {
 
         action.andExpect(status().isNoContent())
                 .andExpect(jsonPath("$.code").value(errorCode.getCode()))
-                .andExpect(jsonPath("$.message").value(convertErrorMessage(errorCode , msg)));
+                .andExpect(jsonPath("$.message").value(errorCode.convertMessage(msg)));
     }
 }

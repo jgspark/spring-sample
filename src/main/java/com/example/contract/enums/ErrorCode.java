@@ -1,6 +1,7 @@
 package com.example.contract.enums;
 
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public enum ErrorCode {
@@ -16,5 +17,12 @@ public enum ErrorCode {
     ErrorCode(String code, String message) {
         this.code = code;
         this.message = message;
+    }
+
+    public String convertMessage(@NotNull String message) {
+        if (message.isEmpty()) {
+            return this.getMessage();
+        }
+        return String.format("%s : %s", this.getMessage(), message);
     }
 }
