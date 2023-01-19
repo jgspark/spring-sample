@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * 담보 레파지토리
+ */
 @Repository
 public interface WarrantRepository extends JpaRepository<Warrant, Long> {
     Set<Warrant> findByIdIn(Collection<Long> ids);

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * 상품 레파지토리
+ */
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 

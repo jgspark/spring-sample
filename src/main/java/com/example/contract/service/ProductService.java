@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * 상품 서비스
+ */
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -25,6 +28,13 @@ public class ProductService {
 
     private final WarrantRepository warrantRepository;
 
+    /**
+     * 상품 생성 메소드
+     *
+     * @param dto 상품 생성을 위한 데이터를 가지고 있습니다. {@link ProductSaveRequest}
+     * @return 상품
+     * @throws DataNotFoundException 담보 데이터가 없으면 발생이 됩니다.
+     */
     @NotNull
     @Transactional
     public Product created(@NotNull ProductSaveRequest dto) {
@@ -38,6 +48,17 @@ public class ProductService {
         return productRepository.save(dto.toEntity(warrants));
     }
 
+    /**
+     * 예상 보험료를 계산하는 메소드 입니다.
+     * <p>
+     * 담보 데이터가 없다면, 전체 담보를 계산을 하게 됩니다.
+     * <p>
+     * 하지만 담보 데이터가 있다면 해당하는 담보를 조회를 합니다.
+     *
+     * @param id         상품 아이디
+     * @param warrantIds 담보 데이터
+     * @return 예상 보험료 데이터
+     */
     @NotNull
     @Transactional(readOnly = true)
     public Optional<EstimatedPremium> getEstimatedPremium(@NotNull Long id, @NotNull List<Long> warrantIds) {

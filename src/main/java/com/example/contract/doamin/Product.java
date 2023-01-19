@@ -43,6 +43,15 @@ public class Product {
         term.checkTerm();
     }
 
+    /**
+     * 총 보험료를 계산을 하는 메소드 입니다.
+     * <p>
+     * 소숫점 2자리에서 절사가 됩니다.
+     *
+     * @return 총 보험료
+     * @throws DataNotFoundException    담보 데이터가 매핑이 되어 있지 않거나 혹은 없다면 예외
+     * @throws IllegalArgumentException 계약 기간이 null 이면 예외
+     */
     @Transient
     public BigDecimal calculatePremium() {
 
@@ -54,9 +63,7 @@ public class Product {
 
         BigDecimal range = new BigDecimal(this.term.getRange());
 
-        return range
-                .multiply(warrants.stream().map(Warrant::getPremium).reduce(BigDecimal.ZERO, BigDecimal::add))
-                .setScale(2, RoundingMode.FLOOR);
+        return range.multiply(warrants.stream().map(Warrant::getPremium).reduce(BigDecimal.ZERO, BigDecimal::add)).setScale(2, RoundingMode.FLOOR);
     }
 
     @Builder(builderMethodName = "createBuilder")

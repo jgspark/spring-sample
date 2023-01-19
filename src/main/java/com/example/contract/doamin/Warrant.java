@@ -13,7 +13,7 @@ import java.math.RoundingMode;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * 담보 테이블
+ * 담보
  */
 @Getter
 @Entity
@@ -38,6 +38,18 @@ public class Warrant {
     @Column(nullable = false)
     private BigDecimal standardAmount;
 
+    /**
+     * 총 보험료 로직에 사용되는 계산 값 메소드 입니다.
+     * <p>
+     * 나누기를 할 때 bigDecimal 를 사용을 하였는데 scale 를 설정을 안하면 예외가 발생이 되어서 추가하였습니다.
+     * <p>
+     * 요건상 2자리 까지 소수점을 허용을 하지만 해당 조건은 총 보험료를 구한 메소드에 작성을 하였습니다.
+     * <p>
+     * 해당 5자리를 설정한 경우 정확한 계산값을 구하기 위해서 5자리로 설정을 하였습니다.
+     *
+     * @return 가입 급액 / 기준 금액
+     * @throws IllegalArgumentException 가입 금액 & 기준 금액이 null 이면 예외
+     */
     @Transient
     public BigDecimal getPremium() {
         notNull(subscriptionAmount);

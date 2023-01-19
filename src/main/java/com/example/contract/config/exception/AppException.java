@@ -3,9 +3,17 @@ package com.example.contract.config.exception;
 import com.example.contract.enums.ErrorCode;
 import lombok.Getter;
 
+/**
+ * 어플리케이션 공통 예외 클래스
+ *
+ * @see DataNotFoundException
+ */
 @Getter
 public class AppException extends RuntimeException {
 
+    /**
+     * 에러 코드
+     */
     private ErrorCode errorCode;
 
     public AppException() {
