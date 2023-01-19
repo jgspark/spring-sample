@@ -10,6 +10,7 @@ import com.example.contract.repository.ProductRepository;
 import com.example.contract.web.dto.ContractDetail;
 import com.example.contract.web.dto.ContractSaveRequest;
 import com.example.contract.web.dto.ContractUpdateRequest;
+import com.example.contract.web.dto.WarrantInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -118,7 +119,7 @@ class ContractServiceTest {
 
         entity.getWarrants().forEach(w -> {
 
-            ContractDetail.WarrantInfo findMock = mock.getWarrants().stream().filter(m -> m.getId().equals(w.getId())).findFirst().orElseThrow(RuntimeException::new);
+            WarrantInfo findMock = mock.getWarrants().stream().filter(m -> m.getId().equals(w.getId())).findFirst().orElseThrow(RuntimeException::new);
 
             assertEquals(w.getTitle(), findMock.getTitle());
             assertEquals(w.getSubscriptionAmount(), findMock.getSubscriptionAmount());

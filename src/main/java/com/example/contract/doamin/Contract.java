@@ -91,7 +91,6 @@ public class Contract {
         this.premium = premium;
     }
 
-
     @Transient
     private boolean isEmptyTerm() {
         return ObjectUtils.isEmpty(this.term) || this.term == 0;

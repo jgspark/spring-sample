@@ -10,6 +10,7 @@ import com.example.contract.web.dto.ContractDetail;
 import com.example.contract.web.dto.ContractSaveRequest;
 import com.example.contract.web.dto.ContractUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ public class ContractService {
 
     private final ProductRepository productRepository;
 
+    @NotNull
     @Transactional
     public Contract created(ContractSaveRequest dto) {
 
@@ -38,13 +40,15 @@ public class ContractService {
         return entity;
     }
 
+    @NotNull
     @Transactional(readOnly = true)
-    public Optional<ContractDetail> getOne(Long id) {
+    public Optional<ContractDetail> getOne(@NotNull Long id) {
         return contractRepository.findById(id, ContractDetail.class);
     }
 
+    @NotNull
     @Transactional
-    public Contract update(Long id, ContractUpdateRequest dto) {
+    public Contract update(@NotNull Long id, @NotNull ContractUpdateRequest dto) {
 
         Contract contract = contractRepository.findById(id).orElseThrow(() -> new DataNotFoundException("Contract Id is " + id));
 

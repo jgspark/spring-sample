@@ -26,25 +26,4 @@ public interface ContractDetail {
 
     @Value("#{target.warrants}")
     Set<WarrantInfo> getWarrants();
-
-    interface ProductInfo {
-
-        Long getId();
-
-        String getTitle();
-
-        @Value("#{target.term.getRange()}")
-        Integer getRange();
-    }
-
-    interface WarrantInfo {
-
-        Long getId();
-
-        String getTitle();
-
-        BigDecimal getSubscriptionAmount();
-
-        BigDecimal getStandardAmount();
-    }
 }

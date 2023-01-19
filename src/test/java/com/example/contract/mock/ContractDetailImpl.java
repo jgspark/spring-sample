@@ -5,6 +5,8 @@ import com.example.contract.doamin.Product;
 import com.example.contract.doamin.Warrant;
 import com.example.contract.enums.ContractState;
 import com.example.contract.web.dto.ContractDetail;
+import com.example.contract.web.dto.ProductInfo;
+import com.example.contract.web.dto.WarrantInfo;
 
 import java.math.BigDecimal;
 import java.util.Date;

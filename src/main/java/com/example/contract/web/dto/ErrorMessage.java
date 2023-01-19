@@ -1,4 +1,4 @@
-package com.example.contract.config.exception;
+package com.example.contract.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ErrorMessage {
-    private String code;
+    private final String code;
 
-    private String message;
+    private final String message;
 }
