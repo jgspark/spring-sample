@@ -1,0 +1,10 @@
+{
+  "title": "여행자보험",
+  "term": {
+    "startMonth": 1,
+    "endMonth": 10
+  },
+  "warrantIds": [
+    1
+  ]
+}

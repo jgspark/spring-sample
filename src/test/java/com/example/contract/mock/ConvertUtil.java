@@ -27,7 +27,7 @@ public class ConvertUtil {
     }
 
     public static Product convert(Product mock, Set<Warrant> warrants) {
-        return Product.createBuilder().title(mock.getTitle()).term(mock.getTerm()).warrants(warrants).build();
+        return Product.createBuilder().id(mock.getId()).title(mock.getTitle()).term(mock.getTerm()).warrants(warrants).build();
     }
 
     public static Contract convert(Contract contract, Product product, Warrant warrant) {
