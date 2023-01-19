@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("거래 데이터 컨트롤러 레이어")
+@DisplayName("거래 데이터 레이어")
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ContractControllerTest.class)
 class ContractControllerTest {
