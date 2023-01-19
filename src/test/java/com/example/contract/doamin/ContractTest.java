@@ -16,7 +16,7 @@ class ContractTest {
     @DisplayName("거래 데이터 변경이 될 때")
     public void update_ok() {
 
-        Contract mock = getMock();
+        Contract entity = getMock();
 
         Set<Warrant> warrants = new HashSet<>();
 
@@ -29,34 +29,34 @@ class ContractTest {
 
         BigDecimal premium = new BigDecimal(2000);
 
-        mock.update(warrants, term, state, premium);
+        entity.update(warrants, term, state, premium);
 
-        assertEquals(warrants, mock.getWarrants());
-        assertEquals(term, mock.getTerm());
-        assertEquals(state, mock.getState());
-        assertEquals(premium.compareTo(mock.getPremium()), 0);
+        assertEquals( entity.getWarrants() , warrants);
+        assertEquals( entity.getTerm() , term);
+        assertEquals( entity.getState() , state);
+        assertEquals(premium.compareTo(entity.getPremium()), 0);
     }
 
     @Test
     @DisplayName("거래의 상태기 기간 만료 일 때")
     public void isExpiration_true_case() {
 
-        Contract mock = getMock();
+        Contract entity = getMock();
 
-        mock.update(new HashSet<>(), 1, ContractState.EXPIRATION, BigDecimal.ONE);
+        entity.update(new HashSet<>(), 1, ContractState.EXPIRATION, BigDecimal.ONE);
 
-        assertTrue(mock.isExpiration());
+        assertTrue(entity.isExpiration());
     }
 
     @Test
     @DisplayName("거래의 상태기 기간 만료 가 아닐때")
     public void isExpiration_false_case() {
 
-        Contract mock = getMock();
+        Contract entity = getMock();
 
-        mock.update(new HashSet<>(), 1, ContractState.NORMAL, BigDecimal.ONE);
+        entity.update(new HashSet<>(), 1, ContractState.NORMAL, BigDecimal.ONE);
 
-        assertFalse(mock.isExpiration());
+        assertFalse(entity.isExpiration());
     }
 
     private Contract getMock() {

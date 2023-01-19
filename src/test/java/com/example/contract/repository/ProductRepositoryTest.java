@@ -54,8 +54,8 @@ class ProductRepositoryTest {
         productRepository.flush();
 
         assertNotNull(entity.getId());
-        assertEquals(mock.getTitle(), entity.getTitle());
-        assertEquals(mock.getTerm(), entity.getTerm());
+        assertEquals(entity.getTitle(), mock.getTitle());
+        assertEquals(entity.getTerm(), mock.getTerm());
         assertEquals(entity.getWarrants(), mock.getWarrants());
     }
 

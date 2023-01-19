@@ -65,8 +65,8 @@ class ProductServiceTest {
         then(warrantRepository).should().findByIdIn(any());
         then(productRepository).should().save(any());
 
-        assertEquals(mock.getTitle(), entity.getTitle());
-        assertEquals(mock.getTerm(), entity.getTerm());
+        assertEquals(entity.getTitle(), mock.getTitle());
+        assertEquals(entity.getTerm(), mock.getTerm());
         assertEquals(entity.getWarrants(), mock.getWarrants());
     }
 
