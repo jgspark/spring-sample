@@ -1,12 +1,5 @@
 # 계약 관리 시스템
 
-## 목차
-
-* [ERD 다이어그램](https://github.com/kakao-insurance-quiz/20230114-pjg#erd-다이어그램)
-* [API 정의](https://github.com/kakao-insurance-quiz/20230114-pjg#api-정의)
-* [실행 방법 및 테스트 실행 방법 ](https://github.com/kakao-insurance-quiz/20230114-pjg#실행-방법-및-테스트-실행-방법)
-* [고민 포인트 및 생각 & 해결 방법](https://github.com/kakao-insurance-quiz/20230114-pjg#고민-포인트-및-생각--해결-방법)
-
 ## ERD 다이어그램
 
 ![diagram.png](post%2Fdiagram.png)
