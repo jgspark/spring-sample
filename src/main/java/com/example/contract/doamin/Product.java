@@ -35,7 +35,7 @@ public class Product {
     @Comment("계약 기간 (M)")
     private ProductTerm term;
 
-    @OneToMany
+    @ManyToMany
     private Set<Warrant> warrants = new HashSet<>();
 
     @PrePersist
@@ -63,7 +63,8 @@ public class Product {
 
         BigDecimal range = new BigDecimal(this.term.getRange());
 
-        return range.multiply(warrants.stream().map(Warrant::getPremium).reduce(BigDecimal.ZERO, BigDecimal::add)).setScale(2, RoundingMode.FLOOR);
+        return range.multiply(warrants.stream().map(Warrant::getPremium).reduce(BigDecimal.ZERO, BigDecimal::add)).setScale(2,
+                                                                                                                            RoundingMode.FLOOR);
     }
 
     @Builder(builderMethodName = "createBuilder")
