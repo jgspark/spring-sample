@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 /**
- * 결제 서비스
+ *  거래 서비스
  */
 @Service
 @RequiredArgsConstructor
@@ -29,10 +29,10 @@ public class ContractService {
     private final ProductRepository productRepository;
 
     /**
-     * 결제 생성 메소드
+     *  거래 생성 메소드
      *
-     * @param dto 결제 생성에 필요한 데이터를 가지고 있습니다. {@link ContractSaveRequest}
-     * @return 결제 데이터
+     * @param dto  거래 생성에 필요한 데이터를 가지고 있습니다. {@link ContractSaveRequest}
+     * @return  거래 데이터
      * @throws DataNotFoundException 상품 데이터가 없으면 예외
      */
     @NotNull
@@ -52,10 +52,10 @@ public class ContractService {
     }
 
     /**
-     * 결제 상세 조회
+     *  거래 상세 조회
      *
-     * @param id 결제 아이디
-     * @return 결제 상세 데이터를 반환 해줍니다.
+     * @param id  거래 아이디
+     * @return  거래 상세 데이터를 반환 해줍니다.
      */
     @NotNull
     @Transactional(readOnly = true)
@@ -64,13 +64,13 @@ public class ContractService {
     }
 
     /**
-     * 결제 수정 메소드
+     *  거래 수정 메소드
      *
-     * @param id  결제 아이디
-     * @param dto 결제 변경 데이터를 담고 있습니다. {@link ContractUpdateRequest}
-     * @return 수정된 결제 데이터
+     * @param id   거래 아이디
+     * @param dto  거래 변경 데이터를 담고 있습니다. {@link ContractUpdateRequest}
+     * @return 수정된  거래 데이터
      * @throws AppException          기간 만료 상태라면 업데이터 할 수 없기에 예외
-     * @throws DataNotFoundException 결제 데이터 과 상품데이터  없으면 예외
+     * @throws DataNotFoundException  거래 데이터 과 상품데이터  없으면 예외
      */
     @NotNull
     @Transactional

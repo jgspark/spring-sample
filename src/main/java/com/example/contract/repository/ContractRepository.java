@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * 결제 레파지토리
+ *  거래 레파지토리
  */
 @Repository
 public interface ContractRepository extends JpaRepository<Contract, Long> {

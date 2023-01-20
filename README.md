@@ -1,23 +1,17 @@
-<<<<<<< HEAD
 # 계약 관리 시스템
-=======
-
-# 거래 시스템
-
-> > > > > > > 014d1c5df3997251fc2c3383408220d3db092c2b
 
 ## 목차
 
-* [RD 다이어그램](ERD-다이어그램)
-* [API 정의](API-정의)
-* [실행 방법 및 테스트 실행 방법 ](실행-방법-및-테스트-실행-방법)
-* [고민 포인트 및 생각 & 해결 방법](고민-포인트-및-생각-&-해결-방법)
+* [ERD 다이어그램](https://github.com/kakao-insurance-quiz/20230114-pjg#erd-다이어그램)
+* [API 정의](https://github.com/kakao-insurance-quiz/20230114-pjg#api-정의)
+* [실행 방법 및 테스트 실행 방법 ](https://github.com/kakao-insurance-quiz/20230114-pjg#실행-방법-및-테스트-실행-방법)
+* [고민 포인트 및 생각 & 해결 방법](https://github.com/kakao-insurance-quiz/20230114-pjg#고민-포인트-및-생각--해결-방법)
 
 ## ERD 다이어그램
 
 ![diagram.png](post%2Fdiagram.png)
 
-### 계약 테이블 (CONTRACT)
+### 1. 계약 테이블 (CONTRACT)
 
 | 컬럼명        | 타입            | 값                            | 코멘트    | 비고                                                      |
 |------------|---------------|------------------------------|--------|---------------------------------------------------------|
@@ -29,14 +23,14 @@
 | PREMIUM    | decimal(19,2) | 100000                       | 총 보험료  |                                                         |
 | PRODUCT_ID | bigint        | number                       | 상품 외래키 | PRODUCT TABLE FK                                        |
 
-### 계약 담보 매핑 테이블 (CONTRACT_WARRANTS)
+### 2. 계약 담보 매핑 테이블 (CONTRACT_WARRANTS)
 
 | 컬럼명         | 타입     | 값      | 코멘트   | 비고  |
 |-------------|--------|--------|-------|-----|
 | CONTRACT_ID | bigint | number | 계약 PK |     |
 | WARRANTS_ID | bigint | number | 담보 PK |     |
 
-### 담보 테이블 (WARRANT)
+### 3. 담보 테이블 (WARRANT)
 
 | 컬럼명                 | 타입            | 값        | 코멘트   | 비고  |
 |---------------------|---------------|----------|-------|-----|
@@ -45,7 +39,7 @@
 | SUBSCRIPTION_AMOUNT | decimal(19,2) | 10000000 | 가입 금액 |     |
 | STANDARD_AMOUNT     | decimal(19,2) | 100      | 기준 금액 |     |
 
-### 상품 테이블 (PRODUCT)
+### 4. 상품 테이블 (PRODUCT)
 
 | 컬럼명         | 타입           | 값        | 코멘트      | 비고  |
 |-------------|--------------|----------|----------|-----|
@@ -54,7 +48,7 @@
 | START_MONTH | integer      | 10000000 | 시작 계약 기간 |     |
 | END_MONTH   | integer      | 100      | 끝 계약 기간  |     |
 
-### 상품 담보 매핑 테이블 (PRODUCT_WARRANTS)
+### 5. 상품 담보 매핑 테이블 (PRODUCT_WARRANTS)
 
 | 컬럼명         | 타입     | 값      | 코멘트   | 비고  |
 |-------------|--------|--------|-------|-----|
@@ -63,7 +57,7 @@
 
 ## API 정의
 
-### 1. 결제 생성 API
+### 1.  거래 생성 API
 
 **Request**
 
@@ -330,6 +324,10 @@ HTTP/1.1 201
 ```
 
 ![gradle_test.png](post%2Fgradle_test.png)
+
+**참고용 Postman**
+
+[Postman Path](https://github.com/kakao-insurance-quiz/20230114-pjg/tree/main/postman)
 
 ## 고민 포인트 및 생각 & 해결 방법
 

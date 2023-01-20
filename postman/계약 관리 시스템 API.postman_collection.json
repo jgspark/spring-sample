@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "a7210d1f-fe48-4d1f-a936-2165d0c576a8",
+		"name": "계약 관리 시스템 API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10050245"
+	},
+	"item": [
+		{
+			"name": "거래 데이터 저장 API",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\" : 1 ,\n    \"warrantIds\" : [ 1 ] ,\n    \"term\" : 2,\n    \"startDate\"  : \"2022-12-01\",\n    \"endDate\" : \"2022-12-30\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/contract",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"contract"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "거래 데이터 조회 API",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/contracts/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"contracts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "예상 총 보험료 API",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/products/2/premium?warrantIds=2,3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products",
+						"2",
+						"premium"
+					],
+					"query": [
+						{
+							"key": "warrantIds",
+							"value": "2,3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "상품 생성 API",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\" : \"여행자보험\",\n    \"term\" : {\n        \"startMonth\" : 1,\n        \"endMonth\" : 10\n    },\n    \"warrantIds\" : [\n        1\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "담보 생성 API",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\" : \"상해치료\",\n    \"subscriptionAmount\" : 1000000,\n    \"standardAmount\" : 100\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/warrant",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"warrant"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "거래 내역 수정 API",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"warrantIds\" : [1 , 2] ,\n    \"term\" : 10,\n    \"state\" : \"WITHDRAWAL\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/contracts/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"contracts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
