@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ContractTest {
 
     @Test
-    @DisplayName("거래 데이터 변경이 될 때")
+    @DisplayName("계약 데이터 변경이 될 때")
     public void update_ok() {
 
         Contract entity = getMock();
@@ -38,7 +38,7 @@ class ContractTest {
     }
 
     @Test
-    @DisplayName("거래의 상태기 기간 만료 일 때")
+    @DisplayName("계약의 상태기 기간 만료 일 때")
     public void isExpiration_true_case() {
 
         Contract entity = getMock();
@@ -49,7 +49,7 @@ class ContractTest {
     }
 
     @Test
-    @DisplayName("거래의 상태기 기간 만료 가 아닐때")
+    @DisplayName("계약의 상태기 기간 만료 가 아닐때")
     public void isExpiration_false_case() {
 
         Contract entity = getMock();

@@ -18,7 +18,7 @@ import static com.example.contract.mock.ConvertUtil.*;
 import static com.example.contract.mock.MockUtil.readJson;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("거래 레파지토리 테스트 케이스")
+@DisplayName("계약 레파지토리 테스트 케이스")
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
 class ContractRepositoryTest {
