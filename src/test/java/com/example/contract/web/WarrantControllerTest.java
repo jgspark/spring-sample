@@ -6,6 +6,7 @@ import com.example.contract.service.WarrantService;
 import com.example.contract.web.dto.WarrantSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("담보 컨틀롤러 레이어")
+@DisplayName("담보 컨틀롤러 레이어 에서")
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(WarrantController.class)
 class WarrantControllerTest {
@@ -41,40 +42,30 @@ class WarrantControllerTest {
 
     @BeforeEach
     public void init() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new WarrantController(warrantService))
-                .setControllerAdvice(new AppErrorHandler())
-                .addFilter(new CharacterEncodingFilter("UTF-8", true))
-                .build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new WarrantController(warrantService)).setControllerAdvice(new AppErrorHandler()).addFilter(new CharacterEncodingFilter("UTF-8", true)).build();
     }
 
-    @Test
-    @DisplayName("담보 생성 API 테스트 케이스")
-    public void write_ok() throws Exception {
+    @Nested
+    @DisplayName("생성 API 는")
+    class CreatedAPI {
 
-        Warrant mock = readJson("json/warrant/web/save_ok.json", Warrant.class);
+        @Test
+        @DisplayName("성공적으로 수행을 하게 됩니다.")
+        public void write_ok() throws Exception {
 
-        given(warrantService.created(any())).willReturn(mock);
+            Warrant mock = readJson("json/warrant/web/save_ok.json", Warrant.class);
 
-        String uri = "/warrant";
+            given(warrantService.created(any())).willReturn(mock);
 
-        WarrantSaveRequest dto = readJson("json/warrant/web/warrant_save_request.json", WarrantSaveRequest.class);
+            String uri = "/warrant";
 
-        ResultActions action = mockMvc.perform(
-                        post(uri)
-                                .content(asJsonString(dto))
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print());
+            WarrantSaveRequest dto = readJson("json/warrant/web/warrant_save_request.json", WarrantSaveRequest.class);
 
-        then(warrantService).should().created(any());
+            ResultActions action = mockMvc.perform(post(uri).content(asJsonString(dto)).contentType(MediaType.APPLICATION_JSON)).andDo(print());
 
-        action.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(mock.getId()))
-                .andExpect(jsonPath("$.title").value(mock.getTitle()))
-                .andExpect(jsonPath("$.subscriptionAmount").value(mock.getSubscriptionAmount()))
-                .andExpect(jsonPath("$.standardAmount").value(mock.getStandardAmount()))
-        ;
+            then(warrantService).should().created(any());
+
+            action.andExpect(status().isCreated()).andExpect(jsonPath("$.id").value(mock.getId())).andExpect(jsonPath("$.title").value(mock.getTitle())).andExpect(jsonPath("$.subscriptionAmount").value(mock.getSubscriptionAmount())).andExpect(jsonPath("$.standardAmount").value(mock.getStandardAmount()));
+        }
     }
-
-
 }

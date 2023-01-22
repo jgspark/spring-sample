@@ -2,6 +2,7 @@ package com.example.contract.doamin;
 
 import com.example.contract.enums.ContractState;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -10,53 +11,66 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("계약 테이블 에서")
 class ContractTest {
 
-    @Test
-    @DisplayName("계약 데이터 변경이 될 때")
-    public void update_ok() {
+    @Nested
+    @DisplayName("업데이트 메소드 은")
+    class UpdateMethod {
 
-        Contract entity = getMock();
+        @Test
+        @DisplayName("성공적으로 데이터를 변경할 수 있다.")
+        public void update_ok() {
 
-        Set<Warrant> warrants = new HashSet<>();
+            Contract entity = getMock();
 
-        warrants.add(Warrant.createBuilder().title("더미 데이터 1").build());
-        warrants.add(Warrant.createBuilder().title("더미 데이터 2").build());
+            Set<Warrant> warrants = new HashSet<>();
 
-        Integer term = 1;
+            warrants.add(Warrant.createBuilder().title("더미 데이터 1").build());
+            warrants.add(Warrant.createBuilder().title("더미 데이터 2").build());
 
-        ContractState state = ContractState.WITHDRAWAL;
+            Integer term = 1;
 
-        BigDecimal premium = new BigDecimal(2000);
+            ContractState state = ContractState.WITHDRAWAL;
 
-        entity.update(warrants, term, state, premium);
+            BigDecimal premium = new BigDecimal(2000);
 
-        assertEquals( entity.getWarrants() , warrants);
-        assertEquals( entity.getTerm() , term);
-        assertEquals( entity.getState() , state);
-        assertEquals(premium.compareTo(entity.getPremium()), 0);
+            entity.update(warrants, term, state, premium);
+
+            assertEquals(entity.getWarrants(), warrants);
+            assertEquals(entity.getTerm(), term);
+            assertEquals(entity.getState(), state);
+            assertEquals(premium.compareTo(entity.getPremium()), 0);
+        }
+
     }
 
-    @Test
-    @DisplayName("계약의 상태기 기간 만료 일 때")
-    public void isExpiration_true_case() {
+    @Nested
+    @DisplayName("기간 만료 체크 로직이")
+    class IsExpirationMethod {
 
-        Contract entity = getMock();
+        @Test
+        @DisplayName("성공 할 때는 데이터가 기간만료라면 true를 리턴 한다.")
+        public void isExpiration_true_case() {
 
-        entity.update(new HashSet<>(), 1, ContractState.EXPIRATION, BigDecimal.ONE);
+            Contract entity = getMock();
 
-        assertTrue(entity.isExpiration());
-    }
+            entity.update(new HashSet<>(), 1, ContractState.EXPIRATION, BigDecimal.ONE);
 
-    @Test
-    @DisplayName("계약의 상태기 기간 만료 가 아닐때")
-    public void isExpiration_false_case() {
+            assertTrue(entity.isExpiration());
+        }
 
-        Contract entity = getMock();
+        @Test
+        @DisplayName("성공 할 때는 데이터가 기간만료가 아니라면 false 리턴을 한다.")
+        public void isExpiration_false_case() {
 
-        entity.update(new HashSet<>(), 1, ContractState.NORMAL, BigDecimal.ONE);
+            Contract entity = getMock();
 
-        assertFalse(entity.isExpiration());
+            entity.update(new HashSet<>(), 1, ContractState.NORMAL, BigDecimal.ONE);
+
+            assertFalse(entity.isExpiration());
+        }
+
     }
 
     private Contract getMock() {

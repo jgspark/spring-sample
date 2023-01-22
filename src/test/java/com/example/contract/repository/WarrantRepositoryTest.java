@@ -13,7 +13,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("담보 레파지토리 테스트 케이스")
+@DisplayName("담보 레파지토리 에서")
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
 class WarrantRepositoryTest {
@@ -21,24 +21,28 @@ class WarrantRepositoryTest {
     @Autowired
     private WarrantRepository warrantRepository;
 
-    @Test
-    @Order(1)
-    @DisplayName("단보 저장 테스트 케이스")
-    public void save_ok() {
+    @Nested
+    @DisplayName("저장 로직 은")
+    class SaveMethod {
 
-        Warrant mock = MockUtil.readJson("json/warrant/repository/save_ok.json", Warrant.class);
+        @Test
+        @DisplayName("성공적으로 테스트 케이스가 실행이 된다.")
+        public void save_ok() {
 
-        Warrant entity = warrantRepository.save(mock);
+            Warrant mock = MockUtil.readJson("json/warrant/repository/save_ok.json", Warrant.class);
 
-        assertNotNull(entity.getId());
-        assertEquals(entity.getTitle(), mock.getTitle());
-        assertEquals(entity.getSubscriptionAmount(), mock.getSubscriptionAmount());
-        assertEquals(entity.getStandardAmount(), mock.getStandardAmount());
+            Warrant entity = warrantRepository.save(mock);
+
+            assertNotNull(entity.getId());
+            assertEquals(entity.getTitle(), mock.getTitle());
+            assertEquals(entity.getSubscriptionAmount(), mock.getSubscriptionAmount());
+            assertEquals(entity.getStandardAmount(), mock.getStandardAmount());
+        }
     }
 
     @Nested
-    @DisplayName("조회 테스트 케이스")
-    public class Select {
+    @DisplayName("담보 아이디들을 조회하는 로직 은")
+    public class FindByIdIn {
 
         private Warrant mock;
 
@@ -51,8 +55,7 @@ class WarrantRepositoryTest {
         }
 
         @Test
-        @Order(1)
-        @DisplayName("담보 아이디 별 in 절 조회")
+        @DisplayName("성공적으로 테스트 케이스를 실행을 하게 된다.")
         public void findByIdIn_ok() {
 
             Set<Warrant> entities = warrantRepository.findByIdIn(Collections.singletonList(mock.getId()));
@@ -63,6 +66,18 @@ class WarrantRepositoryTest {
                 assertEquals(entity.getSubscriptionAmount(), mock.getSubscriptionAmount());
                 assertEquals(entity.getStandardAmount(), mock.getStandardAmount());
             }
+        }
+
+        @Test
+        @DisplayName("없는 아이디 값을 조회를 하게 되면, empty list 를 반환을 하게 된다.")
+        public void findByIdIn_fail1() {
+
+            Long mockId = 100000L;
+
+            Set<Warrant> entities = warrantRepository.findByIdIn(Collections.singletonList(mockId));
+
+            assertNotNull(entities);
+            assertEquals(0, entities.size());
         }
     }
 }

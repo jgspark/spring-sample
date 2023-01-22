@@ -18,7 +18,7 @@ import static com.example.contract.mock.ConvertUtil.convertWarrant;
 import static com.example.contract.mock.MockUtil.readJson;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("상품 레파지토리 테스트 케이스")
+@DisplayName("상품 레파지토리 에서")
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
 class ProductRepositoryTest {
@@ -40,40 +40,46 @@ class ProductRepositoryTest {
         this.mockWarrant = warrantRepository.saveAndFlush(mock);
     }
 
-    @Test
-    @Order(1)
-    @DisplayName("상품 생성")
-    public void save_ok() {
+    @Nested
+    @DisplayName("저장 로직 은")
+    class SaveMethod {
 
-        Warrant findWarrant = warrantRepository.findById(mockWarrant.getId()).orElseThrow(RuntimeException::new);
+        @Test
+        @Order(1)
+        @DisplayName("성공적으로 실행이 된다.")
+        public void save_ok() {
 
-        Product mock = convert(readJson("json/product/repository/save_ok.json", Product.class), findWarrant);
+            Warrant findWarrant = warrantRepository.findById(mockWarrant.getId()).orElseThrow(RuntimeException::new);
 
-        Product entity = productRepository.save(mock);
+            Product mock = convert(readJson("json/product/repository/save_ok.json", Product.class), findWarrant);
 
-        productRepository.flush();
+            Product entity = productRepository.save(mock);
 
-        assertNotNull(entity.getId());
-        assertEquals(entity.getTitle(), mock.getTitle());
-        assertEquals(entity.getTerm(), mock.getTerm());
-        assertEquals(entity.getWarrants(), mock.getWarrants());
-    }
+            productRepository.flush();
 
-    @Test
-    @Order(2)
-    @DisplayName("계약 기간이 조건에 맞지 않는 케이스")
-    public void save_fail_case1() {
+            assertNotNull(entity.getId());
+            assertEquals(entity.getTitle(), mock.getTitle());
+            assertEquals(entity.getTerm(), mock.getTerm());
+            assertEquals(entity.getWarrants(), mock.getWarrants());
+        }
 
-        Product mock = readJson("json/product/repository/save_fail_case1.json", Product.class);
+        @Test
+        @Order(2)
+        @DisplayName("계약 기간이 조건에 맞지 않는다면, 예외가 발생이 된다.")
+        public void save_fail_case1() {
 
-        assertThrows(RuntimeException.class, () -> {
-            productRepository.save(mock);
-        });
+            Product mock = readJson("json/product/repository/save_fail_case1.json", Product.class);
+
+            assertThrows(RuntimeException.class, () -> {
+                productRepository.save(mock);
+            });
+        }
+
     }
 
     @Nested
-    @DisplayName("조회 테스트 케이스")
-    public class Select {
+    @DisplayName("조회 테스트 케이스 은")
+    class Select {
 
         private Product mock;
 
@@ -87,57 +93,63 @@ class ProductRepositoryTest {
             productRepository.flush();
         }
 
-        @Test
-        @Order(1)
-        @DisplayName("상품 아이디 와 담보 아이디 별 in 절 조회 성공 케이스")
-        public void findByIdAndWarrants_IdIn_ok() {
 
-            Product entity = productRepository.findByIdAndWarrants_IdIn(mock.getId(), Collections.singleton(mockWarrant.getId())).orElseThrow(RuntimeException::new);
+        @Nested
+        @DisplayName("상품 아이디 조회 메소드에서")
+        class FindByIdMethod {
 
-            assertEquals(entity.getId(), mock.getId());
-            assertEquals(entity.getTitle(), mock.getTitle());
-            assertEquals(entity.getTerm(), mock.getTerm());
-            assertEquals(entity.getWarrants(), mock.getWarrants());
+            @Test
+            @DisplayName("성공적으로 테스트가 실행이 된다.")
+            public void findById_ok() {
+
+                EstimatedPremium entity = productRepository.findById(mock.getId(), EstimatedPremium.class).orElseThrow(RuntimeException::new);
+
+                assertEquals(entity.getProductTitle(), mock.getTitle());
+                assertEquals(entity.getTerm(), mock.getTerm().getRange());
+                assertEquals(entity.getPremium(), mock.calculatePremium());
+            }
         }
 
-        @Test
-        @Order(2)
-        @DisplayName("상품 아이디 와 담보 아이디 별 in 절 조회 실패 케이스")
-        public void findByIdAndWarrants_IdIn_fail1() {
+        @Nested
+        @DisplayName("상품 아이디 그리고 담보 아이디들 조회 메소드 에서")
+        class FindByIdAndWarrantsIdInMethod {
 
-            Long mockId = 10000000L;
+            @Test
+            @DisplayName("성공 적으로 테스트 케이스가 실행이 된다.")
+            public void findByIdAndWarrants_IdIn_ok() {
 
-            assertThrows(RuntimeException.class, () -> {
-                productRepository.findByIdAndWarrants_IdIn(mockId, Collections.singleton(mockWarrant.getId())).orElseThrow(RuntimeException::new);
-            });
+                Product entity = productRepository.findByIdAndWarrants_IdIn(mock.getId(), Collections.singleton(mockWarrant.getId())).orElseThrow(RuntimeException::new);
 
+                assertEquals(entity.getId(), mock.getId());
+                assertEquals(entity.getTitle(), mock.getTitle());
+                assertEquals(entity.getTerm(), mock.getTerm());
+                assertEquals(entity.getWarrants(), mock.getWarrants());
+            }
+
+
+            @Test
+            @DisplayName("상품 아이디 와 담보 아이디 별 in 절 조회시 데이터가 비워있다면, 예외가 발생을 하게 된다.")
+            public void findByIdAndWarrants_IdIn_fail1() {
+
+                Long mockId = 10000000L;
+
+                assertThrows(RuntimeException.class, () -> {
+                    productRepository.findByIdAndWarrants_IdIn(mockId, Collections.singleton(mockWarrant.getId())).orElseThrow(RuntimeException::new);
+                });
+
+            }
+
+            @Test
+            @Order(4)
+            @DisplayName("JPA Projection 을 사용을 할경우 성공 한다.")
+            public void findByIdAndWarrants_IdIn_ok_projections() {
+
+                EstimatedPremium entity = productRepository.findByIdAndWarrants_IdIn(mock.getId(), mock.getWarrants().stream().map(Warrant::getId).collect(Collectors.toSet()), EstimatedPremium.class).orElseThrow(RuntimeException::new);
+
+                assertEquals(entity.getProductTitle(), mock.getTitle());
+                assertEquals(entity.getTerm(), mock.getTerm().getRange());
+                assertEquals(entity.getPremium(), mock.calculatePremium());
+            }
         }
-
-        @Test
-        @Order(3)
-        @DisplayName("아이디 조회 성공 케이스")
-        public void findById_ok() {
-
-            EstimatedPremium entity = productRepository.findById(mock.getId(), EstimatedPremium.class)
-                    .orElseThrow(RuntimeException::new);
-
-            assertEquals(entity.getProductTitle(), mock.getTitle());
-            assertEquals(entity.getTerm(), mock.getTerm().getRange());
-            assertEquals(entity.getPremium(), mock.calculatePremium());
-        }
-
-        @Test
-        @Order(4)
-        @DisplayName("아이디 조회 및 담보 아이디 조회 성공 케이스")
-        public void findByIdAndWarrants_IdIn_ok_projections() {
-
-            EstimatedPremium entity = productRepository.findByIdAndWarrants_IdIn(mock.getId(), mock.getWarrants().stream().map(Warrant::getId).collect(Collectors.toSet()), EstimatedPremium.class)
-                    .orElseThrow(RuntimeException::new);
-
-            assertEquals(entity.getProductTitle(), mock.getTitle());
-            assertEquals(entity.getTerm(), mock.getTerm().getRange());
-            assertEquals(entity.getPremium(), mock.calculatePremium());
-        }
-
     }
 }

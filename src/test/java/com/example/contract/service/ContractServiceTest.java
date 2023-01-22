@@ -11,8 +11,10 @@ import com.example.contract.web.dto.ContractDetail;
 import com.example.contract.web.dto.ContractSaveRequest;
 import com.example.contract.web.dto.ContractUpdateRequest;
 import com.example.contract.web.dto.WarrantInfo;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -23,14 +25,13 @@ import java.util.Optional;
 
 import static com.example.contract.mock.ConvertUtil.*;
 import static com.example.contract.mock.MockUtil.readJson;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-@DisplayName("계약 서비스 레이어 테스트 케이스")
+@DisplayName("계약 서비스 레이어에서")
 @ExtendWith(MockitoExtension.class)
 class ContractServiceTest {
 
@@ -47,135 +48,169 @@ class ContractServiceTest {
         contractService = new ContractService(contractRepository, productRepository);
     }
 
-    @Test
-    @DisplayName("계약 저장 성공 케이스")
-    public void created_ok() {
+    @Nested
+    @DisplayName("저장 로직 은")
+    class CreatedMethod {
 
-        Map<String, Object> mockMap = readJson("json/contract/service/created_ok.json", Map.class);
+        @Test
+        @DisplayName("성공적으로 테스트 케이스가 실행을 하게 된다.")
+        public void created_ok() {
 
-        Contract mock = convertContract((Map) mockMap.get("contract"));
+            Map<String, Object> mockMap = readJson("json/contract/service/created_ok.json", Map.class);
 
-        Warrant mockWarrant = convertWarrant((Map) mockMap.get("warrant"));
+            Contract mock = convertContract((Map) mockMap.get("contract"));
 
-        Optional<Product> mockProductOptional = Optional.of(convert(convertProduct((Map) mockMap.get("product")), mockWarrant));
+            Warrant mockWarrant = convertWarrant((Map) mockMap.get("warrant"));
 
-        ContractSaveRequest dto = readJson("json/contract/service/contract_save_request.json", ContractSaveRequest.class);
+            Optional<Product> mockProductOptional = Optional.of(convert(convertProduct((Map) mockMap.get("product")), mockWarrant));
 
-        given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
+            ContractSaveRequest dto = readJson("json/contract/service/contract_save_request.json", ContractSaveRequest.class);
 
-        given(contractRepository.save(any())).willReturn(mock);
+            given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
 
-        Contract entity = contractService.created(dto);
+            given(contractRepository.save(any())).willReturn(mock);
 
-        then(productRepository).should().findByIdAndWarrants_IdIn(any(), any());
-        then(contractRepository).should().save(any());
+            Contract entity = contractService.created(dto);
 
-        assertEquals(entity.getId(), mock.getId());
-        assertEquals(entity.getTerm(), mock.getTerm());
-        assertEquals(entity.getStartDate(), mock.getStartDate());
-        assertEquals(entity.getEndDate(), mock.getEndDate());
-        assertEquals(entity.getPremium(), mock.getPremium());
-        assertEquals(entity.getProduct(), mock.getProduct());
-        assertEquals(entity.getWarrants(), mock.getWarrants());
+            then(productRepository).should().findByIdAndWarrants_IdIn(any(), any());
+            then(contractRepository).should().save(any());
+
+            assertEquals(entity.getId(), mock.getId());
+            assertEquals(entity.getTerm(), mock.getTerm());
+            assertEquals(entity.getStartDate(), mock.getStartDate());
+            assertEquals(entity.getEndDate(), mock.getEndDate());
+            assertEquals(entity.getPremium(), mock.getPremium());
+            assertEquals(entity.getProduct(), mock.getProduct());
+            assertEquals(entity.getWarrants(), mock.getWarrants());
+        }
+
+        @Test
+        @DisplayName("상품 조회시 상품 데이터가 없으면, 예외가 발생을 하게 된다.")
+        public void created_fail1() {
+
+            ContractSaveRequest dto = readJson("json/contract/service/contract_save_request.json", ContractSaveRequest.class);
+
+            given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(Optional.empty());
+
+            assertThrows(RuntimeException.class, () -> {
+                contractService.created(dto);
+            });
+        }
     }
 
-    @Test
-    @DisplayName("계약 저장 상품 혹은 담보가 없을 경우 실패 케이스")
-    public void created_fail1() {
+    @Nested
+    @DisplayName("계약 단일 조회 로직 은")
+    class GetOneMethod {
+        @Test
+        @DisplayName("성공적으로 데이터를 조회하게 된다.")
+        public void getOne_ok() {
 
-        ContractSaveRequest dto = readJson("json/contract/service/contract_save_request.json", ContractSaveRequest.class);
+            long mockId = 1L;
 
-        given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(Optional.empty());
+            Optional<ContractDetail> mockOptional = Optional.of(new ContractDetailImpl(readJson("json/contract/service/getOne_ok.json", Contract.class)));
 
-        assertThrows(RuntimeException.class, () -> {
-            contractService.created(dto);
-        });
+            given(contractRepository.findById(any(), eq(ContractDetail.class))).willReturn(mockOptional);
+
+            ContractDetail entity = contractService.getOne(mockId).orElseThrow(RuntimeException::new);
+
+            then(contractRepository).should().findById(any(), eq(ContractDetail.class));
+
+            ContractDetail mock = mockOptional.get();
+
+            assertEquals(entity.getId(), mock.getId());
+            assertEquals(entity.getTerm(), mock.getTerm());
+            assertEquals(entity.getStartDate(), mock.getStartDate());
+            assertEquals(entity.getEndDate(), mock.getEndDate());
+            assertEquals(entity.getPremium(), mock.getPremium());
+            assertEquals(entity.getProduct().getId(), mock.getProduct().getId());
+            assertEquals(entity.getProduct().getTitle(), mock.getProduct().getTitle());
+            assertEquals(entity.getProduct().getRange(), mock.getProduct().getRange());
+
+            entity.getWarrants().forEach(w -> {
+
+                WarrantInfo findMock = mock.getWarrants().stream().filter(m -> m.getId().equals(w.getId())).findFirst().orElseThrow(RuntimeException::new);
+
+                assertEquals(w.getTitle(), findMock.getTitle());
+                assertEquals(w.getSubscriptionAmount(), findMock.getSubscriptionAmount());
+                assertEquals(w.getStandardAmount(), findMock.getStandardAmount());
+            });
+        }
+
+        @Test
+        @DisplayName("조회 되지 않는 데이터를 반환을 하게 되면, isPresent 메소드는 false 를 반환을 하게 된다.")
+        public void getOne_fail1() {
+
+            long mockId = 1L;
+
+            Optional<ContractDetail> mockOptional = Optional.empty();
+
+            given(contractRepository.findById(any(), eq(ContractDetail.class))).willReturn(mockOptional);
+
+            @NotNull Optional<ContractDetail> entity = contractService.getOne(mockId);
+
+            then(contractRepository).should().findById(any(), eq(ContractDetail.class));
+
+            assertFalse(entity.isPresent());
+        }
+
     }
 
-    @Test
-    @DisplayName("계약 상세 조회 테스트 케이스")
-    public void getOne_ok() {
+    @Nested
+    @DisplayName("업데이트 로직 은")
+    class UpdateMethod {
 
-        long mockId = 1L;
+        @Test
+        @DisplayName("성공 적으로 테스트 케이스를 작성을 하게 된다.")
+        public void update_ok() {
 
-        Optional<ContractDetail> mockOptional = Optional.of(new ContractDetailImpl(readJson("json/contract/service/getOne_ok.json", Contract.class)));
+            Long id = 1L;
 
-        given(contractRepository.findById(any(), eq(ContractDetail.class))).willReturn(mockOptional);
+            Map<String, Object> mockMap = readJson("json/contract/service/update_ok.json", Map.class);
 
-        ContractDetail entity = contractService.getOne(mockId).orElseThrow(RuntimeException::new);
+            Optional<Contract> mockOptional = Optional.of(convertContract((Map) mockMap.get("contract")));
 
-        then(contractRepository).should().findById(any(), eq(ContractDetail.class));
+            Warrant mockWarrant = convertWarrant((Map) mockMap.get("warrant"));
 
-        ContractDetail mock = mockOptional.get();
+            Optional<Product> mockProductOptional = Optional.of(convert(convertProduct((Map) mockMap.get("product")), mockWarrant));
 
-        assertEquals(entity.getId(), mock.getId());
-        assertEquals(entity.getTerm(), mock.getTerm());
-        assertEquals(entity.getStartDate(), mock.getStartDate());
-        assertEquals(entity.getEndDate(), mock.getEndDate());
-        assertEquals(entity.getPremium(), mock.getPremium());
-        assertEquals(entity.getProduct().getId(), mock.getProduct().getId());
-        assertEquals(entity.getProduct().getTitle(), mock.getProduct().getTitle());
-        assertEquals(entity.getProduct().getRange(), mock.getProduct().getRange());
+            given(contractRepository.findById(any())).willReturn(mockOptional);
 
-        entity.getWarrants().forEach(w -> {
+            given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
 
-            WarrantInfo findMock = mock.getWarrants().stream().filter(m -> m.getId().equals(w.getId())).findFirst().orElseThrow(RuntimeException::new);
+            ContractUpdateRequest dto = readJson("json/contract/service/contract_update_request.json", ContractUpdateRequest.class);
 
-            assertEquals(w.getTitle(), findMock.getTitle());
-            assertEquals(w.getSubscriptionAmount(), findMock.getSubscriptionAmount());
-            assertEquals(w.getStandardAmount(), findMock.getStandardAmount());
-        });
+            Contract entity = contractService.update(id, dto);
+
+            Contract mock = mockOptional.get();
+
+            assertEquals(entity.getId(), mock.getId());
+            assertEquals(entity.getTerm(), mock.getTerm());
+            assertEquals(entity.getStartDate(), mock.getStartDate());
+            assertEquals(entity.getEndDate(), mock.getEndDate());
+            assertEquals(entity.getPremium(), mock.getPremium());
+            assertEquals(entity.getProduct(), mock.getProduct());
+            assertEquals(entity.getWarrants(), mock.getWarrants());
+        }
+
+        @Test
+        @DisplayName("계약 데이터가 없다면, AppException이 발생이 되게 된다.")
+        public void update_fail1() {
+
+            Long id = 1L;
+
+            Map<String, Object> mockMap = readJson("json/contract/service/update_ok.json", Map.class);
+
+            Optional<Contract> mockOptional = Optional.of(convertContractByUpdate((Map) mockMap.get("contract")));
+
+            given(contractRepository.findById(any())).willReturn(mockOptional);
+
+            ContractUpdateRequest dto = readJson("json/contract/service/contract_update_request.json", ContractUpdateRequest.class);
+
+            assertThrows(AppException.class, () -> {
+                contractService.update(id, dto);
+            });
+        }
     }
 
-    @Test
-    @DisplayName("업데이트 성공 케이스")
-    public void update_ok() {
 
-        Long id = 1L;
-
-        Map<String, Object> mockMap = readJson("json/contract/service/update_ok.json", Map.class);
-
-        Optional<Contract> mockOptional = Optional.of(convertContract((Map) mockMap.get("contract")));
-
-        Warrant mockWarrant = convertWarrant((Map) mockMap.get("warrant"));
-
-        Optional<Product> mockProductOptional = Optional.of(convert(convertProduct((Map) mockMap.get("product")), mockWarrant));
-
-        given(contractRepository.findById(any())).willReturn(mockOptional);
-
-        given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
-
-        ContractUpdateRequest dto = readJson("json/contract/service/contract_update_request.json", ContractUpdateRequest.class);
-
-        Contract entity = contractService.update(id, dto);
-
-        Contract mock = mockOptional.get();
-
-        assertEquals(entity.getId(), mock.getId());
-        assertEquals(entity.getTerm(), mock.getTerm());
-        assertEquals(entity.getStartDate(), mock.getStartDate());
-        assertEquals(entity.getEndDate(), mock.getEndDate());
-        assertEquals(entity.getPremium(), mock.getPremium());
-        assertEquals(entity.getProduct(), mock.getProduct());
-        assertEquals(entity.getWarrants(), mock.getWarrants());
-    }
-
-    @Test
-    @DisplayName("업데이트 실패 케이스")
-    public void update_fail1() {
-
-        Long id = 1L;
-
-        Map<String, Object> mockMap = readJson("json/contract/service/update_ok.json", Map.class);
-
-        Optional<Contract> mockOptional = Optional.of(convertContractByUpdate((Map) mockMap.get("contract")));
-
-        given(contractRepository.findById(any())).willReturn(mockOptional);
-
-        ContractUpdateRequest dto = readJson("json/contract/service/contract_update_request.json", ContractUpdateRequest.class);
-
-        assertThrows(AppException.class, () -> {
-            contractService.update(id, dto);
-        });
-    }
 }

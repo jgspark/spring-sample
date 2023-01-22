@@ -10,6 +10,7 @@ import com.example.contract.web.dto.EstimatedPremium;
 import com.example.contract.web.dto.ProductSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -27,7 +28,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-@DisplayName("상품 서비스 레이어 테스트 케이스")
+@DisplayName("상품 서비스 레이어 에서")
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
 
@@ -44,96 +45,107 @@ class ProductServiceTest {
         productService = new ProductService(productRepository, warrantRepository);
     }
 
-    @Test
-    @DisplayName("상품 성공 테스트 케이스")
-    public void created_ok() {
+    @Nested
+    @DisplayName("저장 로직 은")
+    class CreatedMethod {
 
-        Map map = readJson("json/product/service/created_ok.json", Map.class);
+        @Test
+        @DisplayName("성공적으로 저장을 하게 된다.")
+        public void created_ok() {
 
-        Set<Warrant> warrantSet = convert(map.get("warrant"));
+            Map map = readJson("json/product/service/created_ok.json", Map.class);
 
-        Product mock = convert(convertProduct((Map) map.get("product")), warrantSet);
+            Set<Warrant> warrantSet = convert(map.get("warrant"));
 
-        given(warrantRepository.findByIdIn(any())).willReturn(warrantSet);
+            Product mock = convert(convertProduct((Map) map.get("product")), warrantSet);
 
-        given(productRepository.save(any())).willReturn(mock);
+            given(warrantRepository.findByIdIn(any())).willReturn(warrantSet);
 
-        ProductSaveRequest dto = readJson("json/product/service/product_save_request.json", ProductSaveRequest.class);
+            given(productRepository.save(any())).willReturn(mock);
 
-        Product entity = productService.created(dto);
+            ProductSaveRequest dto = readJson("json/product/service/product_save_request.json", ProductSaveRequest.class);
 
-        then(warrantRepository).should().findByIdIn(any());
-        then(productRepository).should().save(any());
+            Product entity = productService.created(dto);
 
-        assertEquals(entity.getTitle(), mock.getTitle());
-        assertEquals(entity.getTerm(), mock.getTerm());
-        assertEquals(entity.getWarrants(), mock.getWarrants());
+            then(warrantRepository).should().findByIdIn(any());
+            then(productRepository).should().save(any());
+
+            assertEquals(entity.getTitle(), mock.getTitle());
+            assertEquals(entity.getTerm(), mock.getTerm());
+            assertEquals(entity.getWarrants(), mock.getWarrants());
+        }
+
+        @Test
+        @DisplayName("담보 데이터가 없다면, AppException 이 발생이 된다.")
+        public void created_fail1() {
+
+            given(warrantRepository.findByIdIn(any())).willReturn(new HashSet<>());
+
+            ProductSaveRequest dto = readJson("json/product/service/product_save_request.json", ProductSaveRequest.class);
+
+            assertThrows(AppException.class, () -> {
+                productService.created(dto);
+            });
+        }
     }
 
-    @Test
-    @DisplayName("상품 실패 테스트 케이스")
-    public void created_fail1() {
+    @Nested
+    @DisplayName("예상 총보험료 로직 은")
+    class GetEstimatedPremiumMethod {
 
-        given(warrantRepository.findByIdIn(any())).willReturn(new HashSet<>());
+        @Test
+        @DisplayName("담보 아이디들이 있을 때 정상적으로 조회가 된다.")
+        public void getEstimatedPremium_ok1() {
 
-        ProductSaveRequest dto = readJson("json/product/service/product_save_request.json", ProductSaveRequest.class);
+            Optional<EstimatedPremium> mockOptional = Optional.of(new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok1.json", Product.class)));
 
-        assertThrows(AppException.class, () -> {
-            productService.created(dto);
-        });
+            given(productRepository.findByIdAndWarrants_IdIn(anyLong(), any(), eq(EstimatedPremium.class))).willReturn(mockOptional);
+
+            Map<String, Object> dto = readJson("json/product/service/getEstimatedPremium_ok1_dto.json", Map.class);
+
+            List<Long> warrantIds = ((ArrayList<Integer>) dto.get("warrantIds")).stream().map(Integer::longValue).collect(Collectors.toList());
+
+            Integer productId = (Integer) dto.get("productId");
+
+            Optional<EstimatedPremium> entityOptional = productService.getEstimatedPremium(productId.longValue(), warrantIds);
+
+            then(productRepository).should().findByIdAndWarrants_IdIn(anyLong(), any(), eq(EstimatedPremium.class));
+
+            EstimatedPremium entity = entityOptional.get();
+
+            EstimatedPremium mock = mockOptional.get();
+
+            assertEquals(entity.getProductTitle(), mock.getProductTitle());
+            assertEquals(entity.getTerm(), mock.getTerm());
+            assertEquals(entity.getPremium(), mock.getPremium());
+        }
+
+        @Test
+        @DisplayName("담보 아이디들이 없을 때 정상적으로 조회가 된다.")
+        public void getEstimatedPremium_ok2() {
+
+            Optional<EstimatedPremium> mockOptional = Optional.of(new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok2.json", Product.class)));
+
+            given(productRepository.findById(anyLong(), eq(EstimatedPremium.class))).willReturn(mockOptional);
+
+            Map<String, Object> dto = readJson("json/product/service/getEstimatedPremium_ok2_dto.json", Map.class);
+
+            List<Long> warrantIds = ((ArrayList<Integer>) dto.get("warrantIds")).stream().map(Integer::longValue).collect(Collectors.toList());
+
+            Integer productId = (Integer) dto.get("productId");
+
+            Optional<EstimatedPremium> entityOptional = productService.getEstimatedPremium(productId.longValue(), warrantIds);
+
+            then(productRepository).should().findById(anyLong(), eq(EstimatedPremium.class));
+
+            EstimatedPremium entity = entityOptional.get();
+
+            EstimatedPremium mock = mockOptional.get();
+
+            assertEquals(entity.getProductTitle(), mock.getProductTitle());
+            assertEquals(entity.getTerm(), mock.getTerm());
+            assertEquals(entity.getPremium(), mock.getPremium());
+        }
     }
 
-    @Test
-    @DisplayName("총 보험료 예상 금액 로직 성공 테스트 케이스 담보가 있을 때 케이스")
-    public void getEstimatedPremium_ok1() {
-
-        Optional<EstimatedPremium> mockOptional = Optional.of(new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok1.json", Product.class)));
-
-        given(productRepository.findByIdAndWarrants_IdIn(anyLong(), any(), eq(EstimatedPremium.class))).willReturn(mockOptional);
-
-        Map<String, Object> dto = readJson("json/product/service/getEstimatedPremium_ok1_dto.json", Map.class);
-
-        List<Long> warrantIds = ((ArrayList<Integer>) dto.get("warrantIds")).stream().map(Integer::longValue).collect(Collectors.toList());
-
-        Integer productId = (Integer) dto.get("productId");
-
-        Optional<EstimatedPremium> entityOptional = productService.getEstimatedPremium(productId.longValue(), warrantIds);
-
-        then(productRepository).should().findByIdAndWarrants_IdIn(anyLong(), any(), eq(EstimatedPremium.class));
-
-        EstimatedPremium entity = entityOptional.get();
-
-        EstimatedPremium mock = mockOptional.get();
-
-        assertEquals(entity.getProductTitle(), mock.getProductTitle());
-        assertEquals(entity.getTerm(), mock.getTerm());
-        assertEquals(entity.getPremium(), mock.getPremium());
-    }
-
-    @Test
-    @DisplayName("총 보험료 예상 금액 로직 성공 테스트 케이스 전체 담보 케이스")
-    public void getEstimatedPremium_ok2() {
-
-        Optional<EstimatedPremium> mockOptional = Optional.of(new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok2.json", Product.class)));
-
-        given(productRepository.findById(anyLong(), eq(EstimatedPremium.class))).willReturn(mockOptional);
-
-        Map<String, Object> dto = readJson("json/product/service/getEstimatedPremium_ok2_dto.json", Map.class);
-
-        List<Long> warrantIds = ((ArrayList<Integer>) dto.get("warrantIds")).stream().map(Integer::longValue).collect(Collectors.toList());
-
-        Integer productId = (Integer) dto.get("productId");
-
-        Optional<EstimatedPremium> entityOptional = productService.getEstimatedPremium(productId.longValue(), warrantIds);
-
-        then(productRepository).should().findById(anyLong(), eq(EstimatedPremium.class));
-
-        EstimatedPremium entity = entityOptional.get();
-
-        EstimatedPremium mock = mockOptional.get();
-
-        assertEquals(entity.getProductTitle(), mock.getProductTitle());
-        assertEquals(entity.getTerm(), mock.getTerm());
-        assertEquals(entity.getPremium(), mock.getPremium());
-    }
 }

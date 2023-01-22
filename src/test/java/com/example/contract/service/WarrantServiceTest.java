@@ -5,6 +5,7 @@ import com.example.contract.repository.WarrantRepository;
 import com.example.contract.web.dto.WarrantSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -17,7 +18,7 @@ import static org.mockito.BDDMockito.then;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("담보 생성 서비스 레이어")
+@DisplayName("담보 생성 서비스 에서")
 @ExtendWith(MockitoExtension.class)
 class WarrantServiceTest {
 
@@ -31,22 +32,29 @@ class WarrantServiceTest {
         warrantService = new WarrantService(warrantRepository);
     }
 
-    @Test
-    @DisplayName("담보 생성 성공 테스트 케이스")
-    public void save_ok() {
+    @Nested
+    @DisplayName("저장로직은")
+    class CreatedMethod {
 
-        Warrant mock = readJson("json/warrant/service/save_ok.json", Warrant.class);
+        @Test
+        @DisplayName("성공적으로 실행이 된다.")
+        public void save_ok() {
 
-        given(warrantRepository.save(any())).willReturn(mock);
+            Warrant mock = readJson("json/warrant/service/save_ok.json", Warrant.class);
 
-        WarrantSaveRequest dto = readJson("json/warrant/service/warrant_save_request.json", WarrantSaveRequest.class);
+            given(warrantRepository.save(any())).willReturn(mock);
 
-        Warrant entity = warrantService.created(dto);
+            WarrantSaveRequest dto = readJson("json/warrant/service/warrant_save_request.json", WarrantSaveRequest.class);
 
-        then(warrantRepository).should().save(any());
+            Warrant entity = warrantService.created(dto);
 
-        assertEquals(entity.getTitle(), mock.getTitle());
-        assertEquals(entity.getStandardAmount(), mock.getStandardAmount());
-        assertEquals(entity.getSubscriptionAmount(), mock.getSubscriptionAmount());
+            then(warrantRepository).should().save(any());
+
+            assertEquals(entity.getTitle(), mock.getTitle());
+            assertEquals(entity.getStandardAmount(), mock.getStandardAmount());
+            assertEquals(entity.getSubscriptionAmount(), mock.getSubscriptionAmount());
+        }
     }
+
+
 }

@@ -11,6 +11,7 @@ import com.example.contract.web.dto.EstimatedPremium;
 import com.example.contract.web.dto.ProductSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("상품 컨틀롤러 레이어")
+@DisplayName("상품 컨틀롤러 레이어에서")
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ProductController.class)
 class ProductControllerTest {
@@ -60,97 +61,132 @@ class ProductControllerTest {
                 .build();
     }
 
-    @Test
-    @DisplayName("예상 총 보험 계약 API 테스트 케이스")
-    public void selectEstimatedPremium_ok() throws Exception {
+    @Nested
+    @DisplayName("총 보험로 계산 API 는")
+    class SelectEstimatedPremiumAPI {
 
-        Optional<EstimatedPremium> mockOptional =
-                Optional.of(new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok1.json", Product.class)));
+        @Test
+        @DisplayName("성공적으로 실행을 하게 됩니다.")
+        public void selectEstimatedPremium_ok() throws Exception {
 
-        given(productService.getEstimatedPremium(any(), any())).willReturn(mockOptional);
+            Optional<EstimatedPremium> mockOptional =
+                    Optional.of(new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok1.json", Product.class)));
 
-        Map<String, Object> dto = readJson("json/product/web/getEstimatedPremium_ok_dto.json", Map.class);
+            given(productService.getEstimatedPremium(any(), any())).willReturn(mockOptional);
 
-        Integer productId = (Integer) dto.get("productId");
+            Map<String, Object> dto = readJson("json/product/web/getEstimatedPremium_ok_dto.json", Map.class);
 
-        String uri = "/products/" + productId + "/premium";
+            Integer productId = (Integer) dto.get("productId");
 
-        ResultActions action = mockMvc.perform(
-                        get(uri)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .param("warrantIds", (String) dto.get("warrantIds"))
-                )
-                .andDo(print());
+            String uri = "/products/" + productId + "/premium";
 
-        EstimatedPremium mock = mockOptional.get();
+            ResultActions action = mockMvc.perform(
+                            get(uri)
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .param("warrantIds", (String) dto.get("warrantIds"))
+                    )
+                    .andDo(print());
 
-        then(productService).should().getEstimatedPremium(any(), any());
+            EstimatedPremium mock = mockOptional.get();
 
-        action.andExpect(status().isOk())
-                .andExpect(jsonPath("$.term").value(mock.getTerm()))
-                .andExpect(jsonPath("$.premium").value(mock.getPremium().setScale(1, RoundingMode.FLOOR)))
-                .andExpect(jsonPath("$.productTitle").value(mock.getProductTitle()));
+            then(productService).should().getEstimatedPremium(any(), any());
+
+            action.andExpect(status().isOk())
+                    .andExpect(jsonPath("$.term").value(mock.getTerm()))
+                    .andExpect(jsonPath("$.premium").value(mock.getPremium().setScale(1, RoundingMode.FLOOR)))
+                    .andExpect(jsonPath("$.productTitle").value(mock.getProductTitle()));
+        }
+
+        @Test
+        @DisplayName("데이터가 없다면, Http Status를 204 (No Content)를 반환을 하게 됩니다.")
+        public void selectEstimatedPremium_fail1() throws Exception {
+
+            given(productService.getEstimatedPremium(any(), any())).willReturn(Optional.empty());
+
+            Map<String, Object> dto = readJson("json/product/web/getEstimatedPremium_ok_dto.json", Map.class);
+
+            Integer productId = (Integer) dto.get("productId");
+
+            String uri = "/products/" + productId + "/premium";
+
+            ResultActions action = mockMvc.perform(
+                            get(uri)
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .param("warrantIds", (String) dto.get("warrantIds"))
+                    )
+                    .andDo(print());
+
+            then(productService).should().getEstimatedPremium(any(), any());
+
+            action.andExpect(status().isNoContent());
+        }
+
     }
 
-    @Test
-    @DisplayName("상품 생성 API 테스트 케이스")
-    public void write_ok() throws Exception {
+    @Nested
+    @DisplayName("생성 API 는")
+    class CreatedAPI {
 
-        Map map = readJson("json/product/web/write_ok.json", Map.class);
+        @Test
+        @DisplayName("성공적으로 실행을 하게 됩니다.")
+        public void write_ok() throws Exception {
 
-        Set<Warrant> warrantSet = convert(map.get("warrant"));
+            Map map = readJson("json/product/web/write_ok.json", Map.class);
 
-        Product mock = convert(convertProduct((Map) map.get("product")), warrantSet);
+            Set<Warrant> warrantSet = convert(map.get("warrant"));
 
-        given(productService.created(any())).willReturn(mock);
+            Product mock = convert(convertProduct((Map) map.get("product")), warrantSet);
 
-        String uri = "/product";
+            given(productService.created(any())).willReturn(mock);
 
-        ProductSaveRequest dto = readJson("json/product/web/product_save_request.json", ProductSaveRequest.class);
+            String uri = "/product";
 
-        ResultActions action = mockMvc.perform(
-                        post(uri)
-                                .content(asJsonString(dto))
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print());
+            ProductSaveRequest dto = readJson("json/product/web/product_save_request.json", ProductSaveRequest.class);
 
-        then(productService).should().created(any());
+            ResultActions action = mockMvc.perform(
+                            post(uri)
+                                    .content(asJsonString(dto))
+                                    .contentType(MediaType.APPLICATION_JSON)
+                    )
+                    .andDo(print());
 
-        action.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(mock.getId()))
-                .andExpect(jsonPath("$.title").value(mock.getTitle()))
-                .andExpect(jsonPath("$.term.startMonth").value(mock.getTerm().getStartMonth()))
-                .andExpect(jsonPath("$.term.endMonth").value(mock.getTerm().getEndMonth()))
-                .andExpect(jsonPath("$.term.range").value(mock.getTerm().getRange()))
-                .andExpect(jsonPath("$.warrantIds.size()").value(mock.getWarrants().size()));
-    }
+            then(productService).should().created(any());
 
-    @Test
-    @DisplayName("상품 생성 API 테스트 [담보 데이터가 없을 때] 케이스")
-    public void write_fail1() throws Exception {
+            action.andExpect(status().isCreated())
+                    .andExpect(jsonPath("$.id").value(mock.getId()))
+                    .andExpect(jsonPath("$.title").value(mock.getTitle()))
+                    .andExpect(jsonPath("$.term.startMonth").value(mock.getTerm().getStartMonth()))
+                    .andExpect(jsonPath("$.term.endMonth").value(mock.getTerm().getEndMonth()))
+                    .andExpect(jsonPath("$.term.range").value(mock.getTerm().getRange()))
+                    .andExpect(jsonPath("$.warrantIds.size()").value(mock.getWarrants().size()));
+        }
 
-        String msg = "Data Not Found";
+        @Test
+        @DisplayName("담보 데이터가 없을 때, Not_Found_Data 를 반환을 하게 됩니다.")
+        public void write_fail1() throws Exception {
 
-        given(productService.created(any())).willThrow(new DataNotFoundException(msg));
+            String msg = "Data Not Found";
 
-        String uri = "/product";
+            given(productService.created(any())).willThrow(new DataNotFoundException(msg));
 
-        ProductSaveRequest dto = readJson("json/product/web/product_save_request.json", ProductSaveRequest.class);
+            String uri = "/product";
 
-        ResultActions action = mockMvc.perform(
-                        post(uri)
-                                .content(asJsonString(dto))
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print());
+            ProductSaveRequest dto = readJson("json/product/web/product_save_request.json", ProductSaveRequest.class);
 
-        then(productService).should().created(any());
+            ResultActions action = mockMvc.perform(
+                            post(uri)
+                                    .content(asJsonString(dto))
+                                    .contentType(MediaType.APPLICATION_JSON)
+                    )
+                    .andDo(print());
 
-        ErrorCode errorCode = ErrorCode.NOT_FOUND_DATA;
+            then(productService).should().created(any());
 
-        action.andExpect(status().isNoContent())
-                .andExpect(jsonPath("$.code").value(errorCode.getCode()))
-                .andExpect(jsonPath("$.message").value(errorCode.convertMessage(msg)));
+            ErrorCode errorCode = ErrorCode.NOT_FOUND_DATA;
+
+            action.andExpect(status().isNoContent())
+                    .andExpect(jsonPath("$.code").value(errorCode.getCode()))
+                    .andExpect(jsonPath("$.message").value(errorCode.convertMessage(msg)));
+        }
     }
 }

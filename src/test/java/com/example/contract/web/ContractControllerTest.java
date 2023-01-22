@@ -13,6 +13,7 @@ import com.example.contract.web.dto.ContractSaveRequest;
 import com.example.contract.web.dto.ContractUpdateRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("계약 데이터 레이어")
+@DisplayName("계약 데이터 레이어 에서")
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ContractControllerTest.class)
 class ContractControllerTest {
@@ -58,213 +59,197 @@ class ContractControllerTest {
                 .build();
     }
 
-    @Test
-    @DisplayName("계약 생성 API 테스트 케이스")
-    public void write_ok() throws Exception {
+    @Nested
+    @DisplayName("생성 API 은")
+    class CreatedAPI {
 
-        Map mockMap = readJson("json/contract/web/write_ok.json", Map.class);
+        @Test
+        @DisplayName("성공적으로 동작을 합니다.")
+        public void write_ok() throws Exception {
 
-        Contract mock = convertContract((Map) mockMap.get("contract"), (Map) mockMap.get("warrant"), ContractState.NORMAL);
+            Map mockMap = readJson("json/contract/web/write_ok.json", Map.class);
 
-        given(contractService.created(any())).willReturn(mock);
+            Contract mock = convertContract((Map) mockMap.get("contract"), (Map) mockMap.get("warrant"), ContractState.NORMAL);
 
-        String uri = "/contract";
+            given(contractService.created(any())).willReturn(mock);
 
-        ContractSaveRequest dto = readJson("json/contract/web/contract_save_request.json", ContractSaveRequest.class);
+            String uri = "/contract";
 
-        ResultActions action = mockMvc.perform(
-                        post(uri)
-                                .content(asJsonString(dto))
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print());
+            ContractSaveRequest dto = readJson("json/contract/web/contract_save_request.json", ContractSaveRequest.class);
 
-        then(contractService).should().created(any());
+            ResultActions action = mockMvc.perform(post(uri).content(asJsonString(dto)).contentType(MediaType.APPLICATION_JSON)).andDo(print());
 
-        action.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(mock.getId()))
-                .andExpect(jsonPath("$.productId").value(mock.getProduct().getId()))
-                .andExpect(jsonPath("$.warrantIds.size()").value(mock.getWarrants().size()))
-                .andExpect(jsonPath("$.term").value(mock.getTerm()))
-                .andExpect(jsonPath("$.startDate").value(mock.getStartDate()))
-                .andExpect(jsonPath("$.endDate").value(mock.getEndDate()))
-                .andExpect(jsonPath("$.premium").value(mock.getPremium()))
-                .andExpect(jsonPath("$.state").value(mock.getState().name()));
+            then(contractService).should().created(any());
+
+            action.andExpect(status().isCreated()).andExpect(jsonPath("$.id").value(mock.getId())).andExpect(jsonPath("$.productId").value(mock.getProduct().getId())).andExpect(jsonPath("$.warrantIds.size()").value(mock.getWarrants().size())).andExpect(jsonPath("$.term").value(mock.getTerm())).andExpect(jsonPath("$.startDate").value(mock.getStartDate())).andExpect(jsonPath("$.endDate").value(mock.getEndDate())).andExpect(jsonPath("$.premium").value(mock.getPremium())).andExpect(jsonPath("$.state").value(mock.getState().name()));
+        }
+
+        @Test
+        @DisplayName("상품/담보가 없을 때 Not_Found_Data 를 반환을 합니다.")
+        public void write_fail_1() throws Exception {
+
+            String mock = "Product Id is 1";
+
+            given(contractService.created(any())).willThrow(new DataNotFoundException(mock));
+
+            String uri = "/contract";
+
+            ContractSaveRequest dto = readJson("json/contract/web/contract_save_request.json", ContractSaveRequest.class);
+
+            ResultActions action = mockMvc.perform(post(uri).content(asJsonString(dto)).contentType(MediaType.APPLICATION_JSON)).andDo(print());
+
+            then(contractService).should().created(any());
+
+            ErrorCode errorCode = ErrorCode.NOT_FOUND_DATA;
+
+            action.andExpect(status().isNoContent()).andExpect(jsonPath("$.code").value(errorCode.getCode())).andExpect(jsonPath("$.message").value(errorCode.convertMessage(mock)));
+        }
+
     }
 
-    @Test
-    @DisplayName("계약 생성 API 테스트 케이스 상품/담보가 없을 때")
-    public void write_fail_1() throws Exception {
+    @Nested
+    @DisplayName("상세 조회 API 은")
+    class DetailAPI {
 
-        String mock = "Product Id is 1";
+        @Test
+        @DisplayName("정상적으로 조회를 하게 됩니다.")
+        public void getOne_ok() throws Exception {
 
-        given(contractService.created(any())).willThrow(new DataNotFoundException(mock));
+            Optional<ContractDetail> mockOptional = Optional.of(new ContractDetailImpl(readJson("json/contract/web/getOne_ok.json", Contract.class), ContractState.NORMAL));
 
-        String uri = "/contract";
+            given(contractService.getOne(any())).willReturn(mockOptional);
 
-        ContractSaveRequest dto = readJson("json/contract/web/contract_save_request.json", ContractSaveRequest.class);
+            long mockId = 1L;
 
-        ResultActions action = mockMvc.perform(post(uri).content(asJsonString(dto)).contentType(MediaType.APPLICATION_JSON)).andDo(print());
+            String uri = "/contracts/" + mockId;
 
-        then(contractService).should().created(any());
+            ResultActions action = mockMvc.perform(get(uri).contentType(MediaType.APPLICATION_JSON)).andDo(print());
 
-        ErrorCode errorCode = ErrorCode.NOT_FOUND_DATA;
+            then(contractService).should().getOne(any());
 
-        action.andExpect(status().isNoContent())
-                .andExpect(jsonPath("$.code").value(errorCode.getCode()))
-                .andExpect(jsonPath("$.message").value(errorCode.convertMessage(mock)));
+            ContractDetail mock = mockOptional.get();
+
+            action.andExpect(status().isOk()).andExpect(jsonPath("$.term").value(mock.getTerm())).andExpect(jsonPath("$.product.range").value(mock.getProduct().getRange())).andExpect(jsonPath("$.product.title").value(mock.getProduct().getTitle())).andExpect(jsonPath("$.product.id").value(mock.getProduct().getId())).andExpect(jsonPath("$.warrants.size()").value(mock.getWarrants().size())).andExpect(jsonPath("$.startDate").value(mock.getStartDate())).andExpect(jsonPath("$.endDate").value(mock.getEndDate())).andExpect(jsonPath("$.premium").value(mock.getPremium())).andExpect(jsonPath("$.id").value(mock.getId())).andExpect(jsonPath("$.state").value(mock.getState().name()));
+        }
+
+        @Test
+        @DisplayName("데이터가 없다면, No Content Http Status를 반행을 하게 됩니다.")
+        public void getOne_no_content_case() throws Exception {
+
+            given(contractService.getOne(any())).willReturn(Optional.empty());
+
+            long mockId = 1L;
+
+            String uri = "/contracts/" + mockId;
+
+            ResultActions action = mockMvc.perform(get(uri).contentType(MediaType.APPLICATION_JSON)).andDo(print());
+
+            then(contractService).should().getOne(any());
+
+            action.andExpect(status().isNoContent());
+        }
     }
 
-    @Test
-    @DisplayName("계약 상세 조회 API 테스트 케이스")
-    public void getOne_ok() throws Exception {
 
-        Optional<ContractDetail> mockOptional = Optional.of(new ContractDetailImpl(readJson("json/contract/web/getOne_ok.json", Contract.class), ContractState.NORMAL));
+    @Nested
+    @DisplayName("수정 API 는")
+    class UpdateAPI {
 
-        given(contractService.getOne(any())).willReturn(mockOptional);
+        @Test
+        @DisplayName("성공적으로 실행이 됩니다.")
+        public void update_ok() throws Exception {
 
-        long mockId = 1L;
+            Map mockMap = readJson("json/contract/web/update_ok.json", Map.class);
 
-        String uri = "/contracts/" + mockId;
+            Contract mock = convertContract((Map) mockMap.get("contract"), (Map) mockMap.get("warrant"), ContractState.NORMAL);
 
-        ResultActions action = mockMvc.perform(
-                        get(uri)
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print());
+            given(contractService.update(any(), any())).willReturn(mock);
 
-        then(contractService).should().getOne(any());
+            long mockId = 1L;
 
-        ContractDetail mock = mockOptional.get();
+            String uri = "/contracts/" + mockId;
 
-        action.andExpect(status().isOk())
-                .andExpect(jsonPath("$.term").value(mock.getTerm()))
-                .andExpect(jsonPath("$.product.range").value(mock.getProduct().getRange()))
-                .andExpect(jsonPath("$.product.title").value(mock.getProduct().getTitle()))
-                .andExpect(jsonPath("$.product.id").value(mock.getProduct().getId()))
-                .andExpect(jsonPath("$.warrants.size()").value(mock.getWarrants().size()))
-                .andExpect(jsonPath("$.startDate").value(mock.getStartDate()))
-                .andExpect(jsonPath("$.endDate").value(mock.getEndDate()))
-                .andExpect(jsonPath("$.premium").value(mock.getPremium()))
-                .andExpect(jsonPath("$.id").value(mock.getId()))
-                .andExpect(jsonPath("$.state").value(mock.getState().name()))
-        ;
+            ContractUpdateRequest dto = readJson("json/contract/web/contract_update_request.json", ContractUpdateRequest.class);
+
+            ResultActions action = mockMvc.perform(
+                            patch(uri)
+                                    .content(asJsonString(dto))
+                                    .contentType(MediaType.APPLICATION_JSON)
+                    )
+                    .andDo(print());
+
+            then(contractService).should().update(any(), any());
+
+            action.andExpect(status().isOk())
+                    .andExpect(jsonPath("$.id").value(mock.getId()))
+                    .andExpect(jsonPath("$.productId").value(mock.getProduct().getId()))
+                    .andExpect(jsonPath("$.warrantIds.size()").value(mock.getWarrants().size()))
+                    .andExpect(jsonPath("$.term").value(mock.getTerm()))
+                    .andExpect(jsonPath("$.startDate").value(mock.getStartDate()))
+                    .andExpect(jsonPath("$.endDate").value(mock.getEndDate()))
+                    .andExpect(jsonPath("$.premium").value(mock.getPremium()))
+                    .andExpect(jsonPath("$.state").value(mock.getState().name()));
+        }
+
+        @Test
+        @DisplayName("기간 만료 데이터의 경우 Server_Error 를 반환을 하게 됩니다.")
+        public void update_fail1() throws Exception {
+
+            long mockId = 1L;
+
+            String mock = "contract is state (Expiration) and id is " + mockId;
+
+            given(contractService.update(any(), any())).willThrow(new AppException(mock));
+
+            String uri = "/contracts/" + mockId;
+
+            ContractUpdateRequest dto = readJson("json/contract/web/contract_update_request.json", ContractUpdateRequest.class);
+
+            ResultActions action = mockMvc.perform(
+                            patch(uri)
+                                    .content(asJsonString(dto))
+                                    .contentType(MediaType.APPLICATION_JSON)
+                    )
+                    .andDo(print());
+
+            then(contractService).should().update(any(), any());
+
+            ErrorCode errorCode = ErrorCode.SERVER_ERROR;
+
+            action.andExpect(status().is5xxServerError())
+                    .andExpect(jsonPath("$.code").value(errorCode.getCode()))
+                    .andExpect(jsonPath("$.message").value(errorCode.convertMessage(mock)));
+        }
+
+        @Test
+        @DisplayName("담보 데이터가 없는 경우, Not_Found_Data 를 반환을 하게 됩니다.")
+        public void update_fail2() throws Exception {
+
+            long mockId = 1L;
+
+            String mock = "Product Id is " + mockId;
+
+            given(contractService.update(any(), any())).willThrow(new DataNotFoundException(mock));
+
+            String uri = "/contracts/" + mockId;
+
+            ContractUpdateRequest dto = readJson("json/contract/web/contract_update_request.json", ContractUpdateRequest.class);
+
+            ResultActions action = mockMvc.perform(
+                            patch(uri)
+                                    .content(asJsonString(dto))
+                                    .contentType(MediaType.APPLICATION_JSON)
+                    )
+                    .andDo(print());
+
+            then(contractService).should().update(any(), any());
+
+            ErrorCode errorCode = ErrorCode.NOT_FOUND_DATA;
+
+            action.andExpect(status().isNoContent())
+                    .andExpect(jsonPath("$.code").value(errorCode.getCode()))
+                    .andExpect(jsonPath("$.message").value(errorCode.convertMessage(mock)));
+        }
     }
 
-    @Test
-    @DisplayName("계약 상세 조회 API 테스트 케이스 [데이터가 없을 때 케이스]")
-    public void getOne_no_content_case() throws Exception {
-
-        given(contractService.getOne(any())).willReturn(Optional.empty());
-
-        long mockId = 1L;
-
-        String uri = "/contracts/" + mockId;
-
-        ResultActions action = mockMvc.perform(
-                        get(uri)
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print());
-
-        then(contractService).should().getOne(any());
-
-        action.andExpect(status().isNoContent());
-    }
-
-    @Test
-    @DisplayName("계약 수정 API 테스트 케이스")
-    public void update_ok() throws Exception {
-
-        Map mockMap = readJson("json/contract/web/update_ok.json", Map.class);
-
-        Contract mock = convertContract((Map) mockMap.get("contract"), (Map) mockMap.get("warrant"), ContractState.NORMAL);
-
-        given(contractService.update(any(), any())).willReturn(mock);
-
-        long mockId = 1L;
-
-        String uri = "/contracts/" + mockId;
-
-        ContractUpdateRequest dto = readJson("json/contract/web/contract_update_request.json", ContractUpdateRequest.class);
-
-        ResultActions action = mockMvc.perform(
-                        patch(uri)
-                                .content(asJsonString(dto))
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print());
-
-        then(contractService).should().update(any(), any());
-
-        action.andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(mock.getId()))
-                .andExpect(jsonPath("$.productId").value(mock.getProduct().getId()))
-                .andExpect(jsonPath("$.warrantIds.size()").value(mock.getWarrants().size()))
-                .andExpect(jsonPath("$.term").value(mock.getTerm()))
-                .andExpect(jsonPath("$.startDate").value(mock.getStartDate()))
-                .andExpect(jsonPath("$.endDate").value(mock.getEndDate()))
-                .andExpect(jsonPath("$.premium").value(mock.getPremium()))
-                .andExpect(jsonPath("$.state").value(mock.getState().name()));
-    }
-
-    @Test
-    @DisplayName("계약 수정 API 테스트 [기간 만료] 케이스")
-    public void update_fail1() throws Exception {
-
-        long mockId = 1L;
-
-        String mock = "contract is state (Expiration) and id is " + mockId;
-
-        given(contractService.update(any(), any())).willThrow(new AppException(mock));
-
-        String uri = "/contracts/" + mockId;
-
-        ContractUpdateRequest dto = readJson("json/contract/web/contract_update_request.json", ContractUpdateRequest.class);
-
-        ResultActions action = mockMvc.perform(
-                        patch(uri)
-                                .content(asJsonString(dto))
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print());
-
-        then(contractService).should().update(any(), any());
-
-        ErrorCode errorCode = ErrorCode.SERVER_ERROR;
-
-        action.andExpect(status().is5xxServerError())
-                .andExpect(jsonPath("$.code").value(errorCode.getCode()))
-                .andExpect(jsonPath("$.message").value(errorCode.convertMessage(mock)));
-    }
-
-    @Test
-    @DisplayName("계약 수정 API 테스트 [담보 데이터가 없는] 케이스")
-    public void update_fail2() throws Exception {
-
-        long mockId = 1L;
-
-        String mock = "Product Id is " + mockId;
-
-        given(contractService.update(any(), any())).willThrow(new DataNotFoundException(mock));
-
-        String uri = "/contracts/" + mockId;
-
-        ContractUpdateRequest dto = readJson("json/contract/web/contract_update_request.json", ContractUpdateRequest.class);
-
-        ResultActions action = mockMvc.perform(
-                        patch(uri)
-                                .content(asJsonString(dto))
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print());
-
-        then(contractService).should().update(any(), any());
-
-        ErrorCode errorCode = ErrorCode.NOT_FOUND_DATA;
-
-        action.andExpect(status().isNoContent())
-                .andExpect(jsonPath("$.code").value(errorCode.getCode()))
-                .andExpect(jsonPath("$.message").value(errorCode.convertMessage(mock)));
-    }
 }
