@@ -46,7 +46,7 @@ class ContractTest {
     }
 
     @Nested
-    @DisplayName("기간 만료 체크 로직이")
+    @DisplayName("기간 만료 체크 로직은")
     class IsExpirationMethod {
 
         @Test
