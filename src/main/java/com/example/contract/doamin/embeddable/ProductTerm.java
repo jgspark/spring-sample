@@ -74,9 +74,6 @@ public class ProductTerm {
      * @return 시작월이 크면 true 를 아니면 false
      */
     private boolean isOverStartMonth() {
-        if (startMonth > endMonth) {
-            return true;
-        }
-        return false;
+        return startMonth > endMonth;
     }
 }

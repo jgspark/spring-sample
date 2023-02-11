@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 /**
- *  거래 컨트롤러
+ *  계약 컨트롤러
  */
 @RestController
 @RequiredArgsConstructor
@@ -23,12 +23,12 @@ public class ContractController {
     private final ContractService contractService;
 
     /**
-     *  거래 생성 API
+     *  계약 생성 API
      * Http 상태의 경우 201 로 반환 합니다.
      *
-     * @param dto  거래 생성에 필요한 데이터 {@link ContractSaveRequest}
+     * @param dto  계약 생성에 필요한 데이터 {@link ContractSaveRequest}
      *            not null 체크를 합니다.
-     * @return 가공된  거래 데이터
+     * @return 가공된  계약 데이터
      */
     @PostMapping("contract")
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,12 +37,12 @@ public class ContractController {
     }
 
     /**
-     *  거래 상세 데이터 조회 API
+     *  계약 상세 데이터 조회 API
      * <p>
      * 만약 데이터가 없으면 204 상태를 하지만 데이터가 있으면 200 으로 보냅니다.
      *
-     * @param id  거래 아이디
-     * @return  거래 상세 데이터
+     * @param id  계약 아이디
+     * @return  계약 상세 데이터
      */
     @GetMapping("contracts/{id}")
     public ResponseEntity<ContractDetail> selectOne(@PathVariable Long id) {
@@ -51,12 +51,12 @@ public class ContractController {
     }
 
     /**
-     *  거래 수정 API
+     *  계약 수정 API
      *
-     * @param id   거래 아이디
-     * @param dto  거래 변경 데이터 {@link ContractUpdateRequest}
+     * @param id   계약 아이디
+     * @param dto  계약 변경 데이터 {@link ContractUpdateRequest}
      *            not null 을 체크 합니다.
-     * @return 가공된  거래 데이터
+     * @return 가공된  계약 데이터
      */
     @PatchMapping("contracts/{id}")
     public ContractResponse update(@PathVariable Long id, @RequestBody @Valid ContractUpdateRequest dto) {
