@@ -1,6 +1,6 @@
-# 계약 관리 시스템
+# Sample Server Code
 
-## ERD 다이어그램
+## ERD 
 
 ![diagram.png](post%2Fdiagram.png)
 
