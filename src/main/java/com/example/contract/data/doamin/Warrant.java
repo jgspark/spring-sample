@@ -1,4 +1,4 @@
-package com.example.contract.doamin;
+package com.example.contract.data.doamin;
 
 import lombok.AccessLevel;
 import lombok.Builder;

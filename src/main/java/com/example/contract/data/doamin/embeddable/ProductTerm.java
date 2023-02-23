@@ -1,6 +1,7 @@
-package com.example.contract.doamin.embeddable;
+package com.example.contract.data.doamin.embeddable;
 
 import com.example.contract.config.exception.AppException;
+import com.example.contract.data.doamin.Product;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import static org.springframework.util.Assert.notNull;
 /**
  * 상품 기간
  *
- * @see com.example.contract.doamin.Product
+ * @see Product
  */
 @Getter
 @Embeddable

@@ -1,4 +1,4 @@
-package com.example.contract.enums;
+package com.example.contract.data.enums;
 
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;

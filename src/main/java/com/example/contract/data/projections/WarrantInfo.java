@@ -1,4 +1,4 @@
-package com.example.contract.web.dto;
+package com.example.contract.data.projections;
 
 import java.math.BigDecimal;
 

@@ -1,7 +1,7 @@
-package com.example.contract.web.dto;
+package com.example.contract.data.dto;
 
-import com.example.contract.doamin.Contract;
-import com.example.contract.doamin.Product;
+import com.example.contract.data.doamin.Contract;
+import com.example.contract.data.doamin.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

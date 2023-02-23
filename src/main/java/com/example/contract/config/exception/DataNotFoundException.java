@@ -1,6 +1,6 @@
 package com.example.contract.config.exception;
 
-import com.example.contract.enums.ErrorCode;
+import com.example.contract.data.enums.ErrorCode;
 
 /**
  * 데이터를 찾지 못할 때 사용 하는 예외

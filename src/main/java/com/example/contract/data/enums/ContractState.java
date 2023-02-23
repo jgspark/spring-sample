@@ -1,9 +1,11 @@
-package com.example.contract.enums;
+package com.example.contract.data.enums;
+
+import com.example.contract.data.doamin.Contract;
 
 /**
  * 계약의 상태
  *
- * @see com.example.contract.doamin.Contract
+ * @see Contract
  */
 public enum ContractState {
     /**

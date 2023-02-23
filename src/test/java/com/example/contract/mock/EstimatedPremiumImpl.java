@@ -1,7 +1,7 @@
 package com.example.contract.mock;
 
-import com.example.contract.doamin.Product;
-import com.example.contract.web.dto.EstimatedPremium;
+import com.example.contract.data.doamin.Product;
+import com.example.contract.data.projections.EstimatedPremium;
 
 import java.math.BigDecimal;
 

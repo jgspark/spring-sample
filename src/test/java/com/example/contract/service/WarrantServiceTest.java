@@ -1,8 +1,8 @@
 package com.example.contract.service;
 
-import com.example.contract.doamin.Warrant;
+import com.example.contract.data.doamin.Warrant;
 import com.example.contract.repository.WarrantRepository;
-import com.example.contract.web.dto.WarrantSaveRequest;
+import com.example.contract.data.dto.WarrantSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

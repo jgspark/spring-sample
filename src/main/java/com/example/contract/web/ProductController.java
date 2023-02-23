@@ -1,9 +1,9 @@
 package com.example.contract.web;
 
 import com.example.contract.service.ProductService;
-import com.example.contract.web.dto.EstimatedPremium;
-import com.example.contract.web.dto.ProductResponse;
-import com.example.contract.web.dto.ProductSaveRequest;
+import com.example.contract.data.projections.EstimatedPremium;
+import com.example.contract.data.dto.ProductResponse;
+import com.example.contract.data.dto.ProductSaveRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

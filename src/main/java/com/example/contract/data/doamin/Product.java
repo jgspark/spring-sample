@@ -1,7 +1,7 @@
-package com.example.contract.doamin;
+package com.example.contract.data.doamin;
 
 import com.example.contract.config.exception.DataNotFoundException;
-import com.example.contract.doamin.embeddable.ProductTerm;
+import com.example.contract.data.doamin.embeddable.ProductTerm;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 

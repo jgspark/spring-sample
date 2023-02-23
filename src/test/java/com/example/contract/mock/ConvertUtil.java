@@ -1,11 +1,10 @@
 package com.example.contract.mock;
 
-import com.example.contract.doamin.Contract;
-import com.example.contract.doamin.Product;
-import com.example.contract.doamin.Warrant;
-import com.example.contract.doamin.embeddable.ProductTerm;
-import com.example.contract.enums.ContractState;
-import com.example.contract.enums.ErrorCode;
+import com.example.contract.data.doamin.Contract;
+import com.example.contract.data.doamin.Product;
+import com.example.contract.data.doamin.Warrant;
+import com.example.contract.data.doamin.embeddable.ProductTerm;
+import com.example.contract.data.enums.ContractState;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;

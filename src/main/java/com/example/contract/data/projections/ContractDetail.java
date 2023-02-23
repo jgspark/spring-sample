@@ -1,6 +1,6 @@
-package com.example.contract.web.dto;
+package com.example.contract.data.projections;
 
-import com.example.contract.enums.ContractState;
+import com.example.contract.data.enums.ContractState;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.math.BigDecimal;

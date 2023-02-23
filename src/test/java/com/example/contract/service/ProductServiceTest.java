@@ -1,13 +1,13 @@
 package com.example.contract.service;
 
 import com.example.contract.config.exception.AppException;
-import com.example.contract.doamin.Product;
-import com.example.contract.doamin.Warrant;
+import com.example.contract.data.doamin.Product;
+import com.example.contract.data.doamin.Warrant;
 import com.example.contract.mock.EstimatedPremiumImpl;
 import com.example.contract.repository.ProductRepository;
 import com.example.contract.repository.WarrantRepository;
-import com.example.contract.web.dto.EstimatedPremium;
-import com.example.contract.web.dto.ProductSaveRequest;
+import com.example.contract.data.projections.EstimatedPremium;
+import com.example.contract.data.dto.ProductSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

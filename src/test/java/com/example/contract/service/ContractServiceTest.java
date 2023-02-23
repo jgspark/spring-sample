@@ -1,16 +1,16 @@
 package com.example.contract.service;
 
 import com.example.contract.config.exception.AppException;
-import com.example.contract.doamin.Contract;
-import com.example.contract.doamin.Product;
-import com.example.contract.doamin.Warrant;
+import com.example.contract.data.doamin.Contract;
+import com.example.contract.data.doamin.Product;
+import com.example.contract.data.doamin.Warrant;
 import com.example.contract.mock.ContractDetailImpl;
 import com.example.contract.repository.ContractRepository;
 import com.example.contract.repository.ProductRepository;
-import com.example.contract.web.dto.ContractDetail;
-import com.example.contract.web.dto.ContractSaveRequest;
-import com.example.contract.web.dto.ContractUpdateRequest;
-import com.example.contract.web.dto.WarrantInfo;
+import com.example.contract.data.projections.ContractDetail;
+import com.example.contract.data.dto.ContractSaveRequest;
+import com.example.contract.data.dto.ContractUpdateRequest;
+import com.example.contract.data.projections.WarrantInfo;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,7 +1,7 @@
-package com.example.contract.doamin;
+package com.example.contract.data.doamin;
 
 import com.example.contract.config.exception.DataNotFoundException;
-import com.example.contract.enums.ContractState;
+import com.example.contract.data.enums.ContractState;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicUpdate;

@@ -1,11 +1,11 @@
 package com.example.contract.repository;
 
 import com.example.contract.config.exception.DataNotFoundException;
-import com.example.contract.doamin.Contract;
-import com.example.contract.doamin.Product;
-import com.example.contract.doamin.Warrant;
-import com.example.contract.enums.ContractState;
-import com.example.contract.web.dto.ContractDetail;
+import com.example.contract.data.doamin.Contract;
+import com.example.contract.data.doamin.Product;
+import com.example.contract.data.doamin.Warrant;
+import com.example.contract.data.enums.ContractState;
+import com.example.contract.data.projections.ContractDetail;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

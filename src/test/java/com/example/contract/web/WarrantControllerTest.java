@@ -1,9 +1,9 @@
 package com.example.contract.web;
 
 import com.example.contract.config.exception.AppErrorHandler;
-import com.example.contract.doamin.Warrant;
+import com.example.contract.data.doamin.Warrant;
 import com.example.contract.service.WarrantService;
-import com.example.contract.web.dto.WarrantSaveRequest;
+import com.example.contract.data.dto.WarrantSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

@@ -1,5 +1,6 @@
 package com.example.contract.doamin;
 
+import com.example.contract.data.doamin.Warrant;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

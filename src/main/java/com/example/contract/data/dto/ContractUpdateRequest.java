@@ -1,6 +1,6 @@
-package com.example.contract.web.dto;
+package com.example.contract.data.dto;
 
-import com.example.contract.enums.ContractState;
+import com.example.contract.data.enums.ContractState;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;

@@ -1,10 +1,10 @@
 package com.example.contract.web;
 
 import com.example.contract.service.ContractService;
-import com.example.contract.web.dto.ContractDetail;
-import com.example.contract.web.dto.ContractResponse;
-import com.example.contract.web.dto.ContractSaveRequest;
-import com.example.contract.web.dto.ContractUpdateRequest;
+import com.example.contract.data.projections.ContractDetail;
+import com.example.contract.data.dto.ContractResponse;
+import com.example.contract.data.dto.ContractSaveRequest;
+import com.example.contract.data.dto.ContractUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,8 @@
 package com.example.contract.web;
 
 import com.example.contract.service.WarrantService;
-import com.example.contract.web.dto.WarrantResponse;
-import com.example.contract.web.dto.WarrantSaveRequest;
+import com.example.contract.data.dto.WarrantResponse;
+import com.example.contract.data.dto.WarrantSaveRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;

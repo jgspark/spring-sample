@@ -1,4 +1,4 @@
-package com.example.contract.web.dto;
+package com.example.contract.data.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

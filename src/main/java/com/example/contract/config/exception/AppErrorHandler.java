@@ -1,7 +1,7 @@
 package com.example.contract.config.exception;
 
-import com.example.contract.enums.ErrorCode;
-import com.example.contract.web.dto.ErrorMessage;
+import com.example.contract.data.enums.ErrorCode;
+import com.example.contract.data.dto.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

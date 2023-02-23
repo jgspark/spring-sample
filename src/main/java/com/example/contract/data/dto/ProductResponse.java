@@ -1,8 +1,8 @@
-package com.example.contract.web.dto;
+package com.example.contract.data.dto;
 
-import com.example.contract.doamin.Product;
-import com.example.contract.doamin.Warrant;
-import com.example.contract.doamin.embeddable.ProductTerm;
+import com.example.contract.data.doamin.Product;
+import com.example.contract.data.doamin.Warrant;
+import com.example.contract.data.doamin.embeddable.ProductTerm;
 import lombok.Getter;
 
 import java.util.Set;
