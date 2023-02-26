@@ -2,6 +2,7 @@ package com.example.contract.config.exception;
 
 import com.example.contract.data.enums.ErrorCode;
 import com.example.contract.data.dto.ErrorMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @see AppException
  * @see DataNotFoundException
  */
+@Slf4j
 @RestControllerAdvice
 public class AppErrorHandler {
 
@@ -30,7 +32,7 @@ public class AppErrorHandler {
     @ExceptionHandler(Exception.class)
     public ErrorMessage handler(Exception e) {
         ErrorCode errorCode = ErrorCode.SERVER_ERROR;
-        e.printStackTrace();
+        log.error(e.getMessage(), e);
         return new ErrorMessage(errorCode.getCode(), errorCode.getMessage());
     }
 
@@ -46,7 +48,7 @@ public class AppErrorHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorMessage handler(MethodArgumentNotValidException e) {
         ErrorCode errorCode = ErrorCode.BAD_REQUEST;
-        e.printStackTrace();
+        log.error(e.getMessage(), e);
         return new ErrorMessage(errorCode.getCode(), e.getMessage());
     }
 
@@ -61,7 +63,7 @@ public class AppErrorHandler {
     @ExceptionHandler(AppException.class)
     public ErrorMessage handler(AppException e) {
         ErrorCode errorCode = ErrorCode.SERVER_ERROR;
-        e.printStackTrace();
+        log.error(e.getMessage(), e);
         return new ErrorMessage(errorCode.getCode(), errorCode.convertMessage(e.getMessage()));
     }
 
@@ -76,7 +78,7 @@ public class AppErrorHandler {
     @ExceptionHandler(DataNotFoundException.class)
     public ErrorMessage handler(DataNotFoundException e) {
         ErrorCode errorCode = e.getErrorCode();
-        e.printStackTrace();
+        log.error(e.getMessage(), e);
         return new ErrorMessage(errorCode.getCode(), errorCode.convertMessage(e.getMessage()));
     }
 
