@@ -1,19 +1,21 @@
 package com.example.contract.service;
 
-import com.example.contract.exception.DataNotFoundException;
+import com.example.contract.controller.request.ProductSaveRequest;
 import com.example.contract.domain.product.Product;
 import com.example.contract.domain.warrant.Warrant;
+import com.example.contract.dto.mapper.EstimatedPremium;
+import com.example.contract.dto.model.product.EstimatedPremiumModel;
+import com.example.contract.dto.model.product.ProductSaveModel;
+import com.example.contract.exception.DataNotFoundException;
 import com.example.contract.repository.ProductRepository;
 import com.example.contract.repository.WarrantRepository;
-import com.example.contract.dto.mapper.EstimatedPremium;
-import com.example.contract.controller.request.ProductSaveRequest;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 
@@ -37,7 +39,7 @@ public class ProductService {
      */
     @NotNull
     @Transactional
-    public Product created(@NotNull ProductSaveRequest dto) {
+    public Product created(@NotNull ProductSaveModel dto) {
 
         Set<Warrant> warrants = warrantRepository.findByIdIn(dto.getWarrantIds());
 
@@ -61,7 +63,11 @@ public class ProductService {
      */
     @NotNull
     @Transactional(readOnly = true)
-    public Optional<EstimatedPremium> getEstimatedPremium(@NotNull Long id, @NotNull List<Long> warrantIds) {
+    public Optional<EstimatedPremium> getEstimatedPremium(@NotNull EstimatedPremiumModel dto) {
+
+        Long id = dto.getId();
+
+        Collection<Long> warrantIds = dto.getWarrantIds();
 
         if (warrantIds.isEmpty()) {
             return productRepository.findById(id, EstimatedPremium.class);
