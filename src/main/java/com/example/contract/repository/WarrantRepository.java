@@ -1,6 +1,6 @@
 package com.example.contract.repository;
 
-import com.example.contract.data.doamin.Warrant;
+import com.example.contract.domain.warrant.Warrant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,8 @@
 package com.example.contract.service;
 
-import com.example.contract.data.doamin.Warrant;
+import com.example.contract.domain.warrant.Warrant;
 import com.example.contract.repository.WarrantRepository;
-import com.example.contract.data.dto.WarrantSaveRequest;
+import com.example.contract.controller.request.WarrantSaveRequest;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;

@@ -1,12 +1,12 @@
 package com.example.contract.service;
 
-import com.example.contract.config.exception.DataNotFoundException;
-import com.example.contract.data.doamin.Product;
-import com.example.contract.data.doamin.Warrant;
+import com.example.contract.exception.DataNotFoundException;
+import com.example.contract.domain.product.Product;
+import com.example.contract.domain.warrant.Warrant;
 import com.example.contract.repository.ProductRepository;
 import com.example.contract.repository.WarrantRepository;
-import com.example.contract.data.projections.EstimatedPremium;
-import com.example.contract.data.dto.ProductSaveRequest;
+import com.example.contract.dto.mapper.EstimatedPremium;
+import com.example.contract.controller.request.ProductSaveRequest;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;

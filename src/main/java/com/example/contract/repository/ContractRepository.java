@@ -1,6 +1,6 @@
 package com.example.contract.repository;
 
-import com.example.contract.data.doamin.Contract;
+import com.example.contract.domain.contract.Contract;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,14 +1,14 @@
 package com.example.contract.service;
 
-import com.example.contract.config.exception.AppException;
-import com.example.contract.config.exception.DataNotFoundException;
-import com.example.contract.data.doamin.Contract;
-import com.example.contract.data.doamin.Product;
+import com.example.contract.exception.AppException;
+import com.example.contract.exception.DataNotFoundException;
+import com.example.contract.domain.contract.Contract;
+import com.example.contract.domain.product.Product;
 import com.example.contract.repository.ContractRepository;
 import com.example.contract.repository.ProductRepository;
-import com.example.contract.data.projections.ContractDetail;
-import com.example.contract.data.dto.ContractSaveRequest;
-import com.example.contract.data.dto.ContractUpdateRequest;
+import com.example.contract.dto.mapper.ContractDetail;
+import com.example.contract.controller.request.ContractSaveRequest;
+import com.example.contract.controller.request.ContractUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
