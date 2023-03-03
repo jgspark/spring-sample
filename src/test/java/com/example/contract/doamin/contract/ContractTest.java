@@ -1,4 +1,4 @@
-package com.example.contract.doamin;
+package com.example.contract.doamin.contract;
 
 import com.example.contract.domain.contract.Contract;
 import com.example.contract.domain.warrant.Warrant;

@@ -1,6 +1,5 @@
-package com.example.contract.controller;
+package com.example.contract.controller.api;
 
-import com.example.contract.controller.api.ContractController;
 import com.example.contract.exception.AppErrorHandler;
 import com.example.contract.exception.AppException;
 import com.example.contract.exception.DataNotFoundException;

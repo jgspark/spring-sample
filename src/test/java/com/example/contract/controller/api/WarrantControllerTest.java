@@ -1,4 +1,4 @@
-package com.example.contract.controller;
+package com.example.contract.controller.api;
 
 import com.example.contract.controller.api.WarrantController;
 import com.example.contract.exception.AppErrorHandler;

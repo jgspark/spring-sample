@@ -1,4 +1,4 @@
-package com.example.contract.doamin.embeddable;
+package com.example.contract.doamin.product;
 
 import com.example.contract.domain.product.ProductTerm;
 import org.junit.jupiter.api.DisplayName;

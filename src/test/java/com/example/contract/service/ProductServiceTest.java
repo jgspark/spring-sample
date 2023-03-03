@@ -1,41 +1,30 @@
 package com.example.contract.service;
 
-import com.example.contract.exception.AppException;
+import com.example.contract.controller.request.ProductSaveRequest;
 import com.example.contract.domain.product.Product;
 import com.example.contract.domain.warrant.Warrant;
-import com.example.contract.controller.request.ProductSaveRequest;
 import com.example.contract.dto.mapper.EstimatedPremium;
+import com.example.contract.exception.AppException;
 import com.example.contract.mock.EstimatedPremiumImpl;
-import com.example.contract.mock.args.SampleArgs;
 import com.example.contract.repository.ProductRepository;
 import com.example.contract.repository.WarrantRepository;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
 import static com.example.contract.mock.ConvertUtil.convert;
 import static com.example.contract.mock.ConvertUtil.convertProduct;
 import static com.example.contract.mock.MockUtil.readJson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -59,22 +48,6 @@ class ProductServiceTest {
     @Nested
     @DisplayName("저장 로직 은")
     class CreatedMethod {
-
-//        @MethodSource("getArgs")
-        Stream<Arguments> getArgs() {
-            return Stream.of(
-                Arguments.of(1),
-                Arguments.of(2)
-            );
-        }
-
-        @DisplayName("파라미터 테스트 시나리오 입니다.")
-        @ParameterizedTest(name = "{0} 을 집어 넣습니다.")
-        @ArgumentsSource(SampleArgs.class)
-        public void param(int n) {
-            assertTrue(n != 0);
-        }
-
         @Test
         @DisplayName("성공적으로 저장을 하게 된다.")
         public void created_ok() {

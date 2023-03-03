@@ -1,4 +1,4 @@
-package com.example.contract.doamin;
+package com.example.contract.doamin.warrant;
 
 import com.example.contract.domain.warrant.Warrant;
 import org.junit.jupiter.api.DisplayName;
