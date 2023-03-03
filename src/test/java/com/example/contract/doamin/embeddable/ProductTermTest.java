@@ -1,6 +1,6 @@
 package com.example.contract.doamin.embeddable;
 
-import com.example.contract.data.doamin.embeddable.ProductTerm;
+import com.example.contract.domain.product.ProductTerm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

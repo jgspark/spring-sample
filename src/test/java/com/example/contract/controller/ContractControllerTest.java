@@ -1,16 +1,17 @@
-package com.example.contract.web;
+package com.example.contract.controller;
 
-import com.example.contract.config.exception.AppErrorHandler;
-import com.example.contract.config.exception.AppException;
-import com.example.contract.config.exception.DataNotFoundException;
-import com.example.contract.data.doamin.Contract;
-import com.example.contract.data.enums.ContractState;
-import com.example.contract.data.enums.ErrorCode;
+import com.example.contract.controller.api.ContractController;
+import com.example.contract.exception.AppErrorHandler;
+import com.example.contract.exception.AppException;
+import com.example.contract.exception.DataNotFoundException;
+import com.example.contract.domain.contract.Contract;
+import com.example.contract.domain.contract.ContractState;
+import com.example.contract.exception.ErrorCode;
 import com.example.contract.mock.ContractDetailImpl;
 import com.example.contract.service.ContractService;
-import com.example.contract.data.projections.ContractDetail;
-import com.example.contract.data.dto.ContractSaveRequest;
-import com.example.contract.data.dto.ContractUpdateRequest;
+import com.example.contract.dto.mapper.ContractDetail;
+import com.example.contract.controller.request.ContractSaveRequest;
+import com.example.contract.controller.request.ContractUpdateRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

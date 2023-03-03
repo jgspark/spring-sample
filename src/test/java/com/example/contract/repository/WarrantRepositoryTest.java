@@ -1,6 +1,6 @@
 package com.example.contract.repository;
 
-import com.example.contract.data.doamin.Warrant;
+import com.example.contract.domain.warrant.Warrant;
 import com.example.contract.mock.MockUtil;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;

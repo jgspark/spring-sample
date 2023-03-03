@@ -1,8 +1,8 @@
 package com.example.contract.doamin;
 
-import com.example.contract.data.doamin.Product;
-import com.example.contract.data.doamin.Warrant;
-import com.example.contract.data.doamin.embeddable.ProductTerm;
+import com.example.contract.domain.product.Product;
+import com.example.contract.domain.warrant.Warrant;
+import com.example.contract.domain.product.ProductTerm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -1,12 +1,12 @@
 package com.example.contract.mock;
 
-import com.example.contract.data.doamin.Contract;
-import com.example.contract.data.doamin.Product;
-import com.example.contract.data.doamin.Warrant;
-import com.example.contract.data.enums.ContractState;
-import com.example.contract.data.projections.ContractDetail;
-import com.example.contract.data.projections.ProductInfo;
-import com.example.contract.data.projections.WarrantInfo;
+import com.example.contract.domain.contract.Contract;
+import com.example.contract.domain.product.Product;
+import com.example.contract.domain.warrant.Warrant;
+import com.example.contract.domain.contract.ContractState;
+import com.example.contract.dto.mapper.ContractDetail;
+import com.example.contract.dto.mapper.ProductInfo;
+import com.example.contract.dto.mapper.WarrantInfo;
 
 import java.math.BigDecimal;
 import java.util.Date;

@@ -1,9 +1,10 @@
-package com.example.contract.web;
+package com.example.contract.controller;
 
-import com.example.contract.config.exception.AppErrorHandler;
-import com.example.contract.data.doamin.Warrant;
+import com.example.contract.controller.api.WarrantController;
+import com.example.contract.exception.AppErrorHandler;
+import com.example.contract.domain.warrant.Warrant;
 import com.example.contract.service.WarrantService;
-import com.example.contract.data.dto.WarrantSaveRequest;
+import com.example.contract.controller.request.WarrantSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
