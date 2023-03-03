@@ -1,8 +1,9 @@
 package com.example.contract.service;
 
-import com.example.contract.domain.warrant.Warrant;
-import com.example.contract.repository.WarrantRepository;
 import com.example.contract.controller.request.WarrantSaveRequest;
+import com.example.contract.domain.warrant.Warrant;
+import com.example.contract.dto.model.warrant.WarrantSaveModel;
+import com.example.contract.repository.WarrantRepository;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class WarrantService {
      * @return 담보
      */
     @Transactional
-    public @NotNull Warrant created(@NotNull WarrantSaveRequest dto) {
+    public @NotNull Warrant created(@NotNull WarrantSaveModel dto) {
         return warrantRepository.save(dto.toEntity());
     }
 }
