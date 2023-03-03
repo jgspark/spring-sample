@@ -1,5 +1,7 @@
 package com.example.contract.controller.api;
 
+import com.example.contract.dto.model.contract.ContractSaveModel;
+import com.example.contract.dto.model.contract.ContractUpdateModel;
 import com.example.contract.service.ContractService;
 import com.example.contract.dto.mapper.ContractDetail;
 import com.example.contract.dto.response.ContractResponse;
@@ -14,7 +16,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 /**
- *  계약 컨트롤러
+ * 계약 컨트롤러
  */
 @RestController
 @RequiredArgsConstructor
@@ -23,26 +25,27 @@ public class ContractController {
     private final ContractService contractService;
 
     /**
-     *  계약 생성 API
+     * 계약 생성 API
      * Http 상태의 경우 201 로 반환 합니다.
      *
-     * @param dto  계약 생성에 필요한 데이터 {@link ContractSaveRequest}
+     * @param req 계약 생성에 필요한 데이터 {@link ContractSaveRequest}
      *            not null 체크를 합니다.
      * @return 가공된  계약 데이터
      */
     @PostMapping("contract")
     @ResponseStatus(HttpStatus.CREATED)
-    public ContractResponse write(@RequestBody @Valid ContractSaveRequest dto) {
+    public ContractResponse write(@RequestBody @Valid ContractSaveRequest req) {
+        ContractSaveModel dto = new ContractSaveModel(req);
         return new ContractResponse(contractService.created(dto));
     }
 
     /**
-     *  계약 상세 데이터 조회 API
+     * 계약 상세 데이터 조회 API
      * <p>
      * 만약 데이터가 없으면 204 상태를 하지만 데이터가 있으면 200 으로 보냅니다.
      *
-     * @param id  계약 아이디
-     * @return  계약 상세 데이터
+     * @param id 계약 아이디
+     * @return 계약 상세 데이터
      */
     @GetMapping("contracts/{id}")
     public ResponseEntity<ContractDetail> selectOne(@PathVariable Long id) {
@@ -51,15 +54,16 @@ public class ContractController {
     }
 
     /**
-     *  계약 수정 API
+     * 계약 수정 API
      *
-     * @param id   계약 아이디
-     * @param dto  계약 변경 데이터 {@link ContractUpdateRequest}
+     * @param id  계약 아이디
+     * @param req 계약 변경 데이터 {@link ContractUpdateRequest}
      *            not null 을 체크 합니다.
      * @return 가공된  계약 데이터
      */
     @PatchMapping("contracts/{id}")
-    public ContractResponse update(@PathVariable Long id, @RequestBody @Valid ContractUpdateRequest dto) {
-        return new ContractResponse(contractService.update(id, dto));
+    public ContractResponse update(@PathVariable Long id, @RequestBody @Valid ContractUpdateRequest req) {
+        ContractUpdateModel dto = new ContractUpdateModel(id, req);
+        return new ContractResponse(contractService.update(dto));
     }
 }

@@ -1,5 +1,7 @@
 package com.example.contract.service;
 
+import com.example.contract.dto.model.contract.ContractSaveModel;
+import com.example.contract.dto.model.contract.ContractUpdateModel;
 import com.example.contract.exception.AppException;
 import com.example.contract.exception.DataNotFoundException;
 import com.example.contract.domain.contract.Contract;
@@ -18,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 /**
- *  계약 서비스
+ * 계약 서비스
  */
 @Service
 @RequiredArgsConstructor
@@ -29,15 +31,15 @@ public class ContractService {
     private final ProductRepository productRepository;
 
     /**
-     *  계약 생성 메소드
+     * 계약 생성 메소드
      *
-     * @param dto  계약 생성에 필요한 데이터를 가지고 있습니다. {@link ContractSaveRequest}
-     * @return  계약 데이터
+     * @param dto 계약 생성에 필요한 데이터를 가지고 있습니다. {@link ContractSaveRequest}
+     * @return 계약 데이터
      * @throws DataNotFoundException 상품 데이터가 없으면 예외
      */
     @NotNull
     @Transactional
-    public Contract created(ContractSaveRequest dto) {
+    public Contract created(ContractSaveModel dto) {
 
         Product product = productRepository.findByIdAndWarrants_IdIn(dto.getProductId(), dto.getWarrantIds())
                 .orElseThrow(() -> new DataNotFoundException("Product Id is " + dto.getProductId()));
@@ -52,10 +54,10 @@ public class ContractService {
     }
 
     /**
-     *  계약 상세 조회
+     * 계약 상세 조회
      *
-     * @param id  계약 아이디
-     * @return  계약 상세 데이터를 반환 해줍니다.
+     * @param id 계약 아이디
+     * @return 계약 상세 데이터를 반환 해줍니다.
      */
     @NotNull
     @Transactional(readOnly = true)
@@ -64,17 +66,18 @@ public class ContractService {
     }
 
     /**
-     *  계약 수정 메소드
+     * 계약 수정 메소드
      *
-     * @param id   계약 아이디
-     * @param dto  계약 변경 데이터를 담고 있습니다. {@link ContractUpdateRequest}
+     * @param dto 계약 변경 데이터를 담고 있습니다. {@link ContractUpdateRequest}
      * @return 수정된  계약 데이터
      * @throws AppException          기간 만료 상태라면 업데이터 할 수 없기에 예외
-     * @throws DataNotFoundException  계약 데이터 과 상품데이터  없으면 예외
+     * @throws DataNotFoundException 계약 데이터 과 상품데이터  없으면 예외
      */
     @NotNull
     @Transactional
-    public Contract update(@NotNull Long id, @NotNull ContractUpdateRequest dto) {
+    public Contract update(@NotNull ContractUpdateModel dto) {
+
+        Long id = dto.getId();
 
         Contract contract = contractRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Contract Id is " + id));
