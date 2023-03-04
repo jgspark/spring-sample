@@ -1,15 +1,20 @@
 package com.example.contract.doamin.contract;
 
 import com.example.contract.domain.contract.Contract;
-import com.example.contract.domain.warrant.Warrant;
 import com.example.contract.domain.contract.ContractState;
+import com.example.contract.domain.warrant.Warrant;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,22 +25,22 @@ class ContractTest {
     @DisplayName("업데이트 메소드 은")
     class UpdateMethod {
 
-        @Test
         @DisplayName("성공적으로 데이터를 변경할 수 있다.")
-        public void update_ok() {
+        @ParameterizedTest(name = "계약의 상태는 {0}, 보험금은 {1}, 기간은 {2}, 담보의 명칭은 {3}")
+        @ArgumentsSource(UpdateOkArgs.class)
+        public void update_ok(ContractState state , BigDecimal premium , Integer term ,Collection<String> titleList) {
 
             Contract entity = getMock();
 
             Set<Warrant> warrants = new HashSet<>();
 
-            warrants.add(Warrant.createBuilder().title("더미 데이터 1").build());
-            warrants.add(Warrant.createBuilder().title("더미 데이터 2").build());
+            for (String title :titleList){
+                Warrant warrant = Warrant.createBuilder()
+                        .title(title)
+                        .build();
 
-            Integer term = 1;
-
-            ContractState state = ContractState.WITHDRAWAL;
-
-            BigDecimal premium = new BigDecimal(2000);
+                warrants.add(warrant);
+            }
 
             entity.update(warrants, term, state, premium);
 
@@ -43,6 +48,26 @@ class ContractTest {
             assertEquals(entity.getTerm(), term);
             assertEquals(entity.getState(), state);
             assertEquals(premium.compareTo(entity.getPremium()), 0);
+        }
+
+        @DisplayName("실패할 수 있다")
+        @ParameterizedTest(name = "계약의 상태는 {0}, 보험금은 {1}, 기간은 {2}, 담보의 명칭은 {3}")
+        @ArgumentsSource(UpdateFailArgs.class)
+        public void update_fail(ContractState state , BigDecimal premium , Integer term ,Collection<String> titleList) {
+
+            Contract entity = getMock();
+
+            Set<Warrant> warrants = new HashSet<>();
+
+            for (String title :titleList){
+                Warrant warrant = Warrant.createBuilder()
+                        .title(title)
+                        .build();
+
+                warrants.add(warrant);
+            }
+
+            assertThrows(IllegalArgumentException.class , () -> entity.update(warrants, term, state, premium));
         }
 
     }
@@ -62,13 +87,14 @@ class ContractTest {
             assertTrue(entity.isExpiration());
         }
 
-        @Test
         @DisplayName("성공 할 때는 데이터가 기간만료가 아니라면 false 리턴을 한다.")
-        public void isExpiration_false_case() {
+        @ParameterizedTest(name = "계약의 상태 값이 {0} 일떄 성공")
+        @ArgumentsSource(ContractStateArgs.class)
+        public void isExpiration_false_case(ContractState state) {
 
             Contract entity = getMock();
 
-            entity.update(new HashSet<>(), 1, ContractState.NORMAL, BigDecimal.ONE);
+            entity.update(new HashSet<>(), 1, state, BigDecimal.ONE);
 
             assertFalse(entity.isExpiration());
         }
@@ -78,4 +104,36 @@ class ContractTest {
     private Contract getMock() {
         return Contract.createBuilder().build();
     }
+
+    static class ContractStateArgs implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+            return Stream.of(
+                    Arguments.of(ContractState.NORMAL),
+                    Arguments.of(ContractState.WITHDRAWAL)
+                    );
+        }
+    }
+
+    static class UpdateOkArgs implements ArgumentsProvider{
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+            return Stream.of(
+                    Arguments.of(ContractState.EXPIRATION , new BigDecimal(2000) , 1 , Arrays.asList("타이틀 1" , "타이틀22")),
+                    Arguments.of(ContractState.NORMAL , new BigDecimal(20000000) , 12 , Collections.emptyList())
+            );
+        }
+    }
+    static class UpdateFailArgs implements ArgumentsProvider{
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+            return Stream.of(
+                    Arguments.of(null , BigDecimal.ZERO , null , Collections.emptyList())
+            );
+        }
+    }
+
 }

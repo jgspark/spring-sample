@@ -6,6 +6,7 @@ import com.example.contract.exception.DataNotFoundException;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
@@ -100,6 +101,8 @@ public class Contract {
      */
     @Transient
     public void update(Set<Warrant> warrants, Integer term, ContractState state, BigDecimal premium) {
+        Assert.notNull(state);
+        Assert.notNull(term);
         this.warrants.addAll(warrants);
         this.term = term;
         this.state = state;
