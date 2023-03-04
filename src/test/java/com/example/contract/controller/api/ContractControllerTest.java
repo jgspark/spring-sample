@@ -6,7 +6,7 @@ import com.example.contract.exception.DataNotFoundException;
 import com.example.contract.domain.contract.Contract;
 import com.example.contract.domain.contract.ContractState;
 import com.example.contract.exception.ErrorCode;
-import com.example.contract.mock.ContractDetailImpl;
+import com.example.contract.mock.contract.ContractDetailImpl;
 import com.example.contract.service.ContractService;
 import com.example.contract.dto.mapper.ContractDetail;
 import com.example.contract.controller.request.ContractSaveRequest;

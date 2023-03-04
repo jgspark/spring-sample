@@ -1,4 +1,4 @@
-package com.example.contract.mock;
+package com.example.contract.mock.product;
 
 import com.example.contract.domain.product.Product;
 import com.example.contract.dto.mapper.EstimatedPremium;

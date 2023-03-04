@@ -7,7 +7,7 @@ import com.example.contract.dto.mapper.EstimatedPremium;
 import com.example.contract.dto.model.product.EstimatedPremiumModel;
 import com.example.contract.dto.model.product.ProductSaveModel;
 import com.example.contract.exception.AppException;
-import com.example.contract.mock.EstimatedPremiumImpl;
+import com.example.contract.mock.product.EstimatedPremiumImpl;
 import com.example.contract.repository.ProductRepository;
 import com.example.contract.repository.WarrantRepository;
 import org.junit.jupiter.api.BeforeEach;

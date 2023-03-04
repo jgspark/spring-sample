@@ -1,12 +1,11 @@
 package com.example.contract.controller.api;
 
-import com.example.contract.controller.api.ProductController;
 import com.example.contract.exception.AppErrorHandler;
 import com.example.contract.exception.DataNotFoundException;
 import com.example.contract.domain.product.Product;
 import com.example.contract.domain.warrant.Warrant;
 import com.example.contract.exception.ErrorCode;
-import com.example.contract.mock.EstimatedPremiumImpl;
+import com.example.contract.mock.product.EstimatedPremiumImpl;
 import com.example.contract.service.ProductService;
 import com.example.contract.dto.mapper.EstimatedPremium;
 import com.example.contract.controller.request.ProductSaveRequest;

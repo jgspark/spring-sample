@@ -1,4 +1,4 @@
-package com.example.contract.mock;
+package com.example.contract.mock.contract;
 
 import com.example.contract.domain.contract.Contract;
 import com.example.contract.domain.product.Product;

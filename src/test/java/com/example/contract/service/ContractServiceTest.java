@@ -6,7 +6,7 @@ import com.example.contract.exception.AppException;
 import com.example.contract.domain.contract.Contract;
 import com.example.contract.domain.product.Product;
 import com.example.contract.domain.warrant.Warrant;
-import com.example.contract.mock.ContractDetailImpl;
+import com.example.contract.mock.contract.ContractDetailImpl;
 import com.example.contract.repository.ContractRepository;
 import com.example.contract.repository.ProductRepository;
 import com.example.contract.dto.mapper.ContractDetail;
