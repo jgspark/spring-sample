@@ -1,6 +1,7 @@
 package com.example.contract.service;
 
 import com.example.contract.domain.warrant.Warrant;
+import com.example.contract.dto.model.warrant.WarrantSaveModel;
 import com.example.contract.repository.WarrantRepository;
 import com.example.contract.controller.request.WarrantSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +45,9 @@ class WarrantServiceTest {
 
             given(warrantRepository.save(any())).willReturn(mock);
 
-            WarrantSaveRequest dto = readJson("json/warrant/service/warrant_save_request.json", WarrantSaveRequest.class);
+            WarrantSaveRequest req = readJson("json/warrant/service/warrant_save_request.json", WarrantSaveRequest.class);
+
+            WarrantSaveModel dto = new WarrantSaveModel(req);
 
             Warrant entity = warrantService.created(dto);
 

@@ -73,7 +73,7 @@ class ProductControllerTest {
             Optional<EstimatedPremium> mockOptional =
                     Optional.of(new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok1.json", Product.class)));
 
-            given(productService.getEstimatedPremium(any(), any())).willReturn(mockOptional);
+            given(productService.getEstimatedPremium(any())).willReturn(mockOptional);
 
             Map<String, Object> dto = readJson("json/product/web/getEstimatedPremium_ok_dto.json", Map.class);
 
@@ -90,7 +90,7 @@ class ProductControllerTest {
 
             EstimatedPremium mock = mockOptional.get();
 
-            then(productService).should().getEstimatedPremium(any(), any());
+            then(productService).should().getEstimatedPremium(any());
 
             action.andExpect(status().isOk())
                     .andExpect(jsonPath("$.term").value(mock.getTerm()))
@@ -102,7 +102,7 @@ class ProductControllerTest {
         @DisplayName("데이터가 없다면, Http Status를 204 (No Content)를 반환을 하게 됩니다.")
         public void selectEstimatedPremium_fail1() throws Exception {
 
-            given(productService.getEstimatedPremium(any(), any())).willReturn(Optional.empty());
+            given(productService.getEstimatedPremium(any())).willReturn(Optional.empty());
 
             Map<String, Object> dto = readJson("json/product/web/getEstimatedPremium_ok_dto.json", Map.class);
 
@@ -117,7 +117,7 @@ class ProductControllerTest {
                     )
                     .andDo(print());
 
-            then(productService).should().getEstimatedPremium(any(), any());
+            then(productService).should().getEstimatedPremium(any());
 
             action.andExpect(status().isNoContent());
         }

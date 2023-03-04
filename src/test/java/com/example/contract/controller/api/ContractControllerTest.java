@@ -163,7 +163,7 @@ class ContractControllerTest {
 
             Contract mock = convertContract((Map) mockMap.get("contract"), (Map) mockMap.get("warrant"), ContractState.NORMAL);
 
-            given(contractService.update(any(), any())).willReturn(mock);
+            given(contractService.update(any())).willReturn(mock);
 
             long mockId = 1L;
 
@@ -178,7 +178,7 @@ class ContractControllerTest {
                     )
                     .andDo(print());
 
-            then(contractService).should().update(any(), any());
+            then(contractService).should().update(any());
 
             action.andExpect(status().isOk())
                     .andExpect(jsonPath("$.id").value(mock.getId()))
@@ -199,7 +199,7 @@ class ContractControllerTest {
 
             String mock = "contract is state (Expiration) and id is " + mockId;
 
-            given(contractService.update(any(), any())).willThrow(new AppException(mock));
+            given(contractService.update(any())).willThrow(new AppException(mock));
 
             String uri = "/contracts/" + mockId;
 
@@ -212,7 +212,7 @@ class ContractControllerTest {
                     )
                     .andDo(print());
 
-            then(contractService).should().update(any(), any());
+            then(contractService).should().update(any());
 
             ErrorCode errorCode = ErrorCode.SERVER_ERROR;
 
@@ -229,7 +229,7 @@ class ContractControllerTest {
 
             String mock = "Product Id is " + mockId;
 
-            given(contractService.update(any(), any())).willThrow(new DataNotFoundException(mock));
+            given(contractService.update(any())).willThrow(new DataNotFoundException(mock));
 
             String uri = "/contracts/" + mockId;
 
@@ -242,7 +242,7 @@ class ContractControllerTest {
                     )
                     .andDo(print());
 
-            then(contractService).should().update(any(), any());
+            then(contractService).should().update(any());
 
             ErrorCode errorCode = ErrorCode.NOT_FOUND_DATA;
 

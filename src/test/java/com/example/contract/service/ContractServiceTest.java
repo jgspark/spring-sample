@@ -1,5 +1,7 @@
 package com.example.contract.service;
 
+import com.example.contract.dto.model.contract.ContractSaveModel;
+import com.example.contract.dto.model.contract.ContractUpdateModel;
 import com.example.contract.exception.AppException;
 import com.example.contract.domain.contract.Contract;
 import com.example.contract.domain.product.Product;
@@ -64,7 +66,9 @@ class ContractServiceTest {
 
             Optional<Product> mockProductOptional = Optional.of(convert(convertProduct((Map) mockMap.get("product")), mockWarrant));
 
-            ContractSaveRequest dto = readJson("json/contract/service/contract_save_request.json", ContractSaveRequest.class);
+            ContractSaveRequest req = readJson("json/contract/service/contract_save_request.json", ContractSaveRequest.class);
+
+            ContractSaveModel dto = new ContractSaveModel(req);
 
             given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
 
@@ -88,13 +92,13 @@ class ContractServiceTest {
         @DisplayName("상품 조회시 상품 데이터가 없으면, 예외가 발생을 하게 된다.")
         public void created_fail1() {
 
-            ContractSaveRequest dto = readJson("json/contract/service/contract_save_request.json", ContractSaveRequest.class);
+            ContractSaveRequest req = readJson("json/contract/service/contract_save_request.json", ContractSaveRequest.class);
+
+            ContractSaveModel dto = new ContractSaveModel(req);
 
             given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(Optional.empty());
 
-            assertThrows(RuntimeException.class, () -> {
-                contractService.created(dto);
-            });
+            assertThrows(RuntimeException.class, () -> contractService.created(dto));
         }
     }
 
@@ -177,9 +181,11 @@ class ContractServiceTest {
 
             given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
 
-            ContractUpdateRequest dto = readJson("json/contract/service/contract_update_request.json", ContractUpdateRequest.class);
+            ContractUpdateRequest req = readJson("json/contract/service/contract_update_request.json", ContractUpdateRequest.class);
 
-            Contract entity = contractService.update(id, dto);
+            ContractUpdateModel dto = new ContractUpdateModel(id, req);
+
+            Contract entity = contractService.update(dto);
 
             Contract mock = mockOptional.get();
 
@@ -204,11 +210,11 @@ class ContractServiceTest {
 
             given(contractRepository.findById(any())).willReturn(mockOptional);
 
-            ContractUpdateRequest dto = readJson("json/contract/service/contract_update_request.json", ContractUpdateRequest.class);
+            ContractUpdateRequest req = readJson("json/contract/service/contract_update_request.json", ContractUpdateRequest.class);
 
-            assertThrows(AppException.class, () -> {
-                contractService.update(id, dto);
-            });
+            ContractUpdateModel dto = new ContractUpdateModel(id, req);
+
+            assertThrows(AppException.class, () -> contractService.update(dto));
         }
     }
 

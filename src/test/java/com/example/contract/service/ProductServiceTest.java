@@ -4,6 +4,8 @@ import com.example.contract.controller.request.ProductSaveRequest;
 import com.example.contract.domain.product.Product;
 import com.example.contract.domain.warrant.Warrant;
 import com.example.contract.dto.mapper.EstimatedPremium;
+import com.example.contract.dto.model.product.EstimatedPremiumModel;
+import com.example.contract.dto.model.product.ProductSaveModel;
 import com.example.contract.exception.AppException;
 import com.example.contract.mock.EstimatedPremiumImpl;
 import com.example.contract.repository.ProductRepository;
@@ -62,7 +64,9 @@ class ProductServiceTest {
 
             given(productRepository.save(any())).willReturn(mock);
 
-            ProductSaveRequest dto = readJson("json/product/service/product_save_request.json", ProductSaveRequest.class);
+            ProductSaveRequest req = readJson("json/product/service/product_save_request.json", ProductSaveRequest.class);
+
+            ProductSaveModel dto = new ProductSaveModel(req);
 
             Product entity = productService.created(dto);
 
@@ -80,11 +84,11 @@ class ProductServiceTest {
 
             given(warrantRepository.findByIdIn(any())).willReturn(new HashSet<>());
 
-            ProductSaveRequest dto = readJson("json/product/service/product_save_request.json", ProductSaveRequest.class);
+            ProductSaveRequest req = readJson("json/product/service/product_save_request.json", ProductSaveRequest.class);
 
-            assertThrows(AppException.class, () -> {
-                productService.created(dto);
-            });
+            ProductSaveModel dto = new ProductSaveModel(req);
+
+            assertThrows(AppException.class, () -> productService.created(dto));
         }
     }
 
@@ -97,18 +101,20 @@ class ProductServiceTest {
         public void getEstimatedPremium_ok1() {
 
             Optional<EstimatedPremium> mockOptional = Optional.of(
-                new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok1.json", Product.class)));
+                    new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok1.json", Product.class)));
 
             given(productRepository.findByIdAndWarrants_IdIn(anyLong(), any(), eq(EstimatedPremium.class))).willReturn(mockOptional);
 
-            Map<String, Object> dto = readJson("json/product/service/getEstimatedPremium_ok1_dto.json", Map.class);
+            Map<String, Object> map = readJson("json/product/service/getEstimatedPremium_ok1_dto.json", Map.class);
 
-            List<Long> warrantIds = ((ArrayList<Integer>) dto.get("warrantIds")).stream().map(Integer::longValue).collect(
-                Collectors.toList());
+            List<Long> warrantIds = ((ArrayList<Integer>) map.get("warrantIds")).stream().map(Integer::longValue).collect(
+                    Collectors.toList());
 
-            Integer productId = (Integer) dto.get("productId");
+            Integer productId = (Integer) map.get("productId");
 
-            Optional<EstimatedPremium> entityOptional = productService.getEstimatedPremium(productId.longValue(), warrantIds);
+            EstimatedPremiumModel dto = new EstimatedPremiumModel(productId.longValue(), warrantIds);
+
+            Optional<EstimatedPremium> entityOptional = productService.getEstimatedPremium(dto);
 
             then(productRepository).should().findByIdAndWarrants_IdIn(anyLong(), any(), eq(EstimatedPremium.class));
 
@@ -126,18 +132,20 @@ class ProductServiceTest {
         public void getEstimatedPremium_ok2() {
 
             Optional<EstimatedPremium> mockOptional = Optional.of(
-                new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok2.json", Product.class)));
+                    new EstimatedPremiumImpl(readJson("json/product/service/getEstimatedPremium_ok2.json", Product.class)));
 
             given(productRepository.findById(anyLong(), eq(EstimatedPremium.class))).willReturn(mockOptional);
 
-            Map<String, Object> dto = readJson("json/product/service/getEstimatedPremium_ok2_dto.json", Map.class);
+            Map<String, Object> map = readJson("json/product/service/getEstimatedPremium_ok2_dto.json", Map.class);
 
-            List<Long> warrantIds = ((ArrayList<Integer>) dto.get("warrantIds")).stream().map(Integer::longValue).collect(
-                Collectors.toList());
+            List<Long> warrantIds = ((ArrayList<Integer>) map.get("warrantIds")).stream().map(Integer::longValue).collect(
+                    Collectors.toList());
 
-            Integer productId = (Integer) dto.get("productId");
+            Integer productId = (Integer) map.get("productId");
 
-            Optional<EstimatedPremium> entityOptional = productService.getEstimatedPremium(productId.longValue(), warrantIds);
+            EstimatedPremiumModel dto = new EstimatedPremiumModel(productId.longValue(), warrantIds);
+
+            Optional<EstimatedPremium> entityOptional = productService.getEstimatedPremium(dto);
 
             then(productRepository).should().findById(anyLong(), eq(EstimatedPremium.class));
 
