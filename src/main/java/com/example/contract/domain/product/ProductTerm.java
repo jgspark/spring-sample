@@ -77,4 +77,12 @@ public class ProductTerm {
     private boolean isOverStartMonth() {
         return startMonth > endMonth;
     }
+
+    @Override
+    public String toString() {
+        return "ProductTerm{" +
+                "startMonth=" + startMonth + '\'' +
+                ", endMonth=" + endMonth + '\'' +
+                '}';
+    }
 }

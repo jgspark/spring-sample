@@ -1,15 +1,21 @@
 package com.example.contract.doamin.product;
 
 import com.example.contract.domain.product.Product;
-import com.example.contract.domain.warrant.Warrant;
 import com.example.contract.domain.product.ProductTerm;
+import com.example.contract.domain.warrant.Warrant;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,27 +40,26 @@ class ProductTest {
             assertEquals(0, m.compareTo(n));
         }
 
-        @Test
-        @DisplayName("기간(term) 데이터가 Null 이면 Exception이 발생이 된다.")
-        public void calculatePremium_fail1() {
-
-            Product mock = Product.createBuilder().title("여행자 보험").warrants(getWarrants()).build();
-
-            assertThrows(IllegalArgumentException.class, mock::calculatePremium);
-
-        }
-
-        @Test
+        @ArgumentsSource(CalculatePremiumFailArgs.class)
+        @ParameterizedTest(name = "상품 데이터를 {0} 이거라면, 예외가 발생이 된다.")
         @DisplayName("담보 데이터가 Null 이면 Exception이 발생을 하게 된다.")
-        public void calculatePremium_fail2() {
-
-            Product mock = Product.createBuilder().title("여행자 보험").term(new ProductTerm(1, 3)).build();
-
+        public void calculatePremium_fail2(Product mock) {
             assertThrows(RuntimeException.class, mock::calculatePremium);
         }
     }
 
-    private Set<Warrant> getWarrants() {
+    static class CalculatePremiumFailArgs implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+            return Stream.of(
+                    Arguments.of( Product.createBuilder().title("여행자 보험").term(new ProductTerm(1, 3)).build()),
+                    Arguments.of(Product.createBuilder().title("여행자 보험").warrants(getWarrants()).build())
+            );
+        }
+    }
+
+    private static Set<Warrant> getWarrants() {
         Set<Warrant> mock = new HashSet<>();
 
         Warrant warrant = Warrant.createBuilder().title("상해치료").subscriptionAmount(new BigDecimal(1000000)).standardAmount(new BigDecimal(100)).build();

@@ -74,4 +74,14 @@ public class Product {
         this.term = term;
         this.warrants = Optional.ofNullable(warrants).orElse(new HashSet<>());
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", term=" + term + '\'' +
+                ", warrants=" + warrants + '\'' +
+                '}';
+    }
 }

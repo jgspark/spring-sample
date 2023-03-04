@@ -64,4 +64,14 @@ public class Warrant {
         this.subscriptionAmount = subscriptionAmount;
         this.standardAmount = standardAmount;
     }
+
+    @Override
+    public String toString() {
+        return "Warrant{" +
+                "id=" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", subscriptionAmount=" + subscriptionAmount +  '\'' +
+                ", standardAmount=" + standardAmount + '\'' +
+                '}';
+    }
 }
