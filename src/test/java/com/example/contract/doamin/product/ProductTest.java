@@ -42,7 +42,7 @@ class ProductTest {
 
         @ArgumentsSource(CalculatePremiumFailArgs.class)
         @ParameterizedTest(name = "상품 데이터를 {0} 이거라면, 예외가 발생이 된다.")
-        @DisplayName("담보 데이터가 Null 이면 Exception이 발생을 하게 된다.")
+        @DisplayName("실패을 하게 된다.")
         public void calculatePremium_fail2(Product mock) {
             assertThrows(RuntimeException.class, mock::calculatePremium);
         }
