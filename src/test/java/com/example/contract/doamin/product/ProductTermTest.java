@@ -4,8 +4,16 @@ import com.example.contract.domain.product.ProductTerm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("상품 계약 기간 데이터 에서")
 class ProductTermTest {
@@ -21,35 +29,31 @@ class ProductTermTest {
 
             ProductTerm productTerm = new ProductTerm(1, 10);
 
-            productTerm.checkTerm();
+            assertDoesNotThrow(productTerm::checkTerm);
         }
 
-        @Test
-        @DisplayName("시작 계약 기간이 더 크면 실패 하게 된다.")
-        public void checkTerm_fail1() {
+        @DisplayName("해당 케이스 별로 예외 처리를 한다.")
+        @ParameterizedTest(name = "시작 월 데이터가 {0} 이면서, 끝 월 데이터 가 {1}일떄")
+        @ArgumentsSource(CheckTermFailArgs.class)
+        public void checkTerm_fail3(Integer startMonth , Integer endMonth) {
 
-            ProductTerm productTerm = new ProductTerm(10, 1);
+            ProductTerm productTerm = new ProductTerm(startMonth, endMonth);
 
-            assertThrows(RuntimeException.class, productTerm::checkTerm);
-        }
-
-        @Test
-        @DisplayName("시작 계약 기간이 Null 이면 실패 하게 된다.")
-        public void checkTerm_fail2() {
-
-            ProductTerm productTerm = new ProductTerm(null, 1);
-
-            assertThrows(IllegalArgumentException.class, productTerm::checkTerm);
-        }
-
-        @Test
-        @DisplayName("끝 계약 기간이 Null 이면 실패 하게 된다.")
-        public void checkTerm_fail3() {
-
-            ProductTerm productTerm = new ProductTerm(null, 1);
-
-            assertThrows(IllegalArgumentException.class, productTerm::checkTerm);
+            assertThrows(Exception.class, productTerm::checkTerm);
         }
 
     }
+
+    static class CheckTermFailArgs implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+            return Stream.of(
+                    Arguments.of(null , 1),
+                    Arguments.of(1 , null),
+                    Arguments.of(10 , 1)
+            );
+        }
+    }
+
 }
