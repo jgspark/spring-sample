@@ -1,4 +1,4 @@
-package com.example.contract.service;
+package com.example.contract.service.contract;
 
 import com.example.contract.dto.model.contract.ContractSaveModel;
 import com.example.contract.dto.model.contract.ContractUpdateModel;
@@ -13,6 +13,7 @@ import com.example.contract.dto.mapper.ContractDetail;
 import com.example.contract.controller.request.ContractSaveRequest;
 import com.example.contract.controller.request.ContractUpdateRequest;
 import com.example.contract.dto.mapper.WarrantInfo;
+import com.example.contract.service.contract.ContractServiceImpl;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -47,7 +48,7 @@ class ContractServiceTest {
 
     @BeforeEach
     public void init() {
-        contractService = new ContractService(contractRepository, productRepository);
+        contractService = new ContractServiceImpl(contractRepository, productRepository);
     }
 
     @Nested

@@ -130,4 +130,18 @@ public class Contract {
             throw new DataNotFoundException("empty data");
         }
     }
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "id=" + id +
+                ", product=" + product +
+                ", warrants=" + warrants +
+                ", term=" + term +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", premium=" + premium +
+                ", state=" + state +
+                '}';
+    }
 }

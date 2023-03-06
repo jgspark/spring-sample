@@ -1,4 +1,4 @@
-package com.example.contract.service;
+package com.example.contract.service.product;
 
 import com.example.contract.controller.request.ProductSaveRequest;
 import com.example.contract.domain.product.Product;
@@ -10,6 +10,7 @@ import com.example.contract.exception.AppException;
 import com.example.contract.mock.product.EstimatedPremiumImpl;
 import com.example.contract.repository.ProductRepository;
 import com.example.contract.repository.WarrantRepository;
+import com.example.contract.service.product.ProductServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -44,7 +45,7 @@ class ProductServiceTest {
 
     @BeforeEach
     public void init() {
-        productService = new ProductService(productRepository, warrantRepository);
+        productService = new ProductServiceImpl(productRepository, warrantRepository);
     }
 
     @Nested

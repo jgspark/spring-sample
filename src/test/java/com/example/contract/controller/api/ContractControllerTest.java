@@ -7,7 +7,7 @@ import com.example.contract.domain.contract.Contract;
 import com.example.contract.domain.contract.ContractState;
 import com.example.contract.exception.ErrorCode;
 import com.example.contract.mock.contract.ContractDetailImpl;
-import com.example.contract.service.ContractService;
+import com.example.contract.service.contract.ContractServiceImpl;
 import com.example.contract.dto.mapper.ContractDetail;
 import com.example.contract.controller.request.ContractSaveRequest;
 import com.example.contract.controller.request.ContractUpdateRequest;
@@ -49,7 +49,7 @@ class ContractControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ContractService contractService;
+    private ContractServiceImpl contractService;
 
     @BeforeEach
     public void init() {

@@ -1,9 +1,10 @@
-package com.example.contract.service;
+package com.example.contract.service.warrant;
 
 import com.example.contract.domain.warrant.Warrant;
 import com.example.contract.dto.model.warrant.WarrantSaveModel;
 import com.example.contract.repository.WarrantRepository;
 import com.example.contract.controller.request.WarrantSaveRequest;
+import com.example.contract.service.warrant.WarrantServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -30,7 +31,7 @@ class WarrantServiceTest {
 
     @BeforeEach
     public void init() {
-        warrantService = new WarrantService(warrantRepository);
+        warrantService = new WarrantServiceImpl(warrantRepository);
     }
 
     @Nested

@@ -2,7 +2,8 @@ package com.example.contract.controller.api;
 
 import com.example.contract.dto.model.contract.ContractSaveModel;
 import com.example.contract.dto.model.contract.ContractUpdateModel;
-import com.example.contract.service.ContractService;
+import com.example.contract.service.contract.ContractService;
+import com.example.contract.service.contract.ContractServiceImpl;
 import com.example.contract.dto.mapper.ContractDetail;
 import com.example.contract.dto.response.ContractResponse;
 import com.example.contract.controller.request.ContractSaveRequest;

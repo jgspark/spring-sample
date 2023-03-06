@@ -1,4 +1,4 @@
-package com.example.contract.service;
+package com.example.contract.service.product;
 
 import com.example.contract.controller.request.ProductSaveRequest;
 import com.example.contract.domain.product.Product;
@@ -24,7 +24,7 @@ import java.util.Set;
  */
 @Service
 @RequiredArgsConstructor
-public class ProductService {
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 

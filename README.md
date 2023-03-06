@@ -1,5 +1,15 @@
 # Sample Server Code
 
+### Package 
+
+* config 
+* controller 
+* domain 
+* dto 
+* exception 
+* repository
+* service 
+
 ## ERD 
 
 ![diagram.png](post%2Fdiagram.png)

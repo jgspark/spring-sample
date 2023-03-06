@@ -8,11 +8,20 @@ import com.example.contract.domain.contract.ContractState;
 import com.example.contract.dto.mapper.ContractDetail;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static com.example.contract.mock.ConvertUtil.*;
 import static com.example.contract.mock.MockUtil.readJson;
@@ -44,12 +53,12 @@ class ContractRepositoryTest {
     }
 
     @Nested
-    @DisplayName("저장 로직 은")
+    @DisplayName("저장 로직은")
     class SaveMethod {
 
         @Test
         @Order(1)
-        @DisplayName("계약 생성 성공 케이스")
+        @DisplayName("성공적으로 실행을 하게 된다.")
         public void save_ok() {
 
             Contract mock = convert(readJson("json/contract/repository/save_ok.json", Contract.class), mockProduct, mockWarrant);
@@ -68,16 +77,12 @@ class ContractRepositoryTest {
             assertEquals(entity.getWarrants(), mock.getWarrants());
         }
 
-        @Test
         @Order(2)
-        @DisplayName("계약 기간이 0 또는 null 일 때 케이스")
-        public void save_fail_case1() {
-
-            Contract mock = readJson("json/contract/repository/save_fail_case1.json", Contract.class);
-
-            assertThrows(DataNotFoundException.class, () -> {
-                contractRepository.save(mock);
-            });
+        @ParameterizedTest
+        @ArgumentsSource(SaveMethodFailArgs.class)
+        @DisplayName("해당 데이터를 지닐떄 실패를 하게 된다.")
+        public void save_fail_case1(Contract mock) {
+            assertThrows(DataNotFoundException.class, () -> contractRepository.save(mock));
         }
 
     }
@@ -120,15 +125,24 @@ class ContractRepositoryTest {
 
         }
 
-        @Test
-        @DisplayName("아이디가 없으면 Exception이 발생이 된다.")
-        public void findById_fail1() {
+        @ParameterizedTest(name = "{0}은 contract id 입니다.")
+        @ValueSource(longs = {1000L, 2000L, 3000L, 4000L})
+        @DisplayName("아이디가 없으면 isPresent는 false 를 리턴한다.")
+        public void findById_fail1(Long mockId) {
 
-            Long mockId = 100000L;
+            Optional<ContractDetail> findData = contractRepository.findById(mockId, ContractDetail.class);
 
-            assertThrows(RuntimeException.class, () -> {
-                contractRepository.findById(mockId, ContractDetail.class).orElseThrow(RuntimeException::new);
-            });
+            assertFalse(findData.isPresent());
+        }
+    }
+
+    private static class SaveMethodFailArgs implements ArgumentsProvider {
+
+        int num = 2;
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+            return IntStream.range(0, num).mapToObj(n -> Arguments.of(readJson("json/contract/repository/save_fail_case_" + (n + 1) + ".json", Contract.class)));
         }
     }
 }

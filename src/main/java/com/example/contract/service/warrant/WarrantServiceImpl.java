@@ -1,4 +1,4 @@
-package com.example.contract.service;
+package com.example.contract.service.warrant;
 
 import com.example.contract.controller.request.WarrantSaveRequest;
 import com.example.contract.domain.warrant.Warrant;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class WarrantService {
+public class WarrantServiceImpl implements WarrantService {
 
     private final WarrantRepository warrantRepository;
 
@@ -25,7 +25,7 @@ public class WarrantService {
      * @return 담보
      */
     @Transactional
-    public @NotNull Warrant created(@NotNull WarrantSaveModel dto) {
+    public Warrant created(@NotNull WarrantSaveModel dto) {
         return warrantRepository.save(dto.toEntity());
     }
 }

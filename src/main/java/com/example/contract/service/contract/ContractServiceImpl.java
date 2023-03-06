@@ -1,4 +1,4 @@
-package com.example.contract.service;
+package com.example.contract.service.contract;
 
 import com.example.contract.dto.model.contract.ContractSaveModel;
 import com.example.contract.dto.model.contract.ContractUpdateModel;
@@ -24,7 +24,7 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
-public class ContractService {
+public class ContractServiceImpl implements ContractService {
 
     private final ContractRepository contractRepository;
 

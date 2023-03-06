@@ -1,9 +1,8 @@
 package com.example.contract.controller.api;
 
-import com.example.contract.controller.api.WarrantController;
 import com.example.contract.exception.AppErrorHandler;
 import com.example.contract.domain.warrant.Warrant;
-import com.example.contract.service.WarrantService;
+import com.example.contract.service.warrant.WarrantServiceImpl;
 import com.example.contract.controller.request.WarrantSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,7 +38,7 @@ class WarrantControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private WarrantService warrantService;
+    private WarrantServiceImpl warrantService;
 
     @BeforeEach
     public void init() {
