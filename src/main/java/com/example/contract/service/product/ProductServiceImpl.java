@@ -1,5 +1,6 @@
 package com.example.contract.service.product;
 
+import com.example.contract.aop.IOLogger;
 import com.example.contract.controller.request.ProductSaveRequest;
 import com.example.contract.domain.product.Product;
 import com.example.contract.domain.warrant.Warrant;
@@ -38,6 +39,7 @@ public class ProductServiceImpl implements ProductService {
      * @throws DataNotFoundException 담보 데이터가 없으면 발생이 됩니다.
      */
     @NotNull
+    @IOLogger
     @Transactional
     public Product created(@NotNull ProductSaveModel dto) {
 
@@ -57,11 +59,11 @@ public class ProductServiceImpl implements ProductService {
      * <p>
      * 하지만 담보 데이터가 있다면 해당하는 담보를 조회를 합니다.
      *
-     * @param id         상품 아이디
-     * @param warrantIds 담보 데이터
+     * @param dto
      * @return 예상 보험료 데이터
      */
     @NotNull
+    @IOLogger
     @Transactional(readOnly = true)
     public Optional<EstimatedPremium> getEstimatedPremium(@NotNull EstimatedPremiumModel dto) {
 

@@ -1,5 +1,6 @@
 package com.example.contract.service.warrant;
 
+import com.example.contract.aop.IOLogger;
 import com.example.contract.controller.request.WarrantSaveRequest;
 import com.example.contract.domain.warrant.Warrant;
 import com.example.contract.dto.model.warrant.WarrantSaveModel;
@@ -24,6 +25,7 @@ public class WarrantServiceImpl implements WarrantService {
      * @param dto 담보 생성에 필요한 데이터를 가지로 있습니다 {@link WarrantSaveRequest}
      * @return 담보
      */
+    @IOLogger
     @Transactional
     public Warrant created(@NotNull WarrantSaveModel dto) {
         return warrantRepository.save(dto.toEntity());

@@ -1,5 +1,6 @@
 package com.example.contract.service.contract;
 
+import com.example.contract.aop.IOLogger;
 import com.example.contract.dto.model.contract.ContractSaveModel;
 import com.example.contract.dto.model.contract.ContractUpdateModel;
 import com.example.contract.exception.AppException;
@@ -38,6 +39,7 @@ public class ContractServiceImpl implements ContractService {
      * @throws DataNotFoundException 상품 데이터가 없으면 예외
      */
     @NotNull
+    @IOLogger
     @Transactional
     public Contract created(ContractSaveModel dto) {
 
@@ -60,6 +62,7 @@ public class ContractServiceImpl implements ContractService {
      * @return 계약 상세 데이터를 반환 해줍니다.
      */
     @NotNull
+    @IOLogger
     @Transactional(readOnly = true)
     public Optional<ContractDetail> getOne(@NotNull Long id) {
         return contractRepository.findById(id, ContractDetail.class);
@@ -74,6 +77,7 @@ public class ContractServiceImpl implements ContractService {
      * @throws DataNotFoundException 계약 데이터 과 상품데이터  없으면 예외
      */
     @NotNull
+    @IOLogger
     @Transactional
     public Contract update(@NotNull ContractUpdateModel dto) {
 
