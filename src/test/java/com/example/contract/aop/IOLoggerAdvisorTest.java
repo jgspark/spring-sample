@@ -3,6 +3,7 @@ package com.example.contract.aop;
 import com.example.contract.controller.request.WarrantSaveRequest;
 import com.example.contract.dto.model.warrant.WarrantSaveModel;
 import com.example.contract.service.warrant.WarrantService;
+import com.example.contract.service.warrant.WarrantServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
@@ -24,7 +25,7 @@ class IOLoggerAdvisorTest {
     @Test
     public void loggingByInputAndOutput() throws Throwable {
 
-        WarrantService warrantService = mock(WarrantService.class);
+        WarrantService warrantService = mock(WarrantServiceImpl.class);
 
         AspectJProxyFactory factory = new AspectJProxyFactory(warrantService);
 
@@ -38,7 +39,7 @@ class IOLoggerAdvisorTest {
 
         serviceProxy.created(dto);
 
-        verify(ioLoggerAdvisor , times(1)).loggingByInputAndOutput(any());
+        verify(ioLoggerAdvisor, times(1)).loggingByInputAndOutput(any());
 
     }
 
