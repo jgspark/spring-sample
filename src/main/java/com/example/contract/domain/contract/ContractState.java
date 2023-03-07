@@ -1,7 +1,5 @@
 package com.example.contract.domain.contract;
 
-import com.example.contract.domain.contract.Contract;
-
 /**
  * 계약의 상태
  *

@@ -1,8 +1,8 @@
 package com.example.contract.controller.request;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Getter
@@ -16,4 +16,5 @@ public class WarrantSaveRequest {
 
     @NotNull
     private BigDecimal standardAmount;
+
 }

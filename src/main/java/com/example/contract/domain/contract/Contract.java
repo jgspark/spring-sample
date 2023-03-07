@@ -3,13 +3,13 @@ package com.example.contract.domain.contract;
 import com.example.contract.domain.product.Product;
 import com.example.contract.domain.warrant.Warrant;
 import com.example.contract.exception.DataNotFoundException;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;

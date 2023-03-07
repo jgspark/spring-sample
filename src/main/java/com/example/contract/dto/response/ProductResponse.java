@@ -1,12 +1,11 @@
 package com.example.contract.dto.response;
 
 import com.example.contract.domain.product.Product;
-import com.example.contract.domain.warrant.Warrant;
 import com.example.contract.domain.product.ProductTerm;
-import lombok.Getter;
-
+import com.example.contract.domain.warrant.Warrant;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.Getter;
 
 @Getter
 public class ProductResponse {

@@ -1,9 +1,8 @@
 package com.example.contract.dto.response;
 
 import com.example.contract.domain.warrant.Warrant;
-import lombok.Getter;
-
 import java.math.BigDecimal;
+import lombok.Getter;
 
 @Getter
 public class WarrantResponse {

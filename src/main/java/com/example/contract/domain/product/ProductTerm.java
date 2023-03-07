@@ -1,16 +1,13 @@
 package com.example.contract.domain.product;
 
 import com.example.contract.exception.AppException;
-import com.example.contract.domain.product.Product;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Transient;
-
 import static org.springframework.util.Assert.notNull;
 
 /**
@@ -41,10 +38,8 @@ public class ProductTerm {
      */
     @Transient
     public Integer getRange() {
-
-        notNull(startMonth);
-        notNull(endMonth);
-
+        notNull(startMonth, "startMonth is not null");
+        notNull(endMonth , "endMonth is not null");
         return Math.subtractExact(endMonth, startMonth);
     }
 
@@ -58,9 +53,8 @@ public class ProductTerm {
      */
     @Transient
     public void checkTerm() {
-
-        notNull(startMonth);
-        notNull(endMonth);
+        notNull(startMonth, "startMonth is not null");
+        notNull(endMonth , "endMonth is not null");
 
         if (isOverStartMonth()) {
             throw new AppException("StartDate is Over EndDate");

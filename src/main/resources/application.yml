@@ -15,7 +15,23 @@ spring:
 
     open-in-view: false
 
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
 logging:
   level:
-    org:
-      hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.web: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+

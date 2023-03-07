@@ -7,9 +7,9 @@ import java.util.Collection;
 @Getter
 public class EstimatedPremiumModel {
 
-    private Long id;
+    private final Long id;
 
-    private Collection<Long> warrantIds;
+    private final Collection<Long> warrantIds;
 
     public EstimatedPremiumModel(Long id, Collection<Long> warrantIds) {
         this.id = id;

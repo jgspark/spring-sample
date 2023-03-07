@@ -1,15 +1,19 @@
 package com.example.contract.domain.warrant;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
-
-import javax.persistence.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 import static org.springframework.util.Assert.notNull;
 
 /**
@@ -52,8 +56,8 @@ public class Warrant {
      */
     @Transient
     public BigDecimal getPremium() {
-        notNull(subscriptionAmount);
-        notNull(standardAmount);
+        notNull(subscriptionAmount , "subscriptionAmount is not null");
+        notNull(standardAmount , "standardAmount is not null");
         return subscriptionAmount.divide(standardAmount, 5, RoundingMode.CEILING);
     }
 

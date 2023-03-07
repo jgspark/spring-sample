@@ -3,7 +3,7 @@ package com.example.contract.controller.request;
 import com.example.contract.domain.product.ProductTerm;
 import lombok.Getter;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.Set;
 
 @Getter

@@ -4,9 +4,8 @@ import com.example.contract.controller.request.ProductSaveRequest;
 import com.example.contract.domain.product.Product;
 import com.example.contract.domain.product.ProductTerm;
 import com.example.contract.domain.warrant.Warrant;
-import lombok.Getter;
-
 import java.util.Set;
+import lombok.Getter;
 
 @Getter
 public class ProductSaveModel {

@@ -1,14 +1,13 @@
 package com.example.contract.dto.response;
 
-import com.example.contract.domain.contract.ContractState;
 import com.example.contract.domain.contract.Contract;
+import com.example.contract.domain.contract.ContractState;
 import com.example.contract.domain.warrant.Warrant;
-import lombok.Getter;
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.Getter;
 
 @Getter
 public class ContractResponse {
