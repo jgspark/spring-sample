@@ -29,4 +29,13 @@ public class ProductSaveModel {
                 .warrants(warrants)
                 .build();
     }
+
+    @Override
+    public String toString() {
+        return "ProductSaveModel{" +
+                "title='" + title + '\'' +
+                ", term=" + term +
+                ", warrantIds=" + warrantIds +
+                '}';
+    }
 }

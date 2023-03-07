@@ -15,4 +15,12 @@ public class EstimatedPremiumModel {
         this.id = id;
         this.warrantIds = warrantIds;
     }
+
+    @Override
+    public String toString() {
+        return "EstimatedPremiumModel{" +
+                "id=" + id +
+                ", warrantIds=" + warrantIds +
+                '}';
+    }
 }

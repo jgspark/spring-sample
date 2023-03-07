@@ -6,5 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface WarrantService {
 
+
     Warrant created(@NotNull WarrantSaveModel dto);
 }

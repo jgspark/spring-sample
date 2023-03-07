@@ -38,4 +38,18 @@ public class ContractResponse {
         this.premium = contract.getPremium();
         this.state = contract.getState();
     }
+
+    @Override
+    public String toString() {
+        return "ContractResponse{" +
+                "id=" + id +
+                ", productId=" + productId +
+                ", warrantIds=" + warrantIds +
+                ", term=" + term +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", premium=" + premium +
+                ", state=" + state +
+                '}';
+    }
 }

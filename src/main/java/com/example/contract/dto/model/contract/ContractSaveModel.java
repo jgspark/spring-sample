@@ -40,4 +40,15 @@ public class ContractSaveModel {
                 .endDate(this.endDate)
                 .build();
     }
+
+    @Override
+    public String toString() {
+        return "ContractSaveModel{" +
+                "productId=" + productId +
+                ", warrantIds=" + warrantIds +
+                ", term=" + term +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
+    }
 }

@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class IOLoggerAdvisor {
 
     @Around("@annotation(com.example.contract.aop.IOLogger)")
-    public Object processCustomAnnotation(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object loggingByInputAndOutput(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         log.info("Method arguments: {}", Arrays.toString(args));
         Object result = joinPoint.proceed();

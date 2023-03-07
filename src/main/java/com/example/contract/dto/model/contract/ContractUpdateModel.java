@@ -22,4 +22,14 @@ public class ContractUpdateModel {
         this.warrantIds = req.getWarrantIds();
         this.state = req.getState();
     }
+
+    @Override
+    public String toString() {
+        return "ContractUpdateModel{" +
+                "id=" + id +
+                ", term=" + term +
+                ", warrantIds=" + warrantIds +
+                ", state=" + state +
+                '}';
+    }
 }

@@ -27,4 +27,13 @@ public class WarrantSaveModel {
                 .standardAmount(this.standardAmount)
                 .build();
     }
+
+    @Override
+    public String toString() {
+        return "WarrantSaveModel{" +
+                "title='" + title + '\'' +
+                ", subscriptionAmount=" + subscriptionAmount +
+                ", standardAmount=" + standardAmount +
+                '}';
+    }
 }

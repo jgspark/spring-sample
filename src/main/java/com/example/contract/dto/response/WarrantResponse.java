@@ -21,4 +21,14 @@ public class WarrantResponse {
         this.subscriptionAmount = warrant.getSubscriptionAmount();
         this.standardAmount = warrant.getStandardAmount();
     }
+
+    @Override
+    public String toString() {
+        return "WarrantResponse{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", subscriptionAmount=" + subscriptionAmount +
+                ", standardAmount=" + standardAmount +
+                '}';
+    }
 }

@@ -24,4 +24,14 @@ public class ProductResponse {
         this.term = product.getTerm();
         this.warrantIds = product.getWarrants().stream().map(Warrant::getId).collect(Collectors.toSet());
     }
+
+    @Override
+    public String toString() {
+        return "ProductResponse{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", term=" + term +
+                ", warrantIds=" + warrantIds +
+                '}';
+    }
 }
