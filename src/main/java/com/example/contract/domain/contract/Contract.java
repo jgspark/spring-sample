@@ -101,8 +101,8 @@ public class Contract {
      */
     @Transient
     public void update(Set<Warrant> warrants, Integer term, ContractState state, BigDecimal premium) {
-        Assert.notNull(state);
-        Assert.notNull(term);
+        Assert.notNull(state, "state is not null");
+        Assert.notNull(term, "term is not null");
         this.warrants.addAll(warrants);
         this.term = term;
         this.state = state;
