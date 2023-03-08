@@ -1,8 +1,8 @@
 package com.example.contract.repository;
 
-import com.example.contract.domain.product.Product;
-import com.example.contract.domain.warrant.Warrant;
-import com.example.contract.dto.mapper.EstimatedPremium;
+import com.example.contract.domain.entity.product.Product;
+import com.example.contract.domain.entity.warrant.Warrant;
+import com.example.contract.domain.mapper.EstimatedPremium;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

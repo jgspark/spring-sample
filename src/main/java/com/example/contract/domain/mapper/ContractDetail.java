@@ -1,6 +1,6 @@
-package com.example.contract.dto.mapper;
+package com.example.contract.domain.mapper;
 
-import com.example.contract.domain.contract.ContractState;
+import com.example.contract.domain.entity.contract.ContractState;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.math.BigDecimal;

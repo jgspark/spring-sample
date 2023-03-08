@@ -1,8 +1,8 @@
 package com.example.contract.dto.response;
 
-import com.example.contract.domain.contract.Contract;
-import com.example.contract.domain.contract.ContractState;
-import com.example.contract.domain.warrant.Warrant;
+import com.example.contract.domain.entity.contract.Contract;
+import com.example.contract.domain.entity.contract.ContractState;
+import com.example.contract.domain.entity.warrant.Warrant;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;

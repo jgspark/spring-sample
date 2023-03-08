@@ -1,6 +1,6 @@
 package com.example.contract.controller.request;
 
-import com.example.contract.domain.contract.ContractState;
+import com.example.contract.domain.entity.contract.ContractState;
 import lombok.Getter;
 
 import jakarta.validation.constraints.NotNull;

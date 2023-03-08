@@ -1,8 +1,8 @@
 package com.example.contract.dto.response;
 
-import com.example.contract.domain.product.Product;
-import com.example.contract.domain.product.ProductTerm;
-import com.example.contract.domain.warrant.Warrant;
+import com.example.contract.domain.entity.product.Product;
+import com.example.contract.domain.entity.product.ProductTerm;
+import com.example.contract.domain.entity.warrant.Warrant;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Getter;

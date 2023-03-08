@@ -1,7 +1,7 @@
 package com.example.contract.controller.api;
 
 import com.example.contract.controller.request.ProductSaveRequest;
-import com.example.contract.dto.mapper.EstimatedPremium;
+import com.example.contract.domain.mapper.EstimatedPremium;
 import com.example.contract.dto.model.product.EstimatedPremiumModel;
 import com.example.contract.dto.model.product.ProductSaveModel;
 import com.example.contract.dto.response.ProductResponse;

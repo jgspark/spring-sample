@@ -2,12 +2,12 @@ package com.example.contract.controller.api;
 
 import com.example.contract.exception.AppErrorHandler;
 import com.example.contract.exception.DataNotFoundException;
-import com.example.contract.domain.product.Product;
-import com.example.contract.domain.warrant.Warrant;
+import com.example.contract.domain.entity.product.Product;
+import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.exception.ErrorCode;
 import com.example.contract.mock.product.EstimatedPremiumImpl;
 import com.example.contract.service.product.ProductServiceImpl;
-import com.example.contract.dto.mapper.EstimatedPremium;
+import com.example.contract.domain.mapper.EstimatedPremium;
 import com.example.contract.controller.request.ProductSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

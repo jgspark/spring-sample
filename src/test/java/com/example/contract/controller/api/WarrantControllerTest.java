@@ -1,7 +1,7 @@
 package com.example.contract.controller.api;
 
 import com.example.contract.exception.AppErrorHandler;
-import com.example.contract.domain.warrant.Warrant;
+import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.service.warrant.WarrantServiceImpl;
 import com.example.contract.controller.request.WarrantSaveRequest;
 import org.junit.jupiter.api.BeforeEach;

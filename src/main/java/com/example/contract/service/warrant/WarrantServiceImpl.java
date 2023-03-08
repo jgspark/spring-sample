@@ -2,7 +2,7 @@ package com.example.contract.service.warrant;
 
 import com.example.contract.aop.IOLogger;
 import com.example.contract.controller.request.WarrantSaveRequest;
-import com.example.contract.domain.warrant.Warrant;
+import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.dto.model.warrant.WarrantSaveModel;
 import com.example.contract.repository.WarrantRepository;
 import lombok.RequiredArgsConstructor;

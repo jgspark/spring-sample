@@ -1,6 +1,6 @@
 package com.example.contract.controller.request;
 
-import com.example.contract.domain.product.ProductTerm;
+import com.example.contract.domain.entity.product.ProductTerm;
 import lombok.Getter;
 
 import jakarta.validation.constraints.NotNull;

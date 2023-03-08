@@ -1,7 +1,7 @@
-package com.example.contract.domain.contract;
+package com.example.contract.domain.entity.contract;
 
-import com.example.contract.domain.product.Product;
-import com.example.contract.domain.warrant.Warrant;
+import com.example.contract.domain.entity.product.Product;
+import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.exception.DataNotFoundException;
 import jakarta.persistence.*;
 import lombok.*;

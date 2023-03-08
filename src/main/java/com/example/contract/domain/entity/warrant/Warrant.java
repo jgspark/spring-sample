@@ -1,4 +1,4 @@
-package com.example.contract.domain.warrant;
+package com.example.contract.domain.entity.warrant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

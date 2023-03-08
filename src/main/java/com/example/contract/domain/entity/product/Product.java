@@ -1,6 +1,6 @@
-package com.example.contract.domain.product;
+package com.example.contract.domain.entity.product;
 
-import com.example.contract.domain.warrant.Warrant;
+import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.exception.DataNotFoundException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

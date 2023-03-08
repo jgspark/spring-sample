@@ -1,4 +1,4 @@
-package com.example.contract.dto.mapper;
+package com.example.contract.domain.mapper;
 
 import org.springframework.beans.factory.annotation.Value;
 

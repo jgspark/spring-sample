@@ -1,7 +1,7 @@
 package com.example.contract.service.contract;
 
-import com.example.contract.domain.contract.Contract;
-import com.example.contract.dto.mapper.ContractDetail;
+import com.example.contract.domain.entity.contract.Contract;
+import com.example.contract.domain.mapper.ContractDetail;
 import com.example.contract.dto.model.contract.ContractSaveModel;
 import com.example.contract.dto.model.contract.ContractUpdateModel;
 import org.jetbrains.annotations.NotNull;

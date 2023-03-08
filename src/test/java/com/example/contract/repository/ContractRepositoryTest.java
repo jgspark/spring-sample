@@ -1,11 +1,11 @@
 package com.example.contract.repository;
 
 import com.example.contract.exception.DataNotFoundException;
-import com.example.contract.domain.contract.Contract;
-import com.example.contract.domain.product.Product;
-import com.example.contract.domain.warrant.Warrant;
-import com.example.contract.domain.contract.ContractState;
-import com.example.contract.dto.mapper.ContractDetail;
+import com.example.contract.domain.entity.contract.Contract;
+import com.example.contract.domain.entity.product.Product;
+import com.example.contract.domain.entity.warrant.Warrant;
+import com.example.contract.domain.entity.contract.ContractState;
+import com.example.contract.domain.mapper.ContractDetail;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;

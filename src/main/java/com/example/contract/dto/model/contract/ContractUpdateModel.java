@@ -1,7 +1,7 @@
 package com.example.contract.dto.model.contract;
 
 import com.example.contract.controller.request.ContractUpdateRequest;
-import com.example.contract.domain.contract.ContractState;
+import com.example.contract.domain.entity.contract.ContractState;
 import java.util.Set;
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.example.contract.domain.product;
+package com.example.contract.domain.entity.product;
 
 import com.example.contract.exception.AppException;
 import jakarta.persistence.Column;

@@ -1,8 +1,8 @@
 package com.example.contract.dto.model.contract;
 
 import com.example.contract.controller.request.ContractSaveRequest;
-import com.example.contract.domain.contract.Contract;
-import com.example.contract.domain.product.Product;
+import com.example.contract.domain.entity.contract.Contract;
+import com.example.contract.domain.entity.product.Product;
 import lombok.Getter;
 
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package com.example.contract.domain.contract;
+package com.example.contract.domain.entity.contract;
 
 /**
  * 계약의 상태
