@@ -6,6 +6,7 @@ import com.example.contract.domain.entity.product.Product;
 import lombok.Getter;
 
 import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
@@ -24,11 +25,11 @@ public class ContractSaveModel {
     private final Date endDate;
 
     public ContractSaveModel(ContractSaveRequest req) {
-        this.productId = req.getProductId();
-        this.warrantIds = req.getWarrantIds();
-        this.term = req.getTerm();
-        this.startDate = req.getStartDate();
-        this.endDate = req.getEndDate();
+        this.productId = req.productId();
+        this.warrantIds = req.warrantIds();
+        this.term = req.term();
+        this.startDate = req.startDate();
+        this.endDate = req.endDate();
     }
 
     public Contract toEntity(@NotNull Product product, BigDecimal premium) {

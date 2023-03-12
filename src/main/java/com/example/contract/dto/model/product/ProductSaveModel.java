@@ -4,8 +4,9 @@ import com.example.contract.controller.request.ProductSaveRequest;
 import com.example.contract.domain.entity.product.Product;
 import com.example.contract.domain.entity.product.ProductTerm;
 import com.example.contract.domain.entity.warrant.Warrant;
-import java.util.Set;
 import lombok.Getter;
+
+import java.util.Set;
 
 @Getter
 public class ProductSaveModel {
@@ -17,9 +18,9 @@ public class ProductSaveModel {
     private final Set<Long> warrantIds;
 
     public ProductSaveModel(ProductSaveRequest req) {
-        this.title = req.getTitle();
-        this.term = req.getTerm();
-        this.warrantIds = req.getWarrantIds();
+        this.title = req.title();
+        this.term = req.term();
+        this.warrantIds = req.warrantIds();
     }
 
     public Product toEntity(Set<Warrant> warrants) {

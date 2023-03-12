@@ -2,8 +2,9 @@ package com.example.contract.dto.model.contract;
 
 import com.example.contract.controller.request.ContractUpdateRequest;
 import com.example.contract.domain.entity.contract.ContractState;
-import java.util.Set;
 import lombok.Getter;
+
+import java.util.Set;
 
 @Getter
 public class ContractUpdateModel {
@@ -18,9 +19,9 @@ public class ContractUpdateModel {
 
     public ContractUpdateModel(Long id, ContractUpdateRequest req) {
         this.id = id;
-        this.term = req.getTerm();
-        this.warrantIds = req.getWarrantIds();
-        this.state = req.getState();
+        this.term = req.term();
+        this.warrantIds = req.warrantIds();
+        this.state = req.state();
     }
 
     @Override

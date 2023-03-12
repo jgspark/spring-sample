@@ -2,7 +2,9 @@ package com.example.contract.dto.model.warrant;
 
 import com.example.contract.controller.request.WarrantSaveRequest;
 import com.example.contract.domain.entity.warrant.Warrant;
+
 import java.math.BigDecimal;
+
 import lombok.Getter;
 
 @Getter
@@ -15,9 +17,9 @@ public class WarrantSaveModel {
     private final BigDecimal standardAmount;
 
     public WarrantSaveModel(WarrantSaveRequest req) {
-        this.title = req.getTitle();
-        this.subscriptionAmount = req.getSubscriptionAmount();
-        this.standardAmount = req.getStandardAmount();
+        this.title = req.title();
+        this.subscriptionAmount = req.subscriptionAmount();
+        this.standardAmount = req.standardAmount();
     }
 
     public Warrant toEntity() {
