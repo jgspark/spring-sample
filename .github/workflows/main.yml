@@ -1,4 +1,4 @@
-name: Spring-Sample
+name: main
 
 on:
   push:
