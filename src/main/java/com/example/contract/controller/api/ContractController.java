@@ -1,7 +1,7 @@
 package com.example.contract.controller.api;
 
-import com.example.contract.controller.request.ContractSaveRequest;
-import com.example.contract.controller.request.ContractUpdateRequest;
+import com.example.contract.dto.request.ContractSaveRequest;
+import com.example.contract.dto.request.ContractUpdateRequest;
 import com.example.contract.domain.mapper.ContractDetail;
 import com.example.contract.dto.model.contract.ContractSaveModel;
 import com.example.contract.dto.model.contract.ContractUpdateModel;

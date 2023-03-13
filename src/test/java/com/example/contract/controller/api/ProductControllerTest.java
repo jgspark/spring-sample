@@ -8,7 +8,7 @@ import com.example.contract.exception.ErrorCode;
 import com.example.contract.mock.product.EstimatedPremiumImpl;
 import com.example.contract.service.product.ProductServiceImpl;
 import com.example.contract.domain.mapper.EstimatedPremium;
-import com.example.contract.controller.request.ProductSaveRequest;
+import com.example.contract.dto.request.ProductSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

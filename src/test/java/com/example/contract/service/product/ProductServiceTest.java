@@ -1,6 +1,6 @@
 package com.example.contract.service.product;
 
-import com.example.contract.controller.request.ProductSaveRequest;
+import com.example.contract.dto.request.ProductSaveRequest;
 import com.example.contract.domain.entity.product.Product;
 import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.domain.mapper.EstimatedPremium;

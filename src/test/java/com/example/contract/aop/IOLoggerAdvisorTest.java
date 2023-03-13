@@ -1,6 +1,6 @@
 package com.example.contract.aop;
 
-import com.example.contract.controller.request.WarrantSaveRequest;
+import com.example.contract.dto.request.WarrantSaveRequest;
 import com.example.contract.dto.model.warrant.WarrantSaveModel;
 import com.example.contract.service.warrant.WarrantService;
 import com.example.contract.service.warrant.WarrantServiceImpl;

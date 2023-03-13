@@ -1,4 +1,4 @@
-package com.example.contract.controller.request;
+package com.example.contract.dto.request;
 
 import com.example.contract.domain.entity.contract.ContractState;
 import jakarta.validation.constraints.NotEmpty;

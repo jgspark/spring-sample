@@ -1,6 +1,6 @@
 package com.example.contract.controller.api;
 
-import com.example.contract.controller.request.WarrantSaveRequest;
+import com.example.contract.dto.request.WarrantSaveRequest;
 import com.example.contract.dto.model.warrant.WarrantSaveModel;
 import com.example.contract.dto.response.WarrantResponse;
 import com.example.contract.service.warrant.WarrantService;

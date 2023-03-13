@@ -1,6 +1,6 @@
 package com.example.contract.dto.model.warrant;
 
-import com.example.contract.controller.request.WarrantSaveRequest;
+import com.example.contract.dto.request.WarrantSaveRequest;
 import com.example.contract.domain.entity.warrant.Warrant;
 
 import java.math.BigDecimal;
