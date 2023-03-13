@@ -1,11 +1,11 @@
-name: Spring-Sample 
+name: Spring-Sample
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  build:
+  RunTestCase:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
