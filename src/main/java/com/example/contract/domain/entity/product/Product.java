@@ -11,16 +11,19 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+
 import static org.springframework.util.Assert.notNull;
 
 /**
@@ -64,7 +67,7 @@ public class Product {
     @Transient
     public BigDecimal calculatePremium() {
 
-        notNull(term);
+        notNull(term, "term is not null");
 
         if (warrants.isEmpty()) {
             throw new DataNotFoundException("Product Id is " + this.id);
@@ -73,7 +76,7 @@ public class Product {
         BigDecimal range = new BigDecimal(this.term.getRange());
 
         return range.multiply(warrants.stream().map(Warrant::getPremium).reduce(BigDecimal.ZERO, BigDecimal::add)).setScale(2,
-                                                                                                                            RoundingMode.FLOOR);
+                RoundingMode.FLOOR);
     }
 
     @Builder(builderMethodName = "createBuilder")
