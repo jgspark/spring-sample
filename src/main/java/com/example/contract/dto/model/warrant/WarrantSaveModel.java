@@ -16,10 +16,14 @@ public class WarrantSaveModel {
 
     private final BigDecimal standardAmount;
 
-    public WarrantSaveModel(WarrantSaveRequest req) {
+    private WarrantSaveModel(WarrantSaveRequest req) {
         this.title = req.title();
         this.subscriptionAmount = req.subscriptionAmount();
         this.standardAmount = req.standardAmount();
+    }
+
+    public static WarrantSaveModel of(WarrantSaveRequest req) {
+        return new WarrantSaveModel(req);
     }
 
     public Warrant toEntity() {

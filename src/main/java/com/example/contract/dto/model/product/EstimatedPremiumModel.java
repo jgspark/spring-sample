@@ -3,6 +3,7 @@ package com.example.contract.dto.model.product;
 import lombok.Getter;
 
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 public class EstimatedPremiumModel {
@@ -11,9 +12,13 @@ public class EstimatedPremiumModel {
 
     private final Collection<Long> warrantIds;
 
-    public EstimatedPremiumModel(Long id, Collection<Long> warrantIds) {
+    private EstimatedPremiumModel(Long id, Collection<Long> warrantIds) {
         this.id = id;
         this.warrantIds = warrantIds;
+    }
+
+    public static EstimatedPremiumModel of(Long id, List<Long> warrantIds) {
+        return new EstimatedPremiumModel(id, warrantIds);
     }
 
     @Override

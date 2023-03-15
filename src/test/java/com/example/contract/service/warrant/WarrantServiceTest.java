@@ -47,7 +47,7 @@ class WarrantServiceTest {
 
             WarrantSaveRequest req = readJson("json/warrant/service/warrant_save_request.json", WarrantSaveRequest.class);
 
-            WarrantSaveModel dto = new WarrantSaveModel(req);
+            var dto = WarrantSaveModel.of(req);
 
             Warrant entity = warrantService.created(dto);
 

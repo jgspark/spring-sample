@@ -68,7 +68,7 @@ class ContractServiceTest {
 
             ContractSaveRequest req = readJson("json/contract/service/contract_save_request.json", ContractSaveRequest.class);
 
-            ContractSaveModel dto = new ContractSaveModel(req);
+            ContractSaveModel dto = ContractSaveModel.of(req);
 
             given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
 
@@ -94,7 +94,7 @@ class ContractServiceTest {
 
             ContractSaveRequest req = readJson("json/contract/service/contract_save_request.json", ContractSaveRequest.class);
 
-            ContractSaveModel dto = new ContractSaveModel(req);
+            ContractSaveModel dto = ContractSaveModel.of(req);
 
             given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(Optional.empty());
 
@@ -183,7 +183,7 @@ class ContractServiceTest {
 
             ContractUpdateRequest req = readJson("json/contract/service/contract_update_request.json", ContractUpdateRequest.class);
 
-            ContractUpdateModel dto = new ContractUpdateModel(id, req);
+            ContractUpdateModel dto = ContractUpdateModel.of(id, req);
 
             Contract entity = contractService.update(dto);
 
@@ -212,7 +212,7 @@ class ContractServiceTest {
 
             ContractUpdateRequest req = readJson("json/contract/service/contract_update_request.json", ContractUpdateRequest.class);
 
-            ContractUpdateModel dto = new ContractUpdateModel(id, req);
+            ContractUpdateModel dto = ContractUpdateModel.of(id, req);
 
             assertThrows(AppException.class, () -> contractService.update(dto));
         }

@@ -1,24 +1,17 @@
 package com.example.contract.controller.api;
 
-import com.example.contract.dto.request.ContractSaveRequest;
-import com.example.contract.dto.request.ContractUpdateRequest;
 import com.example.contract.domain.mapper.ContractDetail;
 import com.example.contract.dto.model.contract.ContractSaveModel;
 import com.example.contract.dto.model.contract.ContractUpdateModel;
+import com.example.contract.dto.request.ContractSaveRequest;
+import com.example.contract.dto.request.ContractUpdateRequest;
 import com.example.contract.dto.response.ContractResponse;
 import com.example.contract.service.contract.ContractService;
 import jakarta.validation.Valid;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 계약 컨트롤러
@@ -40,8 +33,8 @@ public class ContractController {
     @PostMapping("contract")
     @ResponseStatus(HttpStatus.CREATED)
     public ContractResponse write(@RequestBody @Valid ContractSaveRequest req) {
-        ContractSaveModel dto = new ContractSaveModel(req);
-        return new ContractResponse(contractService.created(dto));
+        var dto = ContractSaveModel.of(req);
+        return ContractResponse.of(contractService.created(dto));
     }
 
     /**
@@ -54,7 +47,7 @@ public class ContractController {
      */
     @GetMapping("contracts/{id}")
     public ResponseEntity<ContractDetail> selectOne(@PathVariable Long id) {
-        Optional<ContractDetail> data = contractService.getOne(id);
+        var data = contractService.getOne(id);
         return data.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 
@@ -68,7 +61,7 @@ public class ContractController {
      */
     @PatchMapping("contracts/{id}")
     public ContractResponse update(@PathVariable Long id, @RequestBody @Valid ContractUpdateRequest req) {
-        ContractUpdateModel dto = new ContractUpdateModel(id, req);
-        return new ContractResponse(contractService.update(dto));
+        var dto = ContractUpdateModel.of(id, req);
+        return ContractResponse.of(contractService.update(dto));
     }
 }

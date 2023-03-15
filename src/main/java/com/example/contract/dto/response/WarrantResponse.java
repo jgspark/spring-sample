@@ -6,7 +6,11 @@ import java.math.BigDecimal;
 
 public record WarrantResponse(Long id, String title, BigDecimal subscriptionAmount, BigDecimal standardAmount) {
 
-    public WarrantResponse(Warrant warrant) {
+    public static WarrantResponse of(Warrant warrant) {
+        return new WarrantResponse(warrant);
+    }
+    
+    private WarrantResponse(Warrant warrant) {
         this(warrant.getId(), warrant.getTitle(), warrant.getSubscriptionAmount(), warrant.getStandardAmount());
     }
 

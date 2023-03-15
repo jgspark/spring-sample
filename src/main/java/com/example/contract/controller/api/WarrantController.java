@@ -1,7 +1,7 @@
 package com.example.contract.controller.api;
 
-import com.example.contract.dto.request.WarrantSaveRequest;
 import com.example.contract.dto.model.warrant.WarrantSaveModel;
+import com.example.contract.dto.request.WarrantSaveRequest;
 import com.example.contract.dto.response.WarrantResponse;
 import com.example.contract.service.warrant.WarrantService;
 import jakarta.validation.Valid;
@@ -27,7 +27,7 @@ public class WarrantController {
     @PostMapping("warrant")
     @ResponseStatus(HttpStatus.CREATED)
     public WarrantResponse write(@RequestBody @Valid WarrantSaveRequest req) {
-        WarrantSaveModel dto = new WarrantSaveModel(req);
-        return new WarrantResponse(warrantService.created(dto));
+        var dto = WarrantSaveModel.of(req);
+        return WarrantResponse.of(warrantService.created(dto));
     }
 }

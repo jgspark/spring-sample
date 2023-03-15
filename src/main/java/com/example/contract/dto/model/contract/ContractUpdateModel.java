@@ -17,7 +17,11 @@ public class ContractUpdateModel {
 
     private final ContractState state;
 
-    public ContractUpdateModel(Long id, ContractUpdateRequest req) {
+    public static ContractUpdateModel of(Long id, ContractUpdateRequest req) {
+        return new ContractUpdateModel(id, req);
+    }
+
+    private ContractUpdateModel(Long id, ContractUpdateRequest req) {
         this.id = id;
         this.term = req.term();
         this.warrantIds = req.warrantIds();

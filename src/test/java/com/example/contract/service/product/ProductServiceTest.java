@@ -64,9 +64,9 @@ class ProductServiceTest {
 
             given(productRepository.save(any())).willReturn(mock);
 
-            ProductSaveRequest req = readJson("json/product/service/product_save_request.json", ProductSaveRequest.class);
+            var req = readJson("json/product/service/product_save_request.json", ProductSaveRequest.class);
 
-            ProductSaveModel dto = new ProductSaveModel(req);
+            var dto = ProductSaveModel.of(req);
 
             Product entity = productService.created(dto);
 
@@ -84,9 +84,9 @@ class ProductServiceTest {
 
             given(warrantRepository.findByIdIn(any())).willReturn(new HashSet<>());
 
-            ProductSaveRequest req = readJson("json/product/service/product_save_request.json", ProductSaveRequest.class);
+            var req = readJson("json/product/service/product_save_request.json", ProductSaveRequest.class);
 
-            ProductSaveModel dto = new ProductSaveModel(req);
+            var dto = ProductSaveModel.of(req);
 
             assertThrows(AppException.class, () -> productService.created(dto));
         }
@@ -112,7 +112,7 @@ class ProductServiceTest {
 
             Integer productId = (Integer) map.get("productId");
 
-            EstimatedPremiumModel dto = new EstimatedPremiumModel(productId.longValue(), warrantIds);
+            var dto = EstimatedPremiumModel.of(productId.longValue(), warrantIds);
 
             Optional<EstimatedPremium> entityOptional = productService.getEstimatedPremium(dto);
 
@@ -143,7 +143,7 @@ class ProductServiceTest {
 
             Integer productId = (Integer) map.get("productId");
 
-            EstimatedPremiumModel dto = new EstimatedPremiumModel(productId.longValue(), warrantIds);
+            var dto = EstimatedPremiumModel.of(productId.longValue(), warrantIds);
 
             Optional<EstimatedPremium> entityOptional = productService.getEstimatedPremium(dto);
 

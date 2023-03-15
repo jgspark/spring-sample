@@ -8,7 +8,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public record ProductResponse(Long id, String title, ProductTerm term, Set<Long> warrantIds) {
-    public ProductResponse(Product product) {
+
+    public static ProductResponse of(Product product){
+        return new ProductResponse(product);
+    }
+
+    private ProductResponse(Product product) {
         this(product.getId(),
                 product.getTitle(),
                 product.getTerm(),

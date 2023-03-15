@@ -18,7 +18,7 @@ public record ContractResponse(Long id,
                                BigDecimal premium,
                                ContractState state) {
 
-    public ContractResponse(Contract contract) {
+    private ContractResponse(Contract contract) {
         this(contract.getId(),
                 contract.getProduct().getId(),
                 contract.getWarrants().stream().map(Warrant::getId).collect(Collectors.toSet()),
@@ -27,6 +27,10 @@ public record ContractResponse(Long id,
                 contract.getEndDate(),
                 contract.getPremium(),
                 contract.getState());
+    }
+
+    public static ContractResponse of(Contract contract) {
+        return new ContractResponse(contract);
     }
 
     @Override

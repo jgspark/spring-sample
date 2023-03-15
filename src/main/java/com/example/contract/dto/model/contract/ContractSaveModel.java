@@ -24,7 +24,11 @@ public class ContractSaveModel {
 
     private final Date endDate;
 
-    public ContractSaveModel(ContractSaveRequest req) {
+    public static ContractSaveModel of(ContractSaveRequest req) {
+        return new ContractSaveModel(req);
+    }
+
+    private ContractSaveModel(ContractSaveRequest req) {
         this.productId = req.productId();
         this.warrantIds = req.warrantIds();
         this.term = req.term();

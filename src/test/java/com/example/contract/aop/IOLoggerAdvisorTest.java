@@ -35,7 +35,7 @@ class IOLoggerAdvisorTest {
 
         WarrantSaveRequest req = new WarrantSaveRequest("상해치료", new BigDecimal(10000), new BigDecimal(100));
 
-        WarrantSaveModel dto = new WarrantSaveModel(req);
+        var dto = WarrantSaveModel.of(req);
 
         serviceProxy.created(dto);
 

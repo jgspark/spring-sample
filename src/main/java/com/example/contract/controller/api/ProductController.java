@@ -1,9 +1,9 @@
 package com.example.contract.controller.api;
 
-import com.example.contract.dto.request.ProductSaveRequest;
 import com.example.contract.domain.mapper.EstimatedPremium;
 import com.example.contract.dto.model.product.EstimatedPremiumModel;
 import com.example.contract.dto.model.product.ProductSaveModel;
+import com.example.contract.dto.request.ProductSaveRequest;
 import com.example.contract.dto.response.ProductResponse;
 import com.example.contract.service.product.ProductService;
 import jakarta.validation.Valid;
@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 상품 컨트롤러
@@ -33,8 +32,8 @@ public class ProductController {
     @PostMapping("product")
     @ResponseStatus(HttpStatus.CREATED)
     public ProductResponse write(@RequestBody @Valid ProductSaveRequest req) {
-        ProductSaveModel dto = new ProductSaveModel(req);
-        return new ProductResponse(productService.created(dto));
+        var dto = ProductSaveModel.of(req);
+        return ProductResponse.of(productService.created(dto));
     }
 
     /**
@@ -46,8 +45,8 @@ public class ProductController {
      */
     @GetMapping("products/{id}/premium")
     public ResponseEntity<EstimatedPremium> selectEstimatedPremium(@PathVariable Long id, @RequestParam(value = "warrantIds", required = false) List<Long> warrantIds) {
-        EstimatedPremiumModel dto = new EstimatedPremiumModel(id, warrantIds);
-        Optional<EstimatedPremium> data = productService.getEstimatedPremium(dto);
+        var dto = EstimatedPremiumModel.of(id, warrantIds);
+        var data = productService.getEstimatedPremium(dto);
         return data.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 }

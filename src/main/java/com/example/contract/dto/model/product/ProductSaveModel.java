@@ -17,7 +17,12 @@ public class ProductSaveModel {
 
     private final Set<Long> warrantIds;
 
-    public ProductSaveModel(ProductSaveRequest req) {
+
+    public static ProductSaveModel of(ProductSaveRequest req) {
+        return new ProductSaveModel(req);
+    }
+
+    private ProductSaveModel(ProductSaveRequest req) {
         this.title = req.title();
         this.term = req.term();
         this.warrantIds = req.warrantIds();
