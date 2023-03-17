@@ -1,28 +1,16 @@
 package com.example.contract.repository;
 
 import com.example.contract.domain.entity.contract.Contract;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-/**
- *  계약 레파지토리
- */
 @Repository
-public interface ContractRepository extends JpaRepository<Contract, Long> {
+public interface ContractRepository {
 
-    @EntityGraph(attributePaths = {
-            "product",
-            "warrants"
-    })
+    Optional<Contract> findById(Long id);
+
     <T> Optional<T> findById(Long id, Class<T> type);
 
-    @Override
-    @EntityGraph(attributePaths = {
-            "product",
-            "warrants"
-    })
-    Optional<Contract> findById(Long id);
+    Contract save(Contract toEntity);
 }

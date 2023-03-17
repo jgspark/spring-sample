@@ -2,8 +2,8 @@ package com.example.contract.service.warrant;
 
 import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.dto.model.warrant.WarrantSaveModel;
-import com.example.contract.repository.WarrantRepository;
 import com.example.contract.dto.request.WarrantSaveRequest;
+import com.example.contract.repository.WarrantRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -13,11 +13,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.example.contract.mock.MockUtil.readJson;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("담보 생성 서비스 에서")
 @ExtendWith(MockitoExtension.class)

@@ -1,18 +1,17 @@
 package com.example.contract.service.product;
 
 import com.example.contract.aop.IOLogger;
-import com.example.contract.dto.request.ProductSaveRequest;
 import com.example.contract.domain.entity.product.Product;
 import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.domain.mapper.EstimatedPremium;
 import com.example.contract.dto.model.product.EstimatedPremiumModel;
 import com.example.contract.dto.model.product.ProductSaveModel;
+import com.example.contract.dto.request.ProductSaveRequest;
 import com.example.contract.exception.DataNotFoundException;
 import com.example.contract.repository.ProductRepository;
 import com.example.contract.repository.WarrantRepository;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
@@ -23,7 +22,6 @@ import java.util.Set;
 /**
  * 상품 서비스
  */
-@Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 

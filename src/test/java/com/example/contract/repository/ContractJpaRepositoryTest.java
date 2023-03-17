@@ -1,11 +1,14 @@
 package com.example.contract.repository;
 
-import com.example.contract.exception.DataNotFoundException;
 import com.example.contract.domain.entity.contract.Contract;
+import com.example.contract.domain.entity.contract.ContractState;
 import com.example.contract.domain.entity.product.Product;
 import com.example.contract.domain.entity.warrant.Warrant;
-import com.example.contract.domain.entity.contract.ContractState;
 import com.example.contract.domain.mapper.ContractDetail;
+import com.example.contract.exception.DataNotFoundException;
+import com.example.contract.repository.ContractRepository;
+import com.example.contract.repository.jpa.ProductJpaRepository;
+import com.example.contract.repository.jpa.WarrantJpaRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -30,16 +33,16 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("계약 레파지터리에서")
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
-class ContractRepositoryTest {
+class ContractJpaRepositoryTest {
 
     @Autowired
-    private ContractRepository contractRepository;
+    private ContractRepository contractJpaRepository;
 
     @Autowired
-    private WarrantRepository warrantRepository;
+    private WarrantJpaRepository warrantJpaRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductJpaRepository productJpaRepository;
 
     private Product mockProduct;
 
@@ -48,8 +51,8 @@ class ContractRepositoryTest {
     @BeforeEach
     public void init() {
         Map<String, Object> mockMap = readJson("json/contract/repository/init.json", Map.class);
-        mockWarrant = warrantRepository.saveAndFlush(convertWarrant((Map) mockMap.get("warrant")));
-        mockProduct = productRepository.saveAndFlush(convert(convertProduct((Map) mockMap.get("product")), mockWarrant));
+        mockWarrant = warrantJpaRepository.saveAndFlush(convertWarrant((Map) mockMap.get("warrant")));
+        mockProduct = productJpaRepository.saveAndFlush(convert(convertProduct((Map) mockMap.get("product")), mockWarrant));
     }
 
     @Nested
@@ -63,9 +66,7 @@ class ContractRepositoryTest {
 
             Contract mock = convert(readJson("json/contract/repository/save_ok.json", Contract.class), mockProduct, mockWarrant);
 
-            Contract entity = contractRepository.save(mock);
-
-            contractRepository.flush();
+            Contract entity = contractJpaRepository.save(mock);
 
             assertNotNull(entity.getId());
             assertEquals(entity.getTerm(), mock.getTerm());
@@ -82,7 +83,7 @@ class ContractRepositoryTest {
         @ArgumentsSource(SaveMethodFailArgs.class)
         @DisplayName("해당 데이터를 지닐떄 실패를 하게 된다.")
         public void save_fail_case1(Contract mock) {
-            assertThrows(DataNotFoundException.class, () -> contractRepository.save(mock));
+            assertThrows(DataNotFoundException.class, () -> contractJpaRepository.save(mock));
         }
 
     }
@@ -95,14 +96,14 @@ class ContractRepositoryTest {
 
         @BeforeEach
         public void init() {
-            mock = contractRepository.save(convert(readJson("json/contract/repository/save_ok.json", Contract.class), mockProduct, mockWarrant));
+            mock = contractJpaRepository.save(convert(readJson("json/contract/repository/save_ok.json", Contract.class), mockProduct, mockWarrant));
         }
 
         @Test
         @DisplayName("성공적으로 테스트케이스를 통과를 한다.")
         public void findById_ok() {
 
-            ContractDetail entity = contractRepository.findById(mock.getId(), ContractDetail.class).orElseThrow(RuntimeException::new);
+            ContractDetail entity = contractJpaRepository.findById(mock.getId(), ContractDetail.class).orElseThrow(RuntimeException::new);
 
             assertEquals(entity.getId(), mock.getId());
             assertEquals(entity.getTerm(), mock.getTerm());
@@ -130,7 +131,7 @@ class ContractRepositoryTest {
         @DisplayName("아이디가 없으면 isPresent는 false 를 리턴한다.")
         public void findById_fail1(Long mockId) {
 
-            Optional<ContractDetail> findData = contractRepository.findById(mockId, ContractDetail.class);
+            Optional<ContractDetail> findData = contractJpaRepository.findById(mockId, ContractDetail.class);
 
             assertFalse(findData.isPresent());
         }

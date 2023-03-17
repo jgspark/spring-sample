@@ -1,20 +1,19 @@
 package com.example.contract.service.contract;
 
 import com.example.contract.aop.IOLogger;
-import com.example.contract.dto.model.contract.ContractSaveModel;
-import com.example.contract.dto.model.contract.ContractUpdateModel;
-import com.example.contract.exception.AppException;
-import com.example.contract.exception.DataNotFoundException;
 import com.example.contract.domain.entity.contract.Contract;
 import com.example.contract.domain.entity.product.Product;
-import com.example.contract.repository.ContractRepository;
-import com.example.contract.repository.ProductRepository;
 import com.example.contract.domain.mapper.ContractDetail;
+import com.example.contract.dto.model.contract.ContractSaveModel;
+import com.example.contract.dto.model.contract.ContractUpdateModel;
 import com.example.contract.dto.request.ContractSaveRequest;
 import com.example.contract.dto.request.ContractUpdateRequest;
+import com.example.contract.exception.AppException;
+import com.example.contract.exception.DataNotFoundException;
+import com.example.contract.repository.ContractRepository;
+import com.example.contract.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -23,7 +22,6 @@ import java.util.Optional;
 /**
  * 계약 서비스
  */
-@Service
 @RequiredArgsConstructor
 public class ContractServiceImpl implements ContractService {
 

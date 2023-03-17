@@ -5,9 +5,11 @@ import com.example.contract.domain.mapper.ContractDetail;
 import com.example.contract.dto.model.contract.ContractSaveModel;
 import com.example.contract.dto.model.contract.ContractUpdateModel;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public interface ContractService {
 
     Contract created(ContractSaveModel dto);

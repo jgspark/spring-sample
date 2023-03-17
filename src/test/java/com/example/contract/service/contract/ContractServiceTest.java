@@ -1,18 +1,18 @@
 package com.example.contract.service.contract;
 
-import com.example.contract.dto.model.contract.ContractSaveModel;
-import com.example.contract.dto.model.contract.ContractUpdateModel;
-import com.example.contract.exception.AppException;
 import com.example.contract.domain.entity.contract.Contract;
 import com.example.contract.domain.entity.product.Product;
 import com.example.contract.domain.entity.warrant.Warrant;
-import com.example.contract.mock.contract.ContractDetailImpl;
-import com.example.contract.repository.ContractRepository;
-import com.example.contract.repository.ProductRepository;
 import com.example.contract.domain.mapper.ContractDetail;
+import com.example.contract.domain.mapper.WarrantInfo;
+import com.example.contract.dto.model.contract.ContractSaveModel;
+import com.example.contract.dto.model.contract.ContractUpdateModel;
 import com.example.contract.dto.request.ContractSaveRequest;
 import com.example.contract.dto.request.ContractUpdateRequest;
-import com.example.contract.domain.mapper.WarrantInfo;
+import com.example.contract.exception.AppException;
+import com.example.contract.mock.contract.ContractDetailImpl;
+import com.example.contract.repository.ContractRepository;
+import com.example.contract.repository.jpa.ProductJpaRepository;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,11 +43,11 @@ class ContractServiceTest {
     private ContractRepository contractRepository;
 
     @Mock
-    private ProductRepository productRepository;
+    private ProductJpaRepository productJpaRepository;
 
     @BeforeEach
     public void init() {
-        contractService = new ContractServiceImpl(contractRepository, productRepository);
+        contractService = new ContractServiceImpl(contractRepository, productJpaRepository);
     }
 
     @Nested
@@ -70,13 +70,13 @@ class ContractServiceTest {
 
             ContractSaveModel dto = ContractSaveModel.of(req);
 
-            given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
+            given(productJpaRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
 
             given(contractRepository.save(any())).willReturn(mock);
 
             Contract entity = contractService.created(dto);
 
-            then(productRepository).should().findByIdAndWarrants_IdIn(any(), any());
+            then(productJpaRepository).should().findByIdAndWarrants_IdIn(any(), any());
             then(contractRepository).should().save(any());
 
             assertEquals(entity.getId(), mock.getId());
@@ -96,7 +96,7 @@ class ContractServiceTest {
 
             ContractSaveModel dto = ContractSaveModel.of(req);
 
-            given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(Optional.empty());
+            given(productJpaRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(Optional.empty());
 
             assertThrows(RuntimeException.class, () -> contractService.created(dto));
         }
@@ -179,7 +179,7 @@ class ContractServiceTest {
 
             given(contractRepository.findById(any())).willReturn(mockOptional);
 
-            given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
+            given(productJpaRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
 
             ContractUpdateRequest req = readJson("json/contract/service/contract_update_request.json", ContractUpdateRequest.class);
 

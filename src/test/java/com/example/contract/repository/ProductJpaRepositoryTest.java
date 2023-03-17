@@ -3,6 +3,7 @@ package com.example.contract.repository;
 import com.example.contract.domain.entity.product.Product;
 import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.domain.mapper.EstimatedPremium;
+import com.example.contract.repository.jpa.WarrantJpaRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("상품 레파지토리 에서")
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
-class ProductRepositoryTest {
+class ProductJpaRepositoryTest {
 
     @Autowired
     private ProductRepository productRepository;
 
     @Autowired
-    private WarrantRepository warrantRepository;
+    private WarrantJpaRepository warrantJpaRepository;
 
     private Warrant mockWarrant;
 
@@ -37,7 +38,7 @@ class ProductRepositoryTest {
 
         Warrant mock = convertWarrant((Map) map.get("warrant"));
 
-        this.mockWarrant = warrantRepository.saveAndFlush(mock);
+        this.mockWarrant = warrantJpaRepository.saveAndFlush(mock);
     }
 
     @Nested
@@ -49,13 +50,11 @@ class ProductRepositoryTest {
         @DisplayName("성공적으로 실행이 된다.")
         public void save_ok() {
 
-            Warrant findWarrant = warrantRepository.findById(mockWarrant.getId()).orElseThrow(RuntimeException::new);
+            Warrant findWarrant = warrantJpaRepository.findById(mockWarrant.getId()).orElseThrow(RuntimeException::new);
 
             Product mock = convert(readJson("json/product/repository/save_ok.json", Product.class), findWarrant);
 
             Product entity = productRepository.save(mock);
-
-            productRepository.flush();
 
             assertNotNull(entity.getId());
             assertEquals(entity.getTitle(), mock.getTitle());
@@ -70,9 +69,7 @@ class ProductRepositoryTest {
 
             Product mock = readJson("json/product/repository/save_fail_case1.json", Product.class);
 
-            assertThrows(RuntimeException.class, () -> {
-                productRepository.save(mock);
-            });
+            assertThrows(RuntimeException.class, () -> productRepository.save(mock));
         }
 
     }
@@ -86,11 +83,10 @@ class ProductRepositoryTest {
         @BeforeEach
         public void init() {
 
-            Warrant findWarrant = warrantRepository.findById(mockWarrant.getId()).orElseThrow(RuntimeException::new);
+            Warrant findWarrant = warrantJpaRepository.findById(mockWarrant.getId()).orElseThrow(RuntimeException::new);
 
             mock = productRepository.save(convert(readJson("json/product/repository/findByIdAndWarrants_IdIn_ok.json", Product.class), findWarrant));
 
-            productRepository.flush();
         }
 
 
@@ -133,10 +129,7 @@ class ProductRepositoryTest {
 
                 Long mockId = 10000000L;
 
-                assertThrows(RuntimeException.class, () -> {
-                    productRepository.findByIdAndWarrants_IdIn(mockId, Collections.singleton(mockWarrant.getId())).orElseThrow(RuntimeException::new);
-                });
-
+                assertThrows(RuntimeException.class, () -> productRepository.findByIdAndWarrants_IdIn(mockId, Collections.singleton(mockWarrant.getId())).orElseThrow(RuntimeException::new));
             }
 
             @Test

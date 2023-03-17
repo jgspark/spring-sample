@@ -3,6 +3,7 @@ package com.example.contract.domain.entity.contract;
 import com.example.contract.domain.entity.product.Product;
 import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.exception.DataNotFoundException;
+import com.example.contract.repository.jpa.ProductJpaRepository;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -19,7 +20,7 @@ import java.util.Set;
 /**
  * 계약 테이블
  *
- * @see com.example.contract.repository.ProductRepository
+ * @see ProductJpaRepository
  */
 @Getter
 @Entity

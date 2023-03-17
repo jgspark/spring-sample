@@ -2,6 +2,7 @@ package com.example.contract.repository;
 
 import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.mock.MockUtil;
+import com.example.contract.repository.jpa.WarrantJpaRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("담보 레파지토리 에서")
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
-class WarrantRepositoryTest {
+class WarrantJpaRepositoryTest {
 
     @Autowired
     private WarrantRepository warrantRepository;
@@ -51,7 +52,6 @@ class WarrantRepositoryTest {
 
             mock = warrantRepository.save(MockUtil.readJson("json/warrant/repository/select_init.json", Warrant.class));
 
-            warrantRepository.flush();
         }
 
         @Test
