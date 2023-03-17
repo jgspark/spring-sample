@@ -1,9 +1,9 @@
 package com.example.contract.controller.api;
 
-import com.example.contract.domain.mapper.EstimatedPremium;
 import com.example.contract.dto.model.product.EstimatedPremiumModel;
 import com.example.contract.dto.model.product.ProductSaveModel;
 import com.example.contract.dto.request.ProductSaveRequest;
+import com.example.contract.dto.response.EstimatedPremiumResponse;
 import com.example.contract.dto.response.ProductResponse;
 import com.example.contract.service.product.ProductService;
 import jakarta.validation.Valid;
@@ -44,9 +44,9 @@ public class ProductController {
      * @return 총 보험료 데이터
      */
     @GetMapping("products/{id}/premium")
-    public ResponseEntity<EstimatedPremium> selectEstimatedPremium(@PathVariable Long id, @RequestParam(value = "warrantIds", required = false) List<Long> warrantIds) {
+    public ResponseEntity<EstimatedPremiumResponse> selectEstimatedPremium(@PathVariable Long id, @RequestParam(value = "warrantIds", required = false) List<Long> warrantIds) {
         var dto = EstimatedPremiumModel.of(id, warrantIds);
         var data = productService.getEstimatedPremium(dto);
-        return data.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
+        return data.map(m -> ResponseEntity.ok(EstimatedPremiumResponse.of(m))).orElseGet(() -> ResponseEntity.noContent().build());
     }
 }

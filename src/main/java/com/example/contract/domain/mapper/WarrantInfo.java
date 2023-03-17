@@ -11,3 +11,4 @@ public interface WarrantInfo {
 
     BigDecimal getStandardAmount();
 }
+

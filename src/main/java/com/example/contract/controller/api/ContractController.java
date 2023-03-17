@@ -1,10 +1,10 @@
 package com.example.contract.controller.api;
 
-import com.example.contract.domain.mapper.ContractDetail;
 import com.example.contract.dto.model.contract.ContractSaveModel;
 import com.example.contract.dto.model.contract.ContractUpdateModel;
 import com.example.contract.dto.request.ContractSaveRequest;
 import com.example.contract.dto.request.ContractUpdateRequest;
+import com.example.contract.dto.response.ContractDetailResponse;
 import com.example.contract.dto.response.ContractResponse;
 import com.example.contract.service.contract.ContractService;
 import jakarta.validation.Valid;
@@ -46,9 +46,10 @@ public class ContractController {
      * @return 계약 상세 데이터
      */
     @GetMapping("contracts/{id}")
-    public ResponseEntity<ContractDetail> selectOne(@PathVariable Long id) {
+    public ResponseEntity<ContractDetailResponse> selectOne(@PathVariable Long id) {
         var data = contractService.getOne(id);
-        return data.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
+        return data.map(m -> ResponseEntity.ok(ContractDetailResponse.of(m)))
+                .orElseGet(() -> ResponseEntity.noContent().build());
     }
 
     /**

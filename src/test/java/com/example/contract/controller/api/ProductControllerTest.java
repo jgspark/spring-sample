@@ -94,7 +94,7 @@ class ProductControllerTest {
             action.andExpect(status().isOk())
                     .andExpect(jsonPath("$.term").value(mock.getTerm()))
                     .andExpect(jsonPath("$.premium").value(mock.getPremium().setScale(1, RoundingMode.FLOOR)))
-                    .andExpect(jsonPath("$.productTitle").value(mock.getProductTitle()));
+                    .andExpect(jsonPath("$.title").value(mock.getProductTitle()));
         }
 
         @Test
