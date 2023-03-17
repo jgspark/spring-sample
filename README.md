@@ -1,5 +1,8 @@
 # Sample Server Code
 
+![아키텍처.png](post%2F%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98.png)
+
+
 ## ERD 
 
 ![diagram.png](post%2Fdiagram.png)
