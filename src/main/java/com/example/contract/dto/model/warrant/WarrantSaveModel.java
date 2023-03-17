@@ -1,36 +1,21 @@
 package com.example.contract.dto.model.warrant;
 
-import com.example.contract.dto.request.WarrantSaveRequest;
 import com.example.contract.domain.entity.warrant.Warrant;
+import com.example.contract.dto.request.WarrantSaveRequest;
 
 import java.math.BigDecimal;
 
-import lombok.Getter;
-
-@Getter
-public class WarrantSaveModel {
-
-    private final String title;
-
-    private final BigDecimal subscriptionAmount;
-
-    private final BigDecimal standardAmount;
-
-    private WarrantSaveModel(WarrantSaveRequest req) {
-        this.title = req.title();
-        this.subscriptionAmount = req.subscriptionAmount();
-        this.standardAmount = req.standardAmount();
-    }
+public record WarrantSaveModel(String title, BigDecimal subscriptionAmount, BigDecimal standardAmount) {
 
     public static WarrantSaveModel of(WarrantSaveRequest req) {
-        return new WarrantSaveModel(req);
+        return new WarrantSaveModel(req.title(), req.subscriptionAmount(), req.standardAmount());
     }
 
     public Warrant toEntity() {
         return Warrant.createBuilder()
-                .title(this.title)
-                .subscriptionAmount(this.subscriptionAmount)
-                .standardAmount(this.standardAmount)
+                .title(title)
+                .subscriptionAmount(subscriptionAmount)
+                .standardAmount(standardAmount)
                 .build();
     }
 
@@ -43,3 +28,4 @@ public class WarrantSaveModel {
                 '}';
     }
 }
+

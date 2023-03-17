@@ -1,39 +1,18 @@
 package com.example.contract.dto.model.contract;
 
-import com.example.contract.dto.request.ContractSaveRequest;
 import com.example.contract.domain.entity.contract.Contract;
 import com.example.contract.domain.entity.product.Product;
-import lombok.Getter;
-
+import com.example.contract.dto.request.ContractSaveRequest;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
-@Getter
-public class ContractSaveModel {
-
-    private final Long productId;
-
-    private final Set<Long> warrantIds;
-
-    private final Integer term;
-
-    private final Date startDate;
-
-    private final Date endDate;
+public record ContractSaveModel(Long productId, Set<Long> warrantIds, Integer term, Date startDate, Date endDate) {
 
     public static ContractSaveModel of(ContractSaveRequest req) {
-        return new ContractSaveModel(req);
-    }
-
-    private ContractSaveModel(ContractSaveRequest req) {
-        this.productId = req.productId();
-        this.warrantIds = req.warrantIds();
-        this.term = req.term();
-        this.startDate = req.startDate();
-        this.endDate = req.endDate();
+        return new ContractSaveModel(req.productId(), req.warrantIds(), req.term(), req.startDate(), req.endDate());
     }
 
     public Contract toEntity(@NotNull Product product, BigDecimal premium) {

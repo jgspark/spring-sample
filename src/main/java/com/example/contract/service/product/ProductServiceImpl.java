@@ -41,10 +41,10 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Product created(@NotNull ProductSaveModel dto) {
 
-        Set<Warrant> warrants = warrantRepository.findByIdIn(dto.getWarrantIds());
+        Set<Warrant> warrants = warrantRepository.findByIdIn(dto.warrantIds());
 
         if (warrants.isEmpty()) {
-            throw new DataNotFoundException("Warrant Ids is " + Arrays.toString(dto.getWarrantIds().toArray()));
+            throw new DataNotFoundException("Warrant Ids is " + Arrays.toString(dto.warrantIds().toArray()));
         }
 
         return productRepository.save(dto.toEntity(warrants));
@@ -65,9 +65,9 @@ public class ProductServiceImpl implements ProductService {
     @Transactional(readOnly = true)
     public Optional<EstimatedPremium> getEstimatedPremium(@NotNull EstimatedPremiumModel dto) {
 
-        Long id = dto.getId();
+        Long id = dto.id();
 
-        Collection<Long> warrantIds = dto.getWarrantIds();
+        Collection<Long> warrantIds = dto.warrantIds();
 
         if (warrantIds.isEmpty()) {
             return productRepository.findById(id, EstimatedPremium.class);

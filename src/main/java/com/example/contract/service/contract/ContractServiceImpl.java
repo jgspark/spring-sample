@@ -41,8 +41,8 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     public Contract created(ContractSaveModel dto) {
 
-        Product product = productRepository.findByIdAndWarrants_IdIn(dto.getProductId(), dto.getWarrantIds())
-                .orElseThrow(() -> new DataNotFoundException("Product Id is " + dto.getProductId()));
+        Product product = productRepository.findByIdAndWarrants_IdIn(dto.productId(), dto.warrantIds())
+                .orElseThrow(() -> new DataNotFoundException("Product Id is " + dto.productId()));
 
         BigDecimal premium = product.calculatePremium();
 
@@ -79,7 +79,7 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     public Contract update(@NotNull ContractUpdateModel dto) {
 
-        Long id = dto.getId();
+        Long id = dto.id();
 
         Contract contract = contractRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Contract Id is " + id));
@@ -90,12 +90,12 @@ public class ContractServiceImpl implements ContractService {
 
         Long productId = contract.getProduct().getId();
 
-        Product product = productRepository.findByIdAndWarrants_IdIn(productId, dto.getWarrantIds())
+        Product product = productRepository.findByIdAndWarrants_IdIn(productId, dto.warrantIds())
                 .orElseThrow(() -> new DataNotFoundException("Product Id is " + productId));
 
         BigDecimal premium = product.calculatePremium();
 
-        contract.update(product.getWarrants(), dto.getTerm(), dto.getState(), premium);
+        contract.update(product.getWarrants(), dto.term(), dto.state(), premium);
 
         return contract;
     }
