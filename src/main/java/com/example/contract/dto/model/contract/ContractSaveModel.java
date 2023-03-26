@@ -17,14 +17,18 @@ public record ContractSaveModel(Long productId, Set<Long> warrantIds, Integer te
     }
 
     public Contract toEntity(@NotNull Product product, BigDecimal premium) {
-        return Contract.createBuilder()
+
+        Contract entity = Contract.createBuilder()
                 .product(product)
                 .premium(premium)
                 .term(this.term)
                 .startDate(this.startDate)
                 .endDate(this.endDate)
-                .warrants(product.getWarrants())
                 .build();
+
+        entity.addWarrant(product.getWarrants());
+
+        return entity;
     }
 
     @Override

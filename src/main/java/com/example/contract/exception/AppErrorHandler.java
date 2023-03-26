@@ -1,6 +1,7 @@
 package com.example.contract.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,7 +32,7 @@ public class AppErrorHandler {
     public ErrorMessage handler(Exception e) {
         ErrorCode errorCode = ErrorCode.SERVER_ERROR;
         log.error(e.getMessage());
-        log.debug(e.getMessage(), e);
+        log.debug("{}", ExceptionUtils.getStackTrace(e));
         return new ErrorMessage(errorCode.getCode(), errorCode.getMessage());
     }
 
@@ -48,7 +49,7 @@ public class AppErrorHandler {
     public ErrorMessage handler(MethodArgumentNotValidException e) {
         ErrorCode errorCode = ErrorCode.BAD_REQUEST;
         log.error(e.getMessage());
-        log.debug(e.getMessage(), e);
+        log.debug("{}", ExceptionUtils.getStackTrace(e));
         return new ErrorMessage(errorCode.getCode(), e.getMessage());
     }
 
@@ -65,7 +66,7 @@ public class AppErrorHandler {
         ErrorCode errorCode = ErrorCode.SERVER_ERROR;
         String message = errorCode.convertMessage(e.getMessage());
         log.error(message);
-        log.debug(message, e);
+        log.debug("{}", ExceptionUtils.getStackTrace(e));
         return new ErrorMessage(errorCode.getCode(), message);
     }
 
@@ -81,7 +82,7 @@ public class AppErrorHandler {
     public ErrorMessage handler(DataNotFoundException e) {
         ErrorCode errorCode = e.getErrorCode();
         log.error(e.getMessage());
-        log.debug(e.getMessage(), e);
+        log.debug("{}", ExceptionUtils.getStackTrace(e));
         return new ErrorMessage(errorCode.getCode(), errorCode.convertMessage(e.getMessage()));
     }
 
