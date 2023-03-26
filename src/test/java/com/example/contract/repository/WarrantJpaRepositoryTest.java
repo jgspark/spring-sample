@@ -2,8 +2,10 @@ package com.example.contract.repository;
 
 import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.mock.MockUtil;
-import com.example.contract.repository.jpa.WarrantJpaRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -12,7 +14,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Collections;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DisplayName("담보 레파지토리 에서")
 @DataJpaTest

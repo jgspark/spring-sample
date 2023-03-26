@@ -9,7 +9,7 @@ import com.example.contract.dto.request.ProductSaveRequest;
 import com.example.contract.exception.AppException;
 import com.example.contract.mock.product.EstimatedPremiumImpl;
 import com.example.contract.repository.ProductRepository;
-import com.example.contract.repository.jpa.WarrantJpaRepository;
+import com.example.contract.repository.WarrantRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -40,11 +40,11 @@ class ProductServiceTest {
     private ProductRepository productRepository;
 
     @Mock
-    private WarrantJpaRepository warrantJpaRepository;
+    private WarrantRepository warrantRepository;
 
     @BeforeEach
     public void init() {
-        productService = new ProductServiceImpl(productRepository, warrantJpaRepository);
+        productService = new ProductServiceImpl(productRepository, warrantRepository);
     }
 
     @Nested
@@ -60,7 +60,7 @@ class ProductServiceTest {
 
             Product mock = convert(convertProduct((Map) map.get("product")), warrantSet);
 
-            given(warrantJpaRepository.findByIdIn(any())).willReturn(warrantSet);
+            given(warrantRepository.findByIdIn(any())).willReturn(warrantSet);
 
             given(productRepository.save(any())).willReturn(mock);
 
@@ -70,7 +70,7 @@ class ProductServiceTest {
 
             Product entity = productService.created(dto);
 
-            then(warrantJpaRepository).should().findByIdIn(any());
+            then(warrantRepository).should().findByIdIn(any());
             then(productRepository).should().save(any());
 
             assertEquals(entity.getTitle(), mock.getTitle());
@@ -82,7 +82,7 @@ class ProductServiceTest {
         @DisplayName("담보 데이터가 없다면, AppException 이 발생이 된다.")
         public void created_fail1() {
 
-            given(warrantJpaRepository.findByIdIn(any())).willReturn(new HashSet<>());
+            given(warrantRepository.findByIdIn(any())).willReturn(new HashSet<>());
 
             var req = readJson("json/product/service/product_save_request.json", ProductSaveRequest.class);
 

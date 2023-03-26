@@ -6,9 +6,6 @@ import com.example.contract.domain.entity.product.Product;
 import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.domain.mapper.ContractDetail;
 import com.example.contract.exception.DataNotFoundException;
-import com.example.contract.repository.ContractRepository;
-import com.example.contract.repository.jpa.ProductJpaRepository;
-import com.example.contract.repository.jpa.WarrantJpaRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -39,10 +36,10 @@ class ContractJpaRepositoryTest {
     private ContractRepository contractJpaRepository;
 
     @Autowired
-    private WarrantJpaRepository warrantJpaRepository;
+    private WarrantRepository warrantRepository;
 
     @Autowired
-    private ProductJpaRepository productJpaRepository;
+    private ProductRepository  productRepository;
 
     private Product mockProduct;
 
@@ -51,8 +48,8 @@ class ContractJpaRepositoryTest {
     @BeforeEach
     public void init() {
         Map<String, Object> mockMap = readJson("json/contract/repository/init.json", Map.class);
-        mockWarrant = warrantJpaRepository.saveAndFlush(convertWarrant((Map) mockMap.get("warrant")));
-        mockProduct = productJpaRepository.saveAndFlush(convert(convertProduct((Map) mockMap.get("product")), mockWarrant));
+        mockWarrant = warrantRepository.save(convertWarrant((Map) mockMap.get("warrant")));
+        mockProduct = productRepository.save(convert(convertProduct((Map) mockMap.get("product")), mockWarrant));
     }
 
     @Nested

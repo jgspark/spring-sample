@@ -3,7 +3,6 @@ package com.example.contract.repository;
 import com.example.contract.domain.entity.product.Product;
 import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.domain.mapper.EstimatedPremium;
-import com.example.contract.repository.jpa.WarrantJpaRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ class ProductJpaRepositoryTest {
     private ProductRepository productRepository;
 
     @Autowired
-    private WarrantJpaRepository warrantJpaRepository;
+    private WarrantRepository warrantRepository;
 
     private Warrant mockWarrant;
 
@@ -38,7 +37,7 @@ class ProductJpaRepositoryTest {
 
         Warrant mock = convertWarrant((Map) map.get("warrant"));
 
-        this.mockWarrant = warrantJpaRepository.saveAndFlush(mock);
+        this.mockWarrant = warrantRepository.save(mock);
     }
 
     @Nested
@@ -50,7 +49,7 @@ class ProductJpaRepositoryTest {
         @DisplayName("성공적으로 실행이 된다.")
         public void save_ok() {
 
-            Warrant findWarrant = warrantJpaRepository.findById(mockWarrant.getId()).orElseThrow(RuntimeException::new);
+            Warrant findWarrant = warrantRepository.findById(mockWarrant.getId()).orElseThrow(RuntimeException::new);
 
             Product mock = convert(readJson("json/product/repository/save_ok.json", Product.class), findWarrant);
 
@@ -83,7 +82,7 @@ class ProductJpaRepositoryTest {
         @BeforeEach
         public void init() {
 
-            Warrant findWarrant = warrantJpaRepository.findById(mockWarrant.getId()).orElseThrow(RuntimeException::new);
+            Warrant findWarrant = warrantRepository.findById(mockWarrant.getId()).orElseThrow(RuntimeException::new);
 
             mock = productRepository.save(convert(readJson("json/product/repository/findByIdAndWarrants_IdIn_ok.json", Product.class), findWarrant));
 
