@@ -41,14 +41,16 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     public Contract created(ContractSaveModel dto) {
 
+        // 조회를 한다.
         Product product = productRepository.findByIdAndWarrants_IdIn(dto.productId(), dto.warrantIds())
                 .orElseThrow(() -> new DataNotFoundException("Product Id is " + dto.productId()));
 
+        // 조회를 해서 계산을 한다.
         BigDecimal premium = product.calculatePremium();
 
         Contract entity = contractRepository.save(dto.toEntity(product, premium));
 
-        entity.getWarrants().addAll(product.getWarrants());
+        entity.addWarrant(product);
 
         return entity;
     }

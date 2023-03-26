@@ -2,6 +2,7 @@ package com.example.contract.dto.model.contract;
 
 import com.example.contract.domain.entity.contract.Contract;
 import com.example.contract.domain.entity.product.Product;
+import com.example.contract.domain.entity.warrant.Warrant;
 import com.example.contract.dto.request.ContractSaveRequest;
 import jakarta.validation.constraints.NotNull;
 
@@ -22,6 +23,7 @@ public record ContractSaveModel(Long productId, Set<Long> warrantIds, Integer te
                 .term(this.term)
                 .startDate(this.startDate)
                 .endDate(this.endDate)
+                .warrants(product.getWarrants())
                 .build();
     }
 

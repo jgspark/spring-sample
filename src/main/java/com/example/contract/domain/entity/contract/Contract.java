@@ -132,6 +132,12 @@ public class Contract {
         }
     }
 
+    @Transient
+    public void addWarrant(Product product) {
+        Set<Warrant> warrants = product.getWarrants();
+        this.warrants.addAll(warrants);
+    }
+
     @Override
     public String toString() {
         return "Contract{" +

@@ -12,7 +12,7 @@ import com.example.contract.dto.request.ContractUpdateRequest;
 import com.example.contract.exception.AppException;
 import com.example.contract.mock.contract.ContractDetailImpl;
 import com.example.contract.repository.ContractRepository;
-import com.example.contract.repository.jpa.ProductJpaRepository;
+import com.example.contract.repository.ProductRepository;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,11 +43,11 @@ class ContractServiceTest {
     private ContractRepository contractRepository;
 
     @Mock
-    private ProductJpaRepository productJpaRepository;
+    private ProductRepository productRepository;
 
     @BeforeEach
     public void init() {
-        contractService = new ContractServiceImpl(contractRepository, productJpaRepository);
+        contractService = new ContractServiceImpl(contractRepository, productRepository);
     }
 
     @Nested
@@ -70,13 +70,13 @@ class ContractServiceTest {
 
             ContractSaveModel dto = ContractSaveModel.of(req);
 
-            given(productJpaRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
+            given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
 
             given(contractRepository.save(any())).willReturn(mock);
 
             Contract entity = contractService.created(dto);
 
-            then(productJpaRepository).should().findByIdAndWarrants_IdIn(any(), any());
+            then(productRepository).should().findByIdAndWarrants_IdIn(any(), any());
             then(contractRepository).should().save(any());
 
             assertEquals(entity.getId(), mock.getId());
@@ -96,7 +96,7 @@ class ContractServiceTest {
 
             ContractSaveModel dto = ContractSaveModel.of(req);
 
-            given(productJpaRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(Optional.empty());
+            given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(Optional.empty());
 
             assertThrows(RuntimeException.class, () -> contractService.created(dto));
         }
@@ -179,7 +179,7 @@ class ContractServiceTest {
 
             given(contractRepository.findById(any())).willReturn(mockOptional);
 
-            given(productJpaRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
+            given(productRepository.findByIdAndWarrants_IdIn(any(), any())).willReturn(mockProductOptional);
 
             ContractUpdateRequest req = readJson("json/contract/service/contract_update_request.json", ContractUpdateRequest.class);
 
