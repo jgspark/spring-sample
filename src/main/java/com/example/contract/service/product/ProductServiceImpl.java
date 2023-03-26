@@ -12,6 +12,7 @@ import com.example.contract.repository.ProductRepository;
 import com.example.contract.repository.WarrantRepository;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
@@ -22,6 +23,8 @@ import java.util.Set;
 /**
  * 상품 서비스
  */
+
+@Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 

@@ -5,7 +5,7 @@ import com.example.contract.dto.model.warrant.WarrantSaveModel;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
-@Service
+
 public interface WarrantService {
 
 

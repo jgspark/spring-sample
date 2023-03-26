@@ -7,11 +7,13 @@ import com.example.contract.dto.request.WarrantSaveRequest;
 import com.example.contract.repository.WarrantRepository;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 담보 서비스
  */
+@Service
 @RequiredArgsConstructor
 public class WarrantServiceImpl implements WarrantService {
 

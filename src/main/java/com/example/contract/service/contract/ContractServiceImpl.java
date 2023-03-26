@@ -14,6 +14,7 @@ import com.example.contract.repository.ContractRepository;
 import com.example.contract.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -22,6 +23,7 @@ import java.util.Optional;
 /**
  * 계약 서비스
  */
+@Service
 @RequiredArgsConstructor
 public class ContractServiceImpl implements ContractService {
 
