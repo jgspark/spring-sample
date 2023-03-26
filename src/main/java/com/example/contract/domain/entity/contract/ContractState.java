@@ -17,5 +17,9 @@ public enum ContractState {
     /**
      * 기간 만료
      */
-    EXPIRATION
+    EXPIRATION;
+
+    public static boolean isExpiration(ContractState code) {
+        return EXPIRATION == code;
+    }
 }

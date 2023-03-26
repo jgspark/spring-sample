@@ -3,6 +3,7 @@ package com.example.contract.doamin.entity.contract;
 import com.example.contract.domain.entity.contract.Contract;
 import com.example.contract.domain.entity.contract.ContractState;
 import com.example.contract.domain.entity.warrant.Warrant;
+import com.example.contract.exception.AppException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -74,7 +75,7 @@ class ContractTest {
 
     @Nested
     @DisplayName("기간 만료 체크 로직은")
-    class IsExpirationMethod {
+    class CheckedExpirationMethod {
 
         @Test
         @DisplayName("성공 할 때는 데이터가 기간만료라면 true를 리턴 한다.")
@@ -84,7 +85,7 @@ class ContractTest {
 
             entity.update(new HashSet<>(), 1, ContractState.EXPIRATION, BigDecimal.ONE);
 
-            assertTrue(entity.isExpiration());
+            assertThrows(AppException.class , entity::checkedExpiration);
         }
 
         @DisplayName("성공 할 때는 데이터가 기간만료가 아니라면 false 리턴을 한다.")
@@ -96,7 +97,7 @@ class ContractTest {
 
             entity.update(new HashSet<>(), 1, state, BigDecimal.ONE);
 
-            assertFalse(entity.isExpiration());
+            assertDoesNotThrow(entity::checkedExpiration);
         }
 
     }

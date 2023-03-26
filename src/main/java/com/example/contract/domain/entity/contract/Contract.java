@@ -2,6 +2,7 @@ package com.example.contract.domain.entity.contract;
 
 import com.example.contract.domain.entity.product.Product;
 import com.example.contract.domain.entity.warrant.Warrant;
+import com.example.contract.exception.AppException;
 import com.example.contract.exception.DataNotFoundException;
 import com.example.contract.repository.jpa.ProductJpaRepository;
 import jakarta.persistence.*;
@@ -88,8 +89,10 @@ public class Contract {
      * @return 상태가 기간 만료 라면 true 를 아니면 false
      */
     @Transient
-    public boolean isExpiration() {
-        return ContractState.EXPIRATION == state;
+    public void checkedExpiration() {
+        if (ContractState.isExpiration(this.getState())) {
+            throw new AppException("contract is state (Expiration) and id is " + id);
+        }
     }
 
     /**

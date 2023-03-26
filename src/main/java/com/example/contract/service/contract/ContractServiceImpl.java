@@ -2,6 +2,7 @@ package com.example.contract.service.contract;
 
 import com.example.contract.aop.IOLogger;
 import com.example.contract.domain.entity.contract.Contract;
+import com.example.contract.domain.entity.contract.ContractState;
 import com.example.contract.domain.entity.product.Product;
 import com.example.contract.domain.mapper.ContractDetail;
 import com.example.contract.dto.model.contract.ContractSaveModel;
@@ -88,9 +89,7 @@ public class ContractServiceImpl implements ContractService {
         Contract contract = contractRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Contract Id is " + id));
 
-        if (contract.isExpiration()) {
-            throw new AppException("contract is state (Expiration) and id is " + id);
-        }
+        contract.checkedExpiration();
 
         Long productId = contract.getProduct().getId();
 
