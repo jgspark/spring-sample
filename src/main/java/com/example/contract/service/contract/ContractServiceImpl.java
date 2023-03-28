@@ -51,11 +51,7 @@ public class ContractServiceImpl implements ContractService {
         // 조회를 해서 계산을 한다.
         BigDecimal premium = product.calculatePremium();
 
-        Contract entity = dto.toEntity(product, premium);
-
-        contractRepository.save(entity);
-
-        return entity;
+        return contractRepository.save(dto.toEntity(product, premium));
     }
 
     /**
