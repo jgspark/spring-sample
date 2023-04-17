@@ -11,6 +11,8 @@ import com.example.contract.service.contract.ContractServiceImpl;
 import com.example.contract.domain.mapper.ContractDetail;
 import com.example.contract.dto.request.ContractSaveRequest;
 import com.example.contract.dto.request.ContractUpdateRequest;
+import org.jgspark.reader.Reader;
+import org.jgspark.reader.impl.SpringReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -67,7 +69,9 @@ class ContractControllerTest {
         @DisplayName("성공적으로 동작을 합니다.")
         public void write_ok() throws Exception {
 
-            Map mockMap = readJson("json/contract/web/write_ok.json", Map.class);
+            Reader reader = new SpringReader("json/contract/web/write_ok.json");
+
+            Map mockMap = reader.readJson(Map.class);
 
             Contract mock = convertContract((Map) mockMap.get("contract"), (Map) mockMap.get("warrant"), ContractState.NORMAL);
 
@@ -75,7 +79,7 @@ class ContractControllerTest {
 
             String uri = "/contract";
 
-            ContractSaveRequest dto = readJson("json/contract/web/contract_save_request.json", ContractSaveRequest.class);
+            ContractSaveRequest dto = new SpringReader("json/contract/web/contract_save_request.json").readJson(ContractSaveRequest.class);
 
             ResultActions action = mockMvc.perform(post(uri).content(asJsonString(dto)).contentType(MediaType.APPLICATION_JSON)).andDo(print());
 

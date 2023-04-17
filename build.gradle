@@ -17,7 +17,9 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
+
 
 jacoco {
     toolVersion = "0.8.8"
@@ -47,6 +49,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation 'org.apache.commons:commons-lang3:3.0'
+    // mocking reader add
+    testImplementation 'com.github.jgspark:mocking-reader:0.0.5-SNAPSHOT'
 }
 
 
@@ -56,8 +60,8 @@ tasks.named('test') {
 
 
 javadoc {
-    options.addStringOption("locale","ko_KR");
-    options.addStringOption("encoding","UTF-8");
-    options.addStringOption("charset","UTF-8");
-    options.addStringOption("docencoding","UTF-8");
+    options.addStringOption("locale", "ko_KR");
+    options.addStringOption("encoding", "UTF-8");
+    options.addStringOption("charset", "UTF-8");
+    options.addStringOption("docencoding", "UTF-8");
 }
